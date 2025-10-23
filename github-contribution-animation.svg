@@ -2367,6 +2367,11 @@
           <set attributeName="fill" to="#ebedf0" begin="shot-102.end+0.19s"/>
           <animate attributeName="opacity" from="0" to="1" begin="shot-102.end+0.22s" dur="0.08s" fill="freeze"/>
       </circle>
+      <circle cx="735" cy="63" r="6" fill="#ebedf0" opacity="1">
+          <set attributeName="opacity" to="1" begin="cycle.begin"/>
+          <set attributeName="r" to="6" begin="cycle.begin"/>
+          <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+      </circle>
 
   <!-- bullets -->
   
