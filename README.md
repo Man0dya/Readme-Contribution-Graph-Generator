@@ -137,7 +137,7 @@ npm run preview  # Preview production build locally
 
 This repo contains a workflow at `.github/workflows/deploy.yml` that builds and publishes `dist/` to the `gh-pages` branch on push to `main`.
 
-- Project site URL: `https://<user>.github.io/Readme-Contribution-Graph-Generator/`
+- Project site URL: `https://Man0dya.github.io/Readme-Contribution-Graph-Generator/`
 - Vite base is set to `/Readme-Contribution-Graph-Generator/` in `vite.config.js`.
 - If you fork/rename, update `base` accordingly.
 
