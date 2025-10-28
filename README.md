@@ -59,9 +59,9 @@ This keeps your graph up to date every day, with no manual steps.
 1. **Copy the generator script:**
    
     - Download or copy `scripts/generate-svg.cjs` from this repo or the app (see "Automate in your own repo" section).
-      <div align="center">
-          ![scripts]()
-      </div>
+      
+      ![scripts](media/scripts.png)
+      
     - Place it in your repo at `scripts/generate-svg.cjs`.
 
 2. **Add the GitHub Actions workflow:**
