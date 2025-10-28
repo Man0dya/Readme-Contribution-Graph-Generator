@@ -10,25 +10,37 @@ Turn your GitHub contribution graph into a playful bubble‑shooter animated SVG
 
 ---
 
+<div align="center">
+
+### You can add this animation to your profile readme 
+
+Light Mode
+
 ![Preview Video](Man0dya-contribution-animation.svg)
+
+Dark Mode
+
 ![Preview Video](Man0dya-contribution-animation-dark.svg)
 
-
-
+</div>
 
 ---
 
-## For users
+# For users
 
 ## How to add your animated contribution graph to your README
 
 ### 1. Easiest: Download and add manually
 
 1. Go to the [Live App](https://man0dya.github.io/Readme-Contribution-Graph-Generator)
+   
 2. Enter your GitHub username and customize the animation (theme, speed, colors)
+   
 3. Click **Download Animated SVG** (or Static Graph SVG)
+   
 4. Save the SVG file (e.g. `github-contribution-animation.svg`) to the root of your repository
-5. Add the following Markdown to your `README.md`:
+   
+5. Add the following Markdown to your `README.md`: ( you can find this markdown on the app )
 
 ```markdown
 ![My Contribution Animation](github-contribution-animation.svg)
@@ -45,7 +57,11 @@ This keeps your graph up to date every day, with no manual steps.
 **Step-by-step instructions:**
 
 1. **Copy the generator script:**
+   
     - Download or copy `scripts/generate-svg.cjs` from this repo or the app (see "Automate in your own repo" section).
+      <div align="center">
+          ![scripts]()
+      </div>
     - Place it in your repo at `scripts/generate-svg.cjs`.
 
 2. **Add the GitHub Actions workflow:**
@@ -53,10 +69,10 @@ This keeps your graph up to date every day, with no manual steps.
     - Create a new file at `.github/workflows/generate-contribution-animation.yml` in your repo.
     - Paste the workflow:
 
-3. **Commit and push both files.**
+4. **Commit and push both files.**
     - The workflow will run automatically every day and on pushes, updating your SVGs in the repo root.
 
-4. **Add the README snippet to display your graph.**
+5. **Add the README snippet to display your graph.**
 
     - Download or copy README snippet from the app and add it to your readme.
     - Commit changes. 
