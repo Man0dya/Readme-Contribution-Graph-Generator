@@ -657,18 +657,6 @@ const CodeGenerator = ({ username, contributionData }) => {
                 </ul>
               </div>
 
-              {/* What the generator script does */}
-              <div className="mt-4 text-sm text-gray-700">
-                <h5 className="font-semibold mb-2">What does <code className="bg-gray-100 px-1 rounded text-xs">scripts/generate-svg.cjs</code> do?</h5>
-                <ul className="list-disc list-inside space-y-1">
-                  <li>Runs in GitHub Actions (headless) and reads your repo owner as the GitHub username.</li>
-                  <li>Uses the GitHub GraphQL API with <code className="bg-gray-100 px-1 rounded text-xs">GITHUB_TOKEN</code> to fetch your contribution calendar data.</li>
-                  <li>Builds an animated SVG from that data.</li>
-                  <li>Writes these files at the repo root: <code className="bg-gray-100 px-1 rounded text-xs">{`${username}-contribution-animation.svg`}</code>, <code className="bg-gray-100 px-1 rounded text-xs">contribution-animation.svg</code>, <code className="bg-gray-100 px-1 rounded text-xs">github-contribution-animation.svg</code>, and their <code className="bg-gray-100 px-1 rounded text-xs">*-dark.svg</code> equivalents for dark mode.</li>
-                  <li>The workflow then commits the SVGs so your README always points at the latest version.</li>
-                </ul>
-                <p className="text-xs text-gray-500 mt-2">Tip: It’s designed for GitHub Actions. You can run it locally if you export <code className="bg-gray-100 px-1 rounded">GITHUB_TOKEN</code> and set <code className="bg-gray-100 px-1 rounded">GITHUB_REPOSITORY</code>, but the automated workflow is the recommended path.</p>
-              </div>
             </div>
           </div>
 
