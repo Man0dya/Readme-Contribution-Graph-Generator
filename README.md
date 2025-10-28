@@ -114,12 +114,22 @@ This keeps your graph up to date every day, with no manual steps.
   
     - Save changes
 
+5. **Enjoy your new readme animation**
+
+    - Go to your readme and you can see your bubble shooter readme animatio
+  
+    - This will automatically update every day
+  
+    - Also this will leave you a free commit everyday 😉. 
+
 ---
 
 ### Troubleshooting
 
 - **Image doesn’t appear:** Make sure the SVG file is committed to the same branch as your README and the filename matches.
+  
 - **Not updating daily:** Check the Actions tab for workflow runs. Branch protection may block workflow commits.
+  
 - **Private activity:** Only public contributions are shown.
 
 ---
