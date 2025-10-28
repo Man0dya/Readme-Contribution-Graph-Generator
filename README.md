@@ -26,6 +26,12 @@ Dark Mode
 
 ---
 
+### Don't forget to star the repository
+
+![scripts](media/star.png)
+
+---
+
 # For users
 
 ## How to add your animated contribution graph to your README
