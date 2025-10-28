@@ -62,7 +62,13 @@ This keeps your graph up to date every day, with no manual steps.
       
       ![scripts](media/scripts.png)
       
-    - Place it in your repo at `scripts/generate-svg.cjs`.
+    - Go to your repo and create a new file.
+  
+      ![scripts](media/newfile.png)
+  
+    - Paste the name 'scripts/generate-svg.cjs' at the name of the file.
+  
+    - Commit changes
 
 2. **Add the GitHub Actions workflow:**
     - Download or copy `.github/workflows/generate-contribution-animation.yml`from this repo or the app (see "Automate in your own repo" section).
