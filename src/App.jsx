@@ -22,7 +22,7 @@ function App() {
     
     try {
       // Debug mode: Log detailed information
-      if (process.env.NODE_ENV === 'development') {
+      if (import.meta.env.DEV) {
         console.log(`🚀 Fetching contribution data for: ${submittedUsername}`)
         
         // Import debug utilities
@@ -44,7 +44,7 @@ function App() {
     } catch (error) {
       console.error('❌ Error fetching contribution data:', error.message)
       
-      // Set error state for user feedback - NO MORE MOCK DATA FALLBACK
+      // Set error state for user feedback
       setError({
         message: `Unable to fetch real GitHub contribution data for "${submittedUsername}"`,
         reasons: [
@@ -53,10 +53,9 @@ function App() {
           error.message.includes('rate limit') ? 'GitHub API rate limit reached' : null,
           error.message.includes('network') || error.message.includes('fetch') ? 'Network connectivity issues' : null,
           error.message.includes('CORS') ? 'GitHub blocks cross-origin requests' : null,
-          error.message.includes('publicly accessible') ? 'GitHub contribution data requires special access' : null,
           'Real contribution data could not be retrieved'
         ].filter(Boolean),
-        suggestion: `GitHub's contribution graph is private and not accessible via public APIs. Try a different username or check back later when we improve data access methods.`
+        suggestion: `Preview may fail in the browser due to API limits or CORS. For guaranteed results and daily updates, copy the GitHub Actions workflow below to generate and commit the SVG in your repo.`
       })
       
       // Clear any existing data - NO MOCK DATA

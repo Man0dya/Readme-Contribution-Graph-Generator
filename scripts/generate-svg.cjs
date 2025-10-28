@@ -5,16 +5,25 @@ const https = require('https');
 
 // Bubble-shooter animated SVG generator (SMIL-based), background-free
 
-// Get username from repository owner
-const username = (process.env.GITHUB_REPOSITORY && process.env.GITHUB_REPOSITORY.split('/')[0]) || 'Man0dya';
+// Resolve username for which to generate the graph
+// Priority: explicit env CONTRIBUTION_USERNAME > repo owner from GITHUB_REPOSITORY
+const explicitUsername = process.env.CONTRIBUTION_USERNAME && process.env.CONTRIBUTION_USERNAME.trim();
+const repoOwner = process.env.GITHUB_REPOSITORY && process.env.GITHUB_REPOSITORY.split('/')[0];
+const username = explicitUsername || repoOwner;
 const githubToken = process.env.GITHUB_TOKEN;
 
-console.log(`🎯 Generating bubble-shooter animation for: ${username}`);
+console.log(`🎯 Generating bubble-shooter animation for: ${username || '(unknown)'}`);
 console.log(`📦 Repository: ${process.env.GITHUB_REPOSITORY || 'Not set'}`);
 console.log(`🔑 Token available: ${githubToken ? 'Yes' : 'No'}`);
 
 if (!githubToken) {
   console.error('❌ GITHUB_TOKEN is required but not provided');
+  process.exit(1);
+}
+
+if (!username) {
+  console.error('❌ Username not resolved. Set CONTRIBUTION_USERNAME or ensure GITHUB_REPOSITORY is available in the environment.');
+  console.error('   Example (GitHub Actions): env.CONTRIBUTION_USERNAME: ${{ github.repository_owner }}');
   process.exit(1);
 }
 

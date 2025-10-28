@@ -11,15 +11,12 @@ const CodeGenerator = ({ username, contributionData }) => {
   const [animationSpeed, setAnimationSpeed] = useState('normal')
   const [noContributionColor, setNoContributionColor] = useState('#ebedf0')
   const [hideZeroDays, setHideZeroDays] = useState(false)
-  const [animatedFileName, setAnimatedFileName] = useState(`${username}-contribution-animation.svg`)
-  const [staticFileName, setStaticFileName] = useState(`${username}-contributions.svg`)
+  // Use stable, owner-agnostic filenames that the workflow generates by default
+  const [animatedFileName, setAnimatedFileName] = useState('github-contribution-animation.svg')
+  const [staticFileName, setStaticFileName] = useState('github-contributions.svg')
   const [readmeMode, setReadmeMode] = useState('auto') // 'auto' | 'light' | 'dark'
 
-  // Keep default filenames in sync with username; user can override afterwards
-  useEffect(() => {
-    setAnimatedFileName(`${username}-contribution-animation.svg`)
-    setStaticFileName(`${username}-contributions.svg`)
-  }, [username])
+  // Do not auto-mutate filenames on username change; keep stable defaults to match workflow outputs
 
   // Fixed theme colors (default theme)
   const theme = {
@@ -185,13 +182,13 @@ const CodeGenerator = ({ username, contributionData }) => {
   }
 
   const generateMarkdownCode = () => {
-    const fileName = animatedFileName || `${username}-contribution-animation.svg`
+    const fileName = animatedFileName || 'github-contribution-animation.svg'
     return `![${username}'s Contribution Animation](${fileName})`
   }
 
   // Build README snippet by mode (auto/light/dark)
   const buildReadmeSnippet = () => {
-    const base = animatedFileName || `${username}-contribution-animation.svg`
+    const base = animatedFileName || 'github-contribution-animation.svg'
     if (readmeMode === 'dark') {
       const dark = base.endsWith('.svg') ? base.replace(/\.svg$/, '-dark.svg') : `${base}-dark.svg`
       return `![${username}'s Contribution Animation](${dark})`
@@ -232,10 +229,11 @@ const CodeGenerator = ({ username, contributionData }) => {
     '        with:',
   "          node-version: '20'",
     '',
-    '      - name: Generate animated SVG',
-    '        run: node scripts/generate-svg.cjs',
-    '        env:',
-    '          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}',
+  '      - name: Generate animated SVG',
+  '        run: node scripts/generate-svg.cjs',
+  '        env:',
+  '          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}',
+  '          CONTRIBUTION_USERNAME: ${{ github.repository_owner }}',
     '',
   '      - name: Commit and push SVG',
     '        uses: stefanzweifel/git-auto-commit-action@v5',

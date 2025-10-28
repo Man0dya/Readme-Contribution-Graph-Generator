@@ -148,28 +148,7 @@ const Footer = () => {
             <div className="text-gray-400 text-xs">
               <p>Built with React, Vite, Tailwind CSS, and Framer Motion</p>
             </div>
-
-            {/* Fun stats */}
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 1 }}
-              viewport={{ once: true }}
-              className="flex justify-center items-center space-x-8 text-gray-400 text-xs"
-            >
-              <div className="flex items-center space-x-1">
-                <span>🚀</span>
-                <span>Shots Fired: 1,337</span>
-              </div>
-              <div className="flex items-center space-x-1">
-                <span>💥</span>
-                <span>Contributions Blasted: 42,069</span>
-              </div>
-              <div className="flex items-center space-x-1">
-                <span>👥</span>
-                <span>Happy Developers: 100+</span>
-              </div>
-            </motion.div>
+            
           </motion.div>
 
 
