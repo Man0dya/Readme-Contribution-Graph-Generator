@@ -68,20 +68,45 @@ This keeps your graph up to date every day, with no manual steps.
   
     - Paste the name 'scripts/generate-svg.cjs' at the name of the file.
   
+    - paste the content copied from the app.
+      
     - Commit changes
 
+      ![scripts](media/addcontent.png)
+  
 2. **Add the GitHub Actions workflow:**
+   
     - Download or copy `.github/workflows/generate-contribution-animation.yml`from this repo or the app (see "Automate in your own repo" section).
-    - Create a new file at `.github/workflows/generate-contribution-animation.yml` in your repo.
-    - Paste the workflow:
+  
+       ![scripts](media/yaml.png)
+      
+    - Go to your repo and create a new file. (refer above image)
+  
+    - Paste the name `.github/workflows/generate-contribution-animation.yml` at the name of the file. 
+      
+    - paste the content copied from the app.
+  
+    - Commit changes (refer above images for these steps)
 
-4. **Commit and push both files.**
-    - The workflow will run automatically every day and on pushes, updating your SVGs in the repo root.
+3. **Add the README snippet to display your graph.**
 
-5. **Add the README snippet to display your graph.**
-
-    - Download or copy README snippet from the app and add it to your readme.
-    - Commit changes. 
+    - Download or copy README snippet from the app.
+  
+       ![scripts](media/readmesnippet.png)
+      
+    - Go to your readme and add it to your readme.
+   
+    - Commit changes.
+      
+4. **Check repo permissions**
+    
+    - Go to your repository settings.
+  
+    - Go to Actions > General > Workflow permissions
+  
+    - Select Read and write permissions
+  
+    - Save changes
 
 ---
 
