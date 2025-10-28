@@ -10,8 +10,9 @@ Turn your GitHub contribution graph into a playful bubble‑shooter animated SVG
 
 ---
 
-![Preview Video](media/dark.gif)
-![Preview Video](media/light.gif)
+![Preview Video](Man0dya-contribution-animation.svg)
+![Preview Video](Man0dya-contribution-animation-dark.svg)
+
 
 
 
