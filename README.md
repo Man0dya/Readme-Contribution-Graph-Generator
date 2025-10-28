@@ -10,6 +10,13 @@ Turn your GitHub contribution graph into a playful bubble‑shooter animated SVG
 
 ---
 
+![Preview Video](media/dark.gif)
+![Preview Video](media/light.gif)
+
+
+
+---
+
 ## For users
 
 ## How to add your animated contribution graph to your README
