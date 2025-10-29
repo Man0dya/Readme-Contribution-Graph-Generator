@@ -116,7 +116,7 @@ This keeps your graph up to date every day, with no manual steps.
 
 5. **Enjoy your new readme animation**
 
-    - Go to your readme and you can see your bubble shooter readme animatio
+    - Go to your readme and you can see your bubble shooter readme animation
   
     - This will automatically update every day
   
