@@ -30,6 +30,7 @@ jobs:
         run: node scripts/generate-svg.cjs
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CONTRIBUTION_USERNAME: ${{ github.repository_owner }}
 
       - name: Commit and push updated SVGs
         uses: stefanzweifel/git-auto-commit-action@v5

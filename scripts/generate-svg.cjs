@@ -10,7 +10,8 @@ const https = require('https');
 const explicitUsername = process.env.CONTRIBUTION_USERNAME && process.env.CONTRIBUTION_USERNAME.trim();
 const repoOwner = process.env.GITHUB_REPOSITORY && process.env.GITHUB_REPOSITORY.split('/')[0];
 const username = explicitUsername || repoOwner;
-const githubToken = process.env.GITHUB_TOKEN;
+// Accept token from common env names for flexibility
+const githubToken = process.env.GITHUB_TOKEN || process.env.GH_TOKEN || process.env.GITHUB_AUTH_TOKEN;
 
 console.log(`🎯 Generating bubble-shooter animation for: ${username || '(unknown)'}`);
 console.log(`📦 Repository: ${process.env.GITHUB_REPOSITORY || 'Not set'}`);
