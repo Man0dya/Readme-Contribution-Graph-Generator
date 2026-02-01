@@ -120,7 +120,7 @@ const Footer = () => {
 
 
             <div className="flex flex-wrap justify-center items-center gap-6 text-gray-500 text-sm">
-              <span>© 2025 Contribution Animation</span>
+              <span>© 2026 Contribution Animation</span>
               <span>•</span>
               <a 
                 href="https://github.com/Man0dya/contribution-canon/blob/main/LICENSE" 
