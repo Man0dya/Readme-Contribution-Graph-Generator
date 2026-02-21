@@ -2962,6 +2962,11 @@
           <set attributeName="r" to="6" begin="cycle.begin"/>
           <set attributeName="fill" to="#9be9a8" begin="cycle.begin"/>
       </circle>
+      <circle cx="735" cy="91" r="6" fill="#9be9a8" opacity="1">
+          <set attributeName="opacity" to="1" begin="cycle.begin"/>
+          <set attributeName="r" to="6" begin="cycle.begin"/>
+          <set attributeName="fill" to="#9be9a8" begin="cycle.begin"/>
+      </circle>
 
   <!-- bullets -->
   
