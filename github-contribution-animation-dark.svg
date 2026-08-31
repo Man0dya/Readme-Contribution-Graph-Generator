@@ -382,10 +382,10 @@
           <set attributeName="fill" to="#161b22" begin="shot-36.end+0.19s"/>
           <animate attributeName="opacity" from="0" to="1" begin="shot-36.end+0.22s" dur="0.08s" fill="freeze"/>
       </circle>
-      <circle cx="77" cy="35" r="6" fill="#40c463" opacity="1">
+      <circle cx="77" cy="35" r="6" fill="#30a14e" opacity="1">
           <set attributeName="opacity" to="1" begin="cycle.begin"/>
           <set attributeName="r" to="6" begin="cycle.begin"/>
-          <set attributeName="fill" to="#40c463" begin="cycle.begin"/>
+          <set attributeName="fill" to="#30a14e" begin="cycle.begin"/>
           <animate attributeName="r" from="6" to="8.10" begin="shot-37.end" dur="0.12s" fill="freeze"/>
           <animate attributeName="r" from="8.10" to="6" begin="shot-37.end+0.12s" dur="0.12s" fill="freeze"/>
           <animate attributeName="opacity" from="1" to="0" begin="shot-37.end+0.12s" dur="0.06s" fill="freeze"/>
@@ -1512,10 +1512,10 @@
           <set attributeName="fill" to="#161b22" begin="shot-149.end+0.19s"/>
           <animate attributeName="opacity" from="0" to="1" begin="shot-149.end+0.22s" dur="0.08s" fill="freeze"/>
       </circle>
-      <circle cx="301" cy="49" r="6" fill="#40c463" opacity="1">
+      <circle cx="301" cy="49" r="6" fill="#30a14e" opacity="1">
           <set attributeName="opacity" to="1" begin="cycle.begin"/>
           <set attributeName="r" to="6" begin="cycle.begin"/>
-          <set attributeName="fill" to="#40c463" begin="cycle.begin"/>
+          <set attributeName="fill" to="#30a14e" begin="cycle.begin"/>
           <animate attributeName="r" from="6" to="8.10" begin="shot-150.end" dur="0.12s" fill="freeze"/>
           <animate attributeName="r" from="8.10" to="6" begin="shot-150.end+0.12s" dur="0.12s" fill="freeze"/>
           <animate attributeName="opacity" from="1" to="0" begin="shot-150.end+0.12s" dur="0.06s" fill="freeze"/>
@@ -1552,10 +1552,10 @@
           <set attributeName="fill" to="#161b22" begin="shot-153.end+0.19s"/>
           <animate attributeName="opacity" from="0" to="1" begin="shot-153.end+0.22s" dur="0.08s" fill="freeze"/>
       </circle>
-      <circle cx="315" cy="7" r="6" fill="#30a14e" opacity="1">
+      <circle cx="315" cy="7" r="6" fill="#216e39" opacity="1">
           <set attributeName="opacity" to="1" begin="cycle.begin"/>
           <set attributeName="r" to="6" begin="cycle.begin"/>
-          <set attributeName="fill" to="#30a14e" begin="cycle.begin"/>
+          <set attributeName="fill" to="#216e39" begin="cycle.begin"/>
           <animate attributeName="r" from="6" to="8.10" begin="shot-154.end" dur="0.12s" fill="freeze"/>
           <animate attributeName="r" from="8.10" to="6" begin="shot-154.end+0.12s" dur="0.12s" fill="freeze"/>
           <animate attributeName="opacity" from="1" to="0" begin="shot-154.end+0.12s" dur="0.06s" fill="freeze"/>
@@ -1922,10 +1922,10 @@
           <set attributeName="fill" to="#161b22" begin="shot-190.end+0.19s"/>
           <animate attributeName="opacity" from="0" to="1" begin="shot-190.end+0.22s" dur="0.08s" fill="freeze"/>
       </circle>
-      <circle cx="385" cy="35" r="6" fill="#40c463" opacity="1">
+      <circle cx="385" cy="35" r="6" fill="#30a14e" opacity="1">
           <set attributeName="opacity" to="1" begin="cycle.begin"/>
           <set attributeName="r" to="6" begin="cycle.begin"/>
-          <set attributeName="fill" to="#40c463" begin="cycle.begin"/>
+          <set attributeName="fill" to="#30a14e" begin="cycle.begin"/>
           <animate attributeName="r" from="6" to="8.10" begin="shot-191.end" dur="0.12s" fill="freeze"/>
           <animate attributeName="r" from="8.10" to="6" begin="shot-191.end+0.12s" dur="0.12s" fill="freeze"/>
           <animate attributeName="opacity" from="1" to="0" begin="shot-191.end+0.12s" dur="0.06s" fill="freeze"/>
@@ -2262,10 +2262,10 @@
           <set attributeName="r" to="6" begin="cycle.begin"/>
           <set attributeName="fill" to="#9be9a8" begin="cycle.begin"/>
       </circle>
-      <circle cx="455" cy="91" r="6" fill="#40c463" opacity="1">
+      <circle cx="455" cy="91" r="6" fill="#30a14e" opacity="1">
           <set attributeName="opacity" to="1" begin="cycle.begin"/>
           <set attributeName="r" to="6" begin="cycle.begin"/>
-          <set attributeName="fill" to="#40c463" begin="cycle.begin"/>
+          <set attributeName="fill" to="#30a14e" begin="cycle.begin"/>
       </circle>
       <circle cx="469" cy="7" r="6" fill="#216e39" opacity="1">
           <set attributeName="opacity" to="1" begin="cycle.begin"/>
@@ -2302,10 +2302,10 @@
           <set attributeName="r" to="6" begin="cycle.begin"/>
           <set attributeName="fill" to="#9be9a8" begin="cycle.begin"/>
       </circle>
-      <circle cx="483" cy="7" r="6" fill="#30a14e" opacity="1">
+      <circle cx="483" cy="7" r="6" fill="#216e39" opacity="1">
           <set attributeName="opacity" to="1" begin="cycle.begin"/>
           <set attributeName="r" to="6" begin="cycle.begin"/>
-          <set attributeName="fill" to="#30a14e" begin="cycle.begin"/>
+          <set attributeName="fill" to="#216e39" begin="cycle.begin"/>
       </circle>
       <circle cx="483" cy="21" r="6" fill="#30a14e" opacity="1">
           <set attributeName="opacity" to="1" begin="cycle.begin"/>
@@ -2382,10 +2382,10 @@
           <set attributeName="r" to="6" begin="cycle.begin"/>
           <set attributeName="fill" to="#9be9a8" begin="cycle.begin"/>
       </circle>
-      <circle cx="511" cy="35" r="6" fill="#40c463" opacity="1">
+      <circle cx="511" cy="35" r="6" fill="#30a14e" opacity="1">
           <set attributeName="opacity" to="1" begin="cycle.begin"/>
           <set attributeName="r" to="6" begin="cycle.begin"/>
-          <set attributeName="fill" to="#40c463" begin="cycle.begin"/>
+          <set attributeName="fill" to="#30a14e" begin="cycle.begin"/>
       </circle>
       <circle cx="511" cy="49" r="6" fill="#40c463" opacity="1">
           <set attributeName="opacity" to="1" begin="cycle.begin"/>
@@ -2467,20 +2467,20 @@
           <set attributeName="r" to="6" begin="cycle.begin"/>
           <set attributeName="fill" to="#9be9a8" begin="cycle.begin"/>
       </circle>
-      <circle cx="539" cy="77" r="6" fill="#40c463" opacity="1">
+      <circle cx="539" cy="77" r="6" fill="#30a14e" opacity="1">
           <set attributeName="opacity" to="1" begin="cycle.begin"/>
           <set attributeName="r" to="6" begin="cycle.begin"/>
-          <set attributeName="fill" to="#40c463" begin="cycle.begin"/>
+          <set attributeName="fill" to="#30a14e" begin="cycle.begin"/>
       </circle>
       <circle cx="539" cy="91" r="6" fill="#9be9a8" opacity="1">
           <set attributeName="opacity" to="1" begin="cycle.begin"/>
           <set attributeName="r" to="6" begin="cycle.begin"/>
           <set attributeName="fill" to="#9be9a8" begin="cycle.begin"/>
       </circle>
-      <circle cx="553" cy="7" r="6" fill="#30a14e" opacity="1">
+      <circle cx="553" cy="7" r="6" fill="#216e39" opacity="1">
           <set attributeName="opacity" to="1" begin="cycle.begin"/>
           <set attributeName="r" to="6" begin="cycle.begin"/>
-          <set attributeName="fill" to="#30a14e" begin="cycle.begin"/>
+          <set attributeName="fill" to="#216e39" begin="cycle.begin"/>
       </circle>
       <circle cx="553" cy="21" r="6" fill="#9be9a8" opacity="1">
           <set attributeName="opacity" to="1" begin="cycle.begin"/>
@@ -2933,6 +2933,11 @@
           <set attributeName="fill" to="#9be9a8" begin="cycle.begin"/>
       </circle>
       <circle cx="735" cy="7" r="6" fill="#9be9a8" opacity="1">
+          <set attributeName="opacity" to="1" begin="cycle.begin"/>
+          <set attributeName="r" to="6" begin="cycle.begin"/>
+          <set attributeName="fill" to="#9be9a8" begin="cycle.begin"/>
+      </circle>
+      <circle cx="735" cy="21" r="6" fill="#9be9a8" opacity="1">
           <set attributeName="opacity" to="1" begin="cycle.begin"/>
           <set attributeName="r" to="6" begin="cycle.begin"/>
           <set attributeName="fill" to="#9be9a8" begin="cycle.begin"/>
