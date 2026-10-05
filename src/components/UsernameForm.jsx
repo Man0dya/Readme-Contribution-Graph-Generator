@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Loader2, Github, ArrowRight, CheckCircle2, ShieldCheck, Zap } from 'lucide-react'
 
-const UsernameForm = ({ onSubmit, isLoading }) => {
+const UsernameForm = ({ onSubmit, isLoading, onOpenLibrary }) => {
   const [username, setUsername] = useState('')
   const [error, setError] = useState('')
 
@@ -47,7 +47,7 @@ const UsernameForm = ({ onSubmit, isLoading }) => {
             animate={{ opacity: 1, y: 0 }}
             className="text-2xl sm:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white"
           >
-            Readme contribution graph generator
+            Cannon Blast
           </motion.h2>
 
           <motion.p 
@@ -56,7 +56,7 @@ const UsernameForm = ({ onSubmit, isLoading }) => {
             transition={{ delay: 0.1 }}
             className="text-sm sm:text-base text-slate-600 dark:text-neutral-400 max-w-2xl mx-auto"
           >
-            Generate animated SVGs for your GitHub profile README. Fully automated with GitHub Actions.
+            Generate animated arcade bubble-shooter SVGs from your GitHub contributions. Fully automated with GitHub Actions.
           </motion.p>
 
           {/* Feature Badges */}

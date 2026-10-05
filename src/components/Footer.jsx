@@ -16,25 +16,26 @@ import {
 
 const Footer = () => {
   return (
-    <footer className="w-full mt-16 border-t border-slate-200 dark:border-[#21262d] bg-white dark:bg-black transition-colors duration-300">
-      {/* Collaboration & Open Source Invite Card Banner */}
-      <div className="w-full border-b border-slate-200 dark:border-[#21262d] bg-slate-50/75 dark:bg-[#0d1117]/60">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 bg-white dark:bg-[#0d1117] border border-slate-200 dark:border-[#21262d] rounded-lg p-6 sm:p-8">
-            <div className="space-y-2 max-w-2xl">
-              <div className="inline-flex items-center space-x-2 px-2.5 py-1 rounded-md bg-emerald-500/10 dark:bg-[#238636]/20 border border-emerald-500/20 dark:border-[#3fb950]/30 text-emerald-600 dark:text-[#3fb950] text-xs font-semibold">
-                <HeartHandshake className="w-3.5 h-3.5" />
-                <span>Open for Collaboration</span>
-              </div>
-              <h3 className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white tracking-tight">
-                Want to build new animation themes or contribute features?
-              </h3>
-              <p className="text-slate-600 dark:text-[#8b949e] text-xs sm:text-sm leading-relaxed">
-                This project is 100% free and open source. Fork the repository, propose new visual effects, add color palettes, or help improve the SVG compiler. All pull requests and ideas are warmly welcomed!
-              </p>
+    <div className="w-full mt-16 transition-colors duration-300">
+      {/* Collaboration & Open Source Invite Card (Standalone on Body Background) */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
+        <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 bg-white dark:bg-[#0d1117] border border-slate-200 dark:border-[#21262d] rounded-lg p-6 sm:p-8">
+          <div className="space-y-2 max-w-2xl">
+            <h3 className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white tracking-tight">
+              Want to build new animation themes or contribute features?
+            </h3>
+            <p className="text-slate-600 dark:text-[#8b949e] text-xs sm:text-sm leading-relaxed">
+              This project is 100% free and open source. Fork the repository, propose new visual effects, add color palettes, or help improve the SVG compiler. All pull requests and ideas are warmly welcomed!
+            </p>
+          </div>
+
+          <div className="flex flex-col items-center gap-3 w-full sm:w-auto">
+            <div className="inline-flex items-center space-x-1.5 text-emerald-600 dark:text-[#3fb950] text-xs font-semibold">
+              <HeartHandshake className="w-4 h-4" />
+              <span>Open for Collaboration</span>
             </div>
 
-            <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto">
+            <div className="flex flex-wrap items-center justify-center gap-3 w-full sm:w-auto">
               <a
                 href="https://github.com/Man0dya/Readme-Contribution-Graph-Generator/fork"
                 target="_blank"
@@ -60,6 +61,7 @@ const Footer = () => {
       </div>
 
       {/* Main 4-Column Navigation & Links */}
+      <footer className="w-full border-t border-slate-200 dark:border-[#21262d] bg-white dark:bg-black transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
           {/* Column 1: Brand & Mission */}
@@ -248,6 +250,7 @@ const Footer = () => {
         </div>
       </div>
     </footer>
+    </div>
   )
 }
 
