@@ -1,31 +1,40 @@
 # Readme Contribution Graph Generator
 
-A dynamic generator that turns your GitHub contribution graph into a playful, animated vector SVG to showcase on your GitHub profile README. Generate standalone animated SVGs instantly via the web app or automate daily updates using GitHub Actions.
+An open-source animation library & generator hub that transforms your GitHub contribution calendar into dynamic, native SMIL-animated SVGs for your GitHub profile README.
 
-**Live Generator:** [https://man0dya.github.io/Readme-Contribution-Graph-Generator](https://man0dya.github.io/Readme-Contribution-Graph-Generator)
-
----
-
-## Features
-
-- **SMIL-Powered Vector Animations**: Lightweight, self-contained SVG files that animate natively inside GitHub READMEs without external scripts or iframe dependencies.
-- **Adaptive Dark & Light Modes**: Seamlessly matches your reader's system theme using standard HTML5 `<picture>` elements.
-- **Theme Presets**: Multiple built-in color schemes including GitHub Classic, OLED Dark, Cyberpunk Neon, Synthwave, Solarized, and Matrix.
-- **Speed & Target Customization**: Fine-tune animation duration, projectile speed, and active contribution targets.
-- **Automated Daily Sync**: GitHub Action workflow keeps your contribution history updated every day at midnight.
-- **Zero Configuration Required**: Works out of the box with public GitHub activity data.
+**Live Generator & Style Library:** [https://man0dya.github.io/Readme-Contribution-Graph-Generator](https://man0dya.github.io/Readme-Contribution-Graph-Generator)
 
 ---
 
-## Quick Start
+## 🎨 Featured Animation Styles
 
-### Method 1: Automated Daily Sync (GitHub Actions)
+### 1. Cannon Blast *(Ready to Use)*
+An arcade sci-fi turret mounted above your GitHub calendar, firing high-speed plasma energy projectiles with trailing comet particles that explode contribution bubbles into radiant stars.
 
-Keep your profile README updated automatically every day without manual file uploads.
+### 2. Community Style Library *(Open for PRs)*
+This project is built as an open extensible library. Developers can create and contribute new declarative SVG animation engines (such as *Retro Snake*, *Matrix Digital Rain*, *Audio Visualizer Wave*, and more).
+
+---
+
+## ⚡ Key Highlights
+
+- **Pure Declarative SVG**: Powered by native SVG SMIL animations. Zero JavaScript runtime, zero external dependencies, zero iframe overhead.
+- **Lightweight (~180 KB)**: Aggressively optimized keyframe animations and coordinate compression for instant loading on all devices.
+- **Dark & Light Auto Sync**: Dual-theme generation with HTML5 `<picture>` tags that automatically adapt to viewer system settings.
+- **6 Built-in Themes**: GitHub Classic, OLED Dark, Cyberpunk Neon, Synthwave 80s, Solarized Dark, and Matrix Green.
+- **Full Automation**: Includes a composite GitHub Action to automatically fetch and update your profile SVG daily at midnight UTC.
+
+---
+
+## 🚀 Quick Start
+
+### Method 1: Automated Daily Sync (GitHub Actions — Recommended)
+
+Keep your profile README updated automatically every day without any manual uploads.
 
 #### 1. Create the Workflow File
 
-In your profile repository (e.g., `username/username`), create `.github/workflows/generate-contribution-animation.yml`:
+In your special GitHub profile repository (e.g. `username/username`), create `.github/workflows/generate-contribution-animation.yml`:
 
 ```yaml
 name: Generate Contribution Animation
@@ -59,15 +68,15 @@ jobs:
           file_pattern: "*-contribution-animation*.svg contribution-animation*.svg github-contribution-animation*.svg"
 ```
 
-#### 2. Configure Repository Permissions
+#### 2. Enable Repository Write Permissions
 
-1. Navigate to **Settings** > **Actions** > **General** in your repository.
-2. Under **Workflow permissions**, select **Read and write permissions**.
+1. In your GitHub profile repository, navigate to **Settings** > **Actions** > **General**.
+2. Scroll to **Workflow permissions** and select **Read and write permissions**.
 3. Click **Save**.
 
-#### 3. Embed the Animation in Your README
+#### 3. Embed in Your Profile README
 
-Add the following markup to your profile `README.md` to automatically switch between light and dark themes:
+Add the following snippet to your profile `README.md` to automatically support both light and dark themes:
 
 ```html
 <picture>
@@ -78,15 +87,15 @@ Add the following markup to your profile `README.md` to automatically switch bet
 
 ---
 
-### Method 2: Manual Download (Web App)
+### Method 2: Manual Download (Web Application)
 
-If you prefer not to use GitHub Actions, you can generate and download the SVGs directly:
+If you prefer not to use GitHub Actions, you can generate and download the SVGs directly via the web interface:
 
 1. Open the [Live Generator](https://man0dya.github.io/Readme-Contribution-Graph-Generator).
-2. Enter your GitHub username and select your preferred theme and animation speed.
-3. Click **Download Animated SVG** (or **Download Dark Mode SVG**).
-4. Save the downloaded `.svg` file into the root of your GitHub repository.
-5. Add the markdown link to your `README.md`:
+2. Enter your GitHub username.
+3. Choose your theme, animation speed, and target preferences.
+4. Click **Download Animated SVG** (or **Download Dark Mode SVG**).
+5. Save the downloaded `.svg` file into your repository and reference it in your `README.md`:
 
 ```markdown
 ![My Contribution Animation](github-contribution-animation.svg)
@@ -94,17 +103,15 @@ If you prefer not to use GitHub Actions, you can generate and download the SVGs 
 
 ---
 
-## GitHub Action Reference
+## 🛠️ GitHub Action Input Reference
 
-You can customize the generation step in your workflow using the following input parameters:
-
-| Input | Description | Required | Default |
+| Parameter | Description | Required | Default |
 |---|---|:---:|:---:|
-| `github_user_name` | The GitHub username whose contributions will be rendered | **Yes** | `${{ github.repository_owner }}` |
-| `github_token` | GitHub Personal Access Token (PAT) for authenticated API requests | No | `${{ github.token }}` |
-| `output_dir` | Target directory where generated SVG files will be stored | No | `.` |
+| `github_user_name` | GitHub username whose contributions will be rendered | **Yes** | `${{ github.repository_owner }}` |
+| `github_token` | GitHub Token with read access (prevents rate limits) | No | `${{ github.token }}` |
+| `output_dir` | Directory where generated SVG files will be stored | No | `.` |
 | `speed` | Animation velocity: `slow`, `normal`, or `fast` | No | `normal` |
-| `max_targets` | Maximum number of active contribution targets per cycle | No | `75` |
+| `max_targets` | Maximum number of active animated targets per cycle | No | `75` |
 
 ### Custom Configuration Example
 
@@ -120,14 +127,14 @@ You can customize the generation step in your workflow using the following input
 
 ---
 
-## Local Development
+## 💻 Local Development
 
 ### Prerequisites
 
-- [Node.js](https://nodejs.org/) 18.0 or higher
+- [Node.js](https://nodejs.org/) 18.0 or higher (20 LTS recommended)
 - [npm](https://www.npmjs.com/) 9.0 or higher
 
-### Setup & Run
+### Installation & Run
 
 1. Clone the repository:
    ```bash
@@ -135,53 +142,55 @@ You can customize the generation step in your workflow using the following input
    cd Readme-Contribution-Graph-Generator
    ```
 
-2. Install project dependencies:
+2. Install dependencies:
    ```bash
    npm install
    ```
 
-3. Start the local development server:
+3. Start local development server:
    ```bash
    npm run dev
    ```
-   The application will be accessible at `http://localhost:3000`.
 
 4. Build for production:
    ```bash
    npm run build
    ```
 
-5. Preview the production build:
-   ```bash
-   npm run preview
-   ```
-
 ---
 
-## Project Structure
+## 📂 Project Structure
 
 ```
 Readme-Contribution-Graph-Generator/
 ├── .github/
 │   └── workflows/
-│       ├── deploy.yml                         # Automated GitHub Pages deployment
-│       └── generate-contribution-animation.yml # Action workflow definition
-├── action.yml                                 # GitHub Composite Action manifest
-├── public/                                    # Static assets and favicon
+│       ├── deploy.yml                          # GitHub Pages automated deployment
+│       └── generate-contribution-animation.yml  # Manual workflow dispatch action
+├── action.yml                                  # GitHub Composite Action definition
+├── public/                                     # Static public assets and favicon
 ├── scripts/
-│   └── generate-svg.cjs                       # CLI SVG generator engine
+│   └── generate-svg.cjs                        # CLI SVG compiler & generation engine
 ├── src/
 │   ├── components/
-│   │   ├── CodeGenerator.jsx                  # Theme selector, live preview & exporter
-│   │   ├── Footer.jsx                         # Application footer
-│   │   ├── Header.jsx                         # Application header & theme switch
-│   │   └── UsernameForm.jsx                   # User input & validation
+│   │   ├── CodeGenerator.jsx                   # Live preview, theme picker & exporter
+│   │   ├── Footer.jsx                          # Community directory & collaboration banner
+│   │   ├── Header.jsx                          # Navigation bar, library switcher & theme toggle
+│   │   ├── LibraryView.jsx                     # Animation styles gallery & contribution portal
+│   │   ├── TestPanel.jsx                       # Dev mode diagnostics & preview tool
+│   │   └── UsernameForm.jsx                    # Username input form & quick examples
 │   ├── utils/
-│   │   ├── debug.js                           # Logging and diagnostics
-│   │   └── github.js                          # GitHub contribution data fetcher
-│   ├── App.jsx                                # Main layout and state container
-│   ├── index.css                              # Design system & dark mode styles
-│   └── main.jsx                               # React application entry point
+│   │   ├── debug.js                            # Diagnostics and logging helpers
+│   │   └── github.js                           # GitHub contribution data fetcher
+│   ├── App.jsx                                 # Application root state & view manager
+│   ├── index.css                               # Tailwind CSS & custom design system
+│   └── main.jsx                                # React application entry point
+├── AUTOMATION.md                               # In-depth GitHub Actions setup guide
+├── CODE_OF_CONDUCT.md                          # Contributor Code of Conduct
+├── CONTRIBUTING.md                             # Contribution guide for new styles & fixes
+├── LICENSE                                     # MIT License
+├── README.md                                   # Project documentation
+├── SECURITY.md                                 # Security and vulnerability reporting
 ├── package.json
 ├── tailwind.config.js
 └── vite.config.js
@@ -189,14 +198,12 @@ Readme-Contribution-Graph-Generator/
 
 ---
 
-## Troubleshooting
+## 🤝 Contributing
 
-- **SVG does not render in README:** Ensure the generated SVG file is committed and pushed to the exact branch your README is rendered from (typically `main`), and verify that relative file paths match.
-- **GitHub Action fails on git push:** Verify that workflow write permissions are enabled under **Settings** > **Actions** > **General** > **Workflow permissions** in your repository.
-- **Private Contributions:** By default, GitHub's public API only exposes public contributions unless a token with private repo access permissions is provided.
+We welcome all contributions! Whether you want to add a new animation style template to the library, suggest UI improvements, or fix a bug, please check out our [Contributing Guide](CONTRIBUTING.md).
 
 ---
 
-## License
+## 📄 License
 
-Distributed under the MIT License. See [LICENSE](LICENSE) for details.
+Distributed under the **MIT License**. See [LICENSE](LICENSE) for more details.

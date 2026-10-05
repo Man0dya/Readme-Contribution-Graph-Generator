@@ -1,39 +1,36 @@
 # 🎯 Automated Contribution Animation Setup
 
-This repository now includes GitHub Actions automation to generate your contribution animation automatically, just like the snake animation!
+Learn how to configure automated daily GitHub Actions to keep your profile README contribution animation fresh and synchronized with your latest commits.
 
-## 🚀 How it works
+---
 
-1. **GitHub Actions runs daily** and on every push to main branch
-2. **Fetches your real contribution data** from GitHub API  
-3. **Generates animated SVG** with popping contribution boxes
-4. **Auto-commits the SVG** back to your repository
-5. **Your README displays** the always up-to-date animation
+## ⚡ How It Works
 
-## 📁 Generated Files
+1. **Scheduled Trigger**: GitHub Actions runs automatically every day at midnight (00:00 UTC) or manually on demand.
+2. **Data Ingestion**: Fetches your live contribution calendar data using GitHub's GraphQL/REST APIs.
+3. **SVG Generation**: Compiles an optimized, SMIL-powered vector SVG animation (Cannon Blast arcade turret firing plasma projectiles at contribution targets).
+4. **Auto-Commit**: Automatically commits and pushes the updated SVG directly into your repository.
+5. **Always Fresh**: Your GitHub profile README displays the updated animation without any manual intervention.
 
-The automation creates multiple SVG files:
-- `{username}-contribution-animation.svg` - Personal filename
-- `contribution-animation.svg` - Generic filename  
-- `github-contribution-animation.svg` - Snake-style naming
+---
 
-## 🧩 How to Automate in Your Own Profile Repository
+## 🚀 Setting Up in Your Profile Repository
 
-You can automate this in any repository (like your special `username/username` profile repo).
+Follow these 3 quick steps to automate the animation in your special profile repository (`username/username`):
 
-### Option 1: Using the GitHub Action (Recommended — No script files needed!)
+### 1. Create the GitHub Actions Workflow
 
-Create `.github/workflows/generate-contribution-animation.yml` in your repository:
+In your profile repository, create a new file at `.github/workflows/generate-contribution-animation.yml`:
 
 ```yaml
 name: Generate Contribution Animation
 
 on:
   schedule:
-    - cron: '0 0 * * *' # Daily at 00:00 UTC
-  workflow_dispatch:
+    - cron: '0 0 * * *' # Runs daily at 00:00 UTC
+  workflow_dispatch:   # Allows manual trigger from the GitHub Actions tab
   push:
-    branches: [ main ]
+    branches: [ main ] # Runs automatically when you push to main
 
 permissions:
   contents: write
@@ -57,86 +54,67 @@ jobs:
           file_pattern: "*-contribution-animation*.svg contribution-animation*.svg github-contribution-animation*.svg"
 ```
 
-### Option 2: Using the Standalone Script
+---
 
-1. Copy `scripts/generate-svg.cjs` from this repo into your repository at `scripts/generate-svg.cjs`.
-2. Create `.github/workflows/generate-contribution-animation.yml` and run `node scripts/generate-svg.cjs` with `env: GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}`.
+### 2. Configure Action Permissions
+
+For GitHub Actions to push the generated SVG back to your repository:
+
+1. Open your repository on GitHub.
+2. Go to **Settings** > **Actions** > **General**.
+3. Scroll down to **Workflow permissions**.
+4. Select **Read and write permissions**.
+5. Click **Save**.
 
 ---
 
-## 🖼️ Embed in your README
+### 3. Embed the Animation in Your Profile README
 
-Add either the auto dark/light picture tag or the direct markdown image:
+Add the `<picture>` element to your `README.md` to automatically switch between light and dark themes based on the viewer's system preferences:
 
-**Auto Light/Dark Mode:**
-```markdown
+```html
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="github-contribution-animation-dark.svg" />
   <img alt="Contribution Animation" src="github-contribution-animation.svg" />
 </picture>
 ```
 
-**Single Theme:**
+Alternatively, you can embed a single theme with standard markdown:
+
 ```markdown
 ![My Contribution Animation](github-contribution-animation.svg)
 ```
 
-## 🔧 Setup Instructions
+---
 
-### Option 1: Use in your own repository
+## ⚙️ Workflow Inputs & Customization
 
-1. **Copy the workflow file**:
-   ```bash
-   mkdir -p .github/workflows
-   cp .github/workflows/generate-contribution-animation.yml .github/workflows/
-   cp -r scripts/ ./
-   ```
+You can customize the generation step with these optional parameters:
 
-2. **Add to your README.md**:
-   ```markdown
-   ![Contribution Animation](github-contribution-animation.svg)
-   ```
+| Input | Description | Required | Default |
+|---|---|:---:|:---:|
+| `github_user_name` | GitHub username to generate the graph for | **Yes** | `${{ github.repository_owner }}` |
+| `github_token` | GitHub Token for authenticated API requests (prevents rate limits) | No | `${{ github.token }}` |
+| `output_dir` | Directory where SVG files will be written | No | `.` |
+| `speed` | Animation velocity (`slow`, `normal`, or `fast`) | No | `normal` |
+| `max_targets` | Maximum number of active animated targets per cycle | No | `75` |
 
-3. **Push to trigger first generation**:
-   ```bash
-   git add .
-   git commit -m "Add automated contribution animation"
-   git push
-   ```
+### Custom Workflow Example
 
-4. **Wait for GitHub Actions** to run (check Actions tab)
-
-### Option 2: Use this repository's animation
-
-Simply reference the animation from this repo in your README:
-
-```markdown
-![Contribution Animation](https://raw.githubusercontent.com/Man0dya/Readme-Contribution-Graph-Generator/main/Man0dya-contribution-animation.svg)
+```yaml
+- name: Generate Contribution Animation
+  uses: Man0dya/Readme-Contribution-Graph-Generator@main
+  with:
+    github_user_name: your-username
+    speed: fast
+    max_targets: 90
+    output_dir: ./assets
 ```
-
-## ⚙️ Customization
-
-Edit `scripts/generate-svg.cjs` to customize:
-- 🎨 **Colors**: Modify the `getContributionColor()` function
-- ⏱️ **Animation speed**: Adjust `animationDuration` calculation  
-- 📏 **Size**: Change `svgWidth` and `svgHeight`
-- 🎭 **Animation style**: Modify CSS keyframes
-
-## 🔄 Schedule
-
-- **Daily at 00:00 UTC**: Automatic update
-- **On every push**: Immediate update
-- **Manual trigger**: From Actions tab
-
-## 📊 Features
-
-✅ **Real GitHub data** - Uses actual contribution counts  
-✅ **Animated popping** - Contribution boxes explode in sequence  
-✅ **Auto-updating** - Always shows latest contributions  
-✅ **Zero maintenance** - Runs completely automatically  
-✅ **Multiple formats** - Various filename options  
-✅ **Fast loading** - Optimized SVG animations
 
 ---
 
-🎯 Powered by: Contribution Animation (bubble‑shooter)
+## 🔍 Troubleshooting
+
+- **Workflow fails with 403 / Permission Denied:** Ensure you enabled **Read and write permissions** under **Settings > Actions > General > Workflow permissions**.
+- **SVG does not update on README:** GitHub caches images aggressively. The raw commit push invalidates GitHub's camo proxy within a few minutes.
+- **Manual Trigger:** You can test your workflow immediately at any time by navigating to your repository's **Actions** tab, selecting **Generate Contribution Animation**, and clicking **Run workflow**.
