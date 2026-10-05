@@ -1,67 +1,100 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Copy, Check, Download, Code, Settings } from 'lucide-react'
+import { Copy, Check, Download, Code, Settings, Terminal, Palette, Sun, Moon, Gauge, Eye } from 'lucide-react'
+
+// Color theme presets
+const THEME_PRESETS = [
+  {
+    id: 'github',
+    name: 'GitHub Classic',
+    shooter: '#216e39',
+    explosion: '#ff6b35',
+    noContributionLight: '#ebedf0',
+    noContributionDark: '#161b22',
+    levels: { 0: '#ebedf0', 1: '#9be9a8', 2: '#40c463', 3: '#30a14e', 4: '#216e39' },
+    previewDot: '#30a14e'
+  },
+  {
+    id: 'cyberpunk',
+    name: 'Cyberpunk Neon',
+    shooter: '#ff007f',
+    explosion: '#00f0ff',
+    noContributionLight: '#e2e8f0',
+    noContributionDark: '#0a0a14',
+    levels: { 0: '#1e1b4b', 1: '#4338ca', 2: '#06b6d4', 3: '#00f0ff', 4: '#ff007f' },
+    previewDot: '#ff007f'
+  },
+  {
+    id: 'dracula',
+    name: 'Dracula',
+    shooter: '#bd93f9',
+    explosion: '#ff79c6',
+    noContributionLight: '#f1f5f9',
+    noContributionDark: '#1e1f29',
+    levels: { 0: '#282a36', 1: '#6272a4', 2: '#8be9fd', 3: '#50fa7b', 4: '#bd93f9' },
+    previewDot: '#bd93f9'
+  },
+  {
+    id: 'sunset',
+    name: 'Sunset Fire',
+    shooter: '#f97316',
+    explosion: '#ef4444',
+    noContributionLight: '#fff7ed',
+    noContributionDark: '#18110b',
+    levels: { 0: '#fed7aa', 1: '#fb923c', 2: '#f97316', 3: '#ea580c', 4: '#c2410c' },
+    previewDot: '#f97316'
+  },
+  {
+    id: 'ocean',
+    name: 'Ocean Breeze',
+    shooter: '#0284c7',
+    explosion: '#14b8a6',
+    noContributionLight: '#f0f9ff',
+    noContributionDark: '#081426',
+    levels: { 0: '#bae6fd', 1: '#38bdf8', 2: '#0ea5e9', 3: '#0284c7', 4: '#0369a1' },
+    previewDot: '#0ea5e9'
+  },
+  {
+    id: 'monokai',
+    name: 'Monokai Pro',
+    shooter: '#a6e22e',
+    explosion: '#fd971f',
+    noContributionLight: '#f8fafc',
+    noContributionDark: '#1e1e1e',
+    levels: { 0: '#333333', 1: '#66d9ef', 2: '#a6e22e', 3: '#e6db74', 4: '#f92672' },
+    previewDot: '#a6e22e'
+  }
+]
 
 const CodeGenerator = ({ username, contributionData }) => {
-  const [copied, setCopied] = useState(false)
   const [copiedWorkflow, setCopiedWorkflow] = useState(false)
   const [copiedReadme, setCopiedReadme] = useState(false)
-  const [animationSpeed, setAnimationSpeed] = useState('normal')
-  const [noContributionColor, setNoContributionColor] = useState('#ebedf0')
+  const [activeTab, setActiveTab] = useState('workflow') // 'workflow' | 'readme'
+  const [selectedTheme, setSelectedTheme] = useState(THEME_PRESETS[0])
+  const [previewThemeMode, setPreviewThemeMode] = useState('dark') // 'dark' | 'light'
+  const [animationSpeed, setAnimationSpeed] = useState('normal') // 'fast' | 'normal' | 'slow'
   const [hideZeroDays, setHideZeroDays] = useState(false)
-  // Use stable, owner-agnostic filenames that the workflow generates by default
   const [animatedFileName, setAnimatedFileName] = useState('github-contribution-animation.svg')
-  const [staticFileName, setStaticFileName] = useState('github-contributions.svg')
   const [readmeMode, setReadmeMode] = useState('auto') // 'auto' | 'light' | 'dark'
 
-  // Do not auto-mutate filenames on username change; keep stable defaults to match workflow outputs
+  const speedMul = animationSpeed === 'fast' ? 0.6 : animationSpeed === 'slow' ? 1.5 : 1.0
 
-  // Fixed theme colors (default theme)
-  const theme = {
-    shooter: '#4f46e5',
-    explosion: '#ff6b35',
-    background: '#ffffff'
+  const getContributionColorForLevel = (level, isDark = false) => {
+    if (level === 0) {
+      return isDark ? selectedTheme.noContributionDark : selectedTheme.noContributionLight
+    }
+    return selectedTheme.levels[level] || selectedTheme.levels[1]
   }
 
-  // Default viewBox for exported/previewed SVG; width attribute is 100% to match README width
-  const defaultViewBox = { width: 1200, height: 340 }
-
-  const generateSvgCode = () => {
-    // Bubble Shooter style SVG generator: green (contributed) cells are targets.
-    if (!contributionData || contributionData.length === 0) {
+  // Build Bubble Shooter SVG (SMIL, high efficiency)
+  const buildBubbleShooterSVG = ({ data, width = 1200, height = 340, speedScale = 1.0, isDark = false, transparent = true, maxTargets = 75 }) => {
+    if (!data || data.length === 0) {
       return `<svg width="800" height="220" xmlns="http://www.w3.org/2000/svg">
-        <rect width="100%" height="100%" fill="#f6f8fa"/>
-        <text x="400" y="110" text-anchor="middle" fill="#666" font-family="sans-serif" font-size="14">No contribution data available</text>
+        <rect width="100%" height="100%" fill="#0d1117"/>
+        <text x="400" y="110" text-anchor="middle" fill="#8b949e" font-family="sans-serif" font-size="14">No contribution data available</text>
       </svg>`
     }
 
-    // Map speed to duration scale (lower = faster)
-    const speedMul = animationSpeed === 'fast' ? 0.6 : animationSpeed === 'slow' ? 1.6 : 1
-
-    return buildBubbleShooterSVG({
-      username,
-      data: contributionData,
-      width: defaultViewBox.width,
-      height: defaultViewBox.height,
-      theme,
-      speedMul,
-      transparent: true
-    })
-  }
-
-  const getContributionColorForLevel = (level) => {
-    const colors = {
-      0: noContributionColor, // No contributions (customizable)
-      1: '#9be9a8', // Low
-      2: '#40c463', // Medium-low  
-      3: '#30a14e', // Medium-high
-      4: '#216e39'  // High
-    }
-    return colors[level] || colors[0]
-  }
-
-  // Build Bubble Shooter style SVG string using SMIL animations (optimized)
-  const buildBubbleShooterSVG = ({ username, data, width, height, theme, speedMul, transparent = false, maxTargets = 75 }) => {
     const weeks = data.length
     const days = 7
     const cell = Math.max(10, Math.min(14, Math.floor(width / Math.max(30, weeks))))
@@ -75,7 +108,9 @@ const CodeGenerator = ({ username, contributionData }) => {
     const shooterYOffset = 26
     const shooterY = originY + gridH + shooterYOffset
 
-    // Build list of bubbles with positions (centers)
+    const noContribColor = isDark ? selectedTheme.noContributionDark : selectedTheme.noContributionLight
+
+    // Build list of bubbles with centers
     const bubbles = []
     data.forEach((week, wi) => {
       week.forEach((day, di) => {
@@ -98,8 +133,8 @@ const CodeGenerator = ({ username, contributionData }) => {
       }
     }
 
-    const tShot = Number((0.55 * speedMul).toFixed(2))
-    const tGap = Number((0.22 * speedMul).toFixed(2))
+    const tShot = Number((0.55 * speedScale).toFixed(2))
+    const tGap = Number((0.22 * speedScale).toFixed(2))
     const total = prunedTargets.length > 0 ? Number((prunedTargets.length * (tShot + tGap) + 0.5).toFixed(2)) : 2
 
     const shotIndexByPos = new Map()
@@ -107,11 +142,11 @@ const CodeGenerator = ({ username, contributionData }) => {
       shotIndexByPos.set(`${t.cx},${t.cy}`, i)
     })
 
-    // Grid bubbles: static non-targets and animated target bubbles
+    // Grid bubbles
     let gridStr = ''
     bubbles.forEach((b) => {
       if (hideZeroDays && !b.isGreen) return
-      const fill = getContributionColorForLevel(b.level)
+      const fill = getContributionColorForLevel(b.level, isDark)
       const key = `${b.cx},${b.cy}`
       const shotIndex = shotIndexByPos.get(key)
 
@@ -120,20 +155,20 @@ const CodeGenerator = ({ username, contributionData }) => {
       } else {
         const shotId = `s${shotIndex}`
         const popUp = Number((radius * 1.35).toFixed(1))
-        gridStr += `\n    <circle cx="${b.cx}" cy="${b.cy}" r="${radius}" fill="${fill}">\n      <set attributeName="fill" to="${fill}" begin="cycle.begin"/>\n      <animate attributeName="r" values="${radius};${popUp};${radius}" keyTimes="0;0.5;1" begin="${shotId}.end" dur="0.2s" fill="freeze"/>\n      <set attributeName="fill" to="${noContributionColor}" begin="${shotId}.end+0.12s"/>\n    </circle>`
+        gridStr += `\n    <circle cx="${b.cx}" cy="${b.cy}" r="${radius}" fill="${fill}">\n      <set attributeName="fill" to="${fill}" begin="cycle.begin"/>\n      <animate attributeName="r" values="${radius};${popUp};${radius}" keyTimes="0;0.5;1" begin="${shotId}.end" dur="0.2s" fill="freeze"/>\n      <set attributeName="fill" to="${noContribColor}" begin="${shotId}.end+0.12s"/>\n    </circle>`
       }
     })
 
-    // Bullets and pops
+    // Bullets and shockwaves/particles
     let bulletsStr = ''
     let popsStr = ''
     prunedTargets.forEach((t, i) => {
       const begin = Number((i * (tShot + tGap)).toFixed(2))
       const shotId = `s${i}`
-      bulletsStr += `\n    <circle cx="${shooterX}" cy="${shooterY}" r="3" fill="${theme.shooter}" opacity="0">\n      <set attributeName="opacity" to="1" begin="cycle.begin+${begin}s"/>\n      <animate id="${shotId}" attributeName="cy" from="${shooterY}" to="${t.cy}" begin="cycle.begin+${begin}s" dur="${tShot}s" fill="freeze"/>\n      <animate attributeName="cx" from="${shooterX}" to="${t.cx}" begin="cycle.begin+${begin}s" dur="${tShot}s" fill="freeze"/>\n      <set attributeName="opacity" to="0" begin="${shotId}.end"/>\n    </circle>`
+      bulletsStr += `\n    <circle cx="${shooterX}" cy="${shooterY}" r="3" fill="${selectedTheme.shooter}" opacity="0">\n      <set attributeName="opacity" to="1" begin="cycle.begin+${begin}s"/>\n      <animate id="${shotId}" attributeName="cy" from="${shooterY}" to="${t.cy}" begin="cycle.begin+${begin}s" dur="${tShot}s" fill="freeze"/>\n      <animate attributeName="cx" from="${shooterX}" to="${t.cx}" begin="cycle.begin+${begin}s" dur="${tShot}s" fill="freeze"/>\n      <set attributeName="opacity" to="0" begin="${shotId}.end"/>\n    </circle>`
 
       const popRadius = Number((radius * 1.7).toFixed(1))
-      popsStr += `\n    <circle cx="${t.cx}" cy="${t.cy}" r="${radius}" fill="none" stroke="${theme.explosion}" stroke-width="1.5" opacity="0">\n      <set attributeName="opacity" to="1" begin="${shotId}.end"/>\n      <animate attributeName="r" from="${radius}" to="${popRadius}" begin="${shotId}.end" dur="0.25s" fill="freeze"/>\n      <animate attributeName="opacity" values="1;1;0" keyTimes="0;0.6;1" begin="${shotId}.end" dur="0.25s" fill="freeze"/>\n    </circle>`
+      popsStr += `\n    <circle cx="${t.cx}" cy="${t.cy}" r="${radius}" fill="none" stroke="${selectedTheme.explosion}" stroke-width="1.5" opacity="0">\n      <set attributeName="opacity" to="1" begin="${shotId}.end"/>\n      <animate attributeName="r" from="${radius}" to="${popRadius}" begin="${shotId}.end" dur="0.25s" fill="freeze"/>\n      <animate attributeName="opacity" values="1;1;0" keyTimes="0;0.6;1" begin="${shotId}.end" dur="0.25s" fill="freeze"/>\n    </circle>`
 
       for (let pi = 0; pi < 3; pi++) {
         const ang = (pi * 2 * Math.PI) / 3
@@ -143,42 +178,14 @@ const CodeGenerator = ({ username, contributionData }) => {
       }
     })
 
-    const bgRect = transparent ? '' : `\n  <rect width="100%" height="100%" fill="${theme.background}" rx="8"/>`
+    const bgRect = transparent ? '' : `<rect width="100%" height="100%" fill="${isDark ? '#0d1117' : '#ffffff'}" rx="4"/>`
     const vbW = gridW
     const vbH = gridH + shooterYOffset
-    return `<?xml version="1.0" encoding="UTF-8"?>\n<svg width="100%" viewBox="0 0 ${vbW} ${vbH}" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">\n${bgRect}\n  <!-- cycle timer -->\n  <rect id="cycleTimer" x="-10" y="-10" width="1" height="1" fill="none">\n    <animate id="cycle" attributeName="x" from="-10" to="-9" begin="0s;cycle.end+1s" dur="${total}s" fill="freeze"/>\n  </rect>\n\n  <!-- shooter base -->\n  <rect x="${shooterX - 16}" y="${shooterY - 10}" width="32" height="10" rx="5" fill="${theme.shooter}" opacity="0.9"/>\n  <polygon points="${shooterX - 5},${shooterY - 10} ${shooterX + 5},${shooterY - 10} ${shooterX},${shooterY - 22}" fill="${theme.shooter}"/>\n\n  <!-- grid of bubbles -->\n  ${gridStr}\n\n  <!-- bullets -->\n  ${bulletsStr}\n\n  <!-- pops and particles -->\n  ${popsStr}\n</svg>`
+
+    return `<?xml version="1.0" encoding="UTF-8"?>\n<svg width="100%" viewBox="0 0 ${vbW} ${vbH}" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">\n${bgRect}\n  <!-- cycle timer -->\n  <rect id="cycleTimer" x="-10" y="-10" width="1" height="1" fill="none">\n    <animate id="cycle" attributeName="x" from="-10" to="-9" begin="0s;cycle.end+1s" dur="${total}s" fill="freeze"/>\n  </rect>\n\n  <!-- shooter base -->\n  <rect x="${shooterX - 16}" y="${shooterY - 10}" width="32" height="10" rx="3" fill="${selectedTheme.shooter}" opacity="0.9"/>\n  <polygon points="${shooterX - 5},${shooterY - 10} ${shooterX + 5},${shooterY - 10} ${shooterX},${shooterY - 22}" fill="${selectedTheme.shooter}"/>\n\n  <!-- grid of bubbles -->\n  ${gridStr}\n\n  <!-- bullets -->\n  ${bulletsStr}\n\n  <!-- pops and particles -->\n  ${popsStr}\n</svg>`
   }
 
-  // Build a static contribution graph (no animation), transparent by default
-  const buildStaticGraphSVG = ({ data, width, height }) => {
-    const weeks = data.length
-    const days = 7
-    const cell = Math.max(10, Math.min(14, Math.floor(width / Math.max(30, weeks))))
-    const gridW = weeks * cell
-    const gridH = days * cell
-    const originX = 0
-    const originY = 0
-
-    let gridStr = ''
-    data.forEach((week, wi) => {
-      week.forEach((day, di) => {
-        const x = originX + wi * cell + 2
-        const y = originY + di * cell + 2
-        const size = cell - 4
-        const fill = getContributionColorForLevel(day.level)
-        gridStr += `\n    <rect x="${x}" y="${y}" width="${size}" height="${size}" rx="2" fill="${fill}"/>`
-      })
-    })
-
-    return `<?xml version="1.0" encoding="UTF-8"?>\n<svg width="100%" viewBox="0 0 ${gridW} ${gridH}" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">\n  ${gridStr}\n</svg>`
-  }
-
-  const generateMarkdownCode = () => {
-    const fileName = animatedFileName || 'github-contribution-animation.svg'
-    return `![${username}'s Contribution Animation](${fileName})`
-  }
-
-  // Build README snippet by mode (auto/light/dark)
+  // Build README snippet
   const buildReadmeSnippet = () => {
     const base = animatedFileName || 'github-contribution-animation.svg'
     if (readmeMode === 'dark') {
@@ -192,20 +199,19 @@ const CodeGenerator = ({ username, contributionData }) => {
     return `<picture>\n  <source media="(prefers-color-scheme: dark)" srcset="${dark}" />\n  <img alt="${username}'s Contribution Animation" src="${base}" />\n</picture>`
   }
 
-  // Provide a ready-to-copy GitHub Actions workflow using the reusable action
+  // Generate GitHub Action YAML
   const generateWorkflowYAML = () => [
     'name: Generate Contribution Animation',
     '',
-    '# Runs every day at 00:00 UTC, on manual dispatch, and on pushes to main',
     'on:',
     '  schedule:',
-    "    - cron: '0 0 * * *'",
+    "    - cron: '0 0 * * *' # Daily at 00:00 UTC",
     '  workflow_dispatch: {}',
     '  push:',
     '    branches: [ main ]',
     '',
     'permissions:',
-    '  contents: write  # required to commit the generated SVG back to the repo',
+    '  contents: write',
     '',
     'jobs:',
     '  generate:',
@@ -217,7 +223,7 @@ const CodeGenerator = ({ username, contributionData }) => {
     '      - name: Generate Contribution Animation',
     '        uses: Man0dya/Readme-Contribution-Graph-Generator@main',
     '        with:',
-    '          github_user_name: ${{ github.repository_owner }}',
+    `          github_user_name: \${{ github.repository_owner }}`,
     '',
     '      - name: Commit and push SVG',
     '        uses: stefanzweifel/git-auto-commit-action@v5',
@@ -225,16 +231,6 @@ const CodeGenerator = ({ username, contributionData }) => {
     "          commit_message: 'chore: update contribution animation [skip ci]'",
     '          file_pattern: "*-contribution-animation*.svg contribution-animation*.svg github-contribution-animation*.svg"',
   ].join('\n')
-
-  const handleCopy = async () => {
-    try {
-      await navigator.clipboard.writeText(generateMarkdownCode())
-      setCopied(true)
-      setTimeout(() => setCopied(false), 2000)
-    } catch (err) {
-      console.error('Failed to copy:', err)
-    }
-  }
 
   const handleCopyWorkflow = async () => {
     try {
@@ -247,9 +243,8 @@ const CodeGenerator = ({ username, contributionData }) => {
   }
 
   const handleCopyReadme = async () => {
-    const snippet = buildReadmeSnippet()
     try {
-      await navigator.clipboard.writeText(snippet)
+      await navigator.clipboard.writeText(buildReadmeSnippet())
       setCopiedReadme(true)
       setTimeout(() => setCopiedReadme(false), 2000)
     } catch (err) {
@@ -257,357 +252,380 @@ const CodeGenerator = ({ username, contributionData }) => {
     }
   }
 
-  const downloadAnimated = () => {
-    const speedMul = animationSpeed === 'fast' ? 0.6 : animationSpeed === 'slow' ? 1.6 : 1
-    const svgContent = buildBubbleShooterSVG({
-      username,
-      data: contributionData,
-      width: defaultViewBox.width,
-      height: defaultViewBox.height,
-      theme,
-      speedMul,
-      transparent: true
-    })
-    const blob = new Blob([svgContent], { type: 'image/svg+xml' })
+  const downloadSVGFile = (content, filename) => {
+    const blob = new Blob([content], { type: 'image/svg+xml' })
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
-  a.download = animatedFileName || `${username}-contribution-animation.svg`
+    a.download = filename
     document.body.appendChild(a)
     a.click()
     document.body.removeChild(a)
     URL.revokeObjectURL(url)
   }
 
-  const downloadStaticGraph = () => {
-    const svgContent = buildStaticGraphSVG({
-      data: contributionData,
-      width: defaultViewBox.width,
-      height: defaultViewBox.height
-    })
-    const blob = new Blob([svgContent], { type: 'image/svg+xml' })
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-  a.download = staticFileName || `${username}-contributions.svg`
-    document.body.appendChild(a)
-    a.click()
-    document.body.removeChild(a)
-    URL.revokeObjectURL(url)
-  }
+  const totalContributions = contributionData ? contributionData.flat().reduce((sum, d) => sum + d.count, 0) : 0
 
   return (
-    <section className="py-6">
-      <div className="container mx-auto px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="max-w-6xl mx-auto"
-        >
-          {/* Section header */}
-          <div className="text-center mb-6">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2">
-              🎨 Customize & Export
-            </h2>
-            <p className="text-lg text-gray-600">
-              Get your animated SVG for README
+    <section className="py-2 space-y-6">
+      {/* Overview Stats Bar */}
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="glass-card border border-slate-200 dark:border-slate-800 p-4 flex flex-wrap items-center justify-between gap-3"
+      >
+        <div className="flex items-center space-x-3">
+          <div className="w-8 h-8 rounded-md bg-emerald-100 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-bold text-sm border border-emerald-300 dark:border-emerald-500/30">
+            📊
+          </div>
+          <div>
+            <h3 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white">
+              {username}&apos;s Contribution Graph
+            </h3>
+            <p className="text-xs text-slate-500 dark:text-slate-400">
+              {totalContributions.toLocaleString()} contributions across 53 weeks
             </p>
           </div>
+        </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* Customization Panel */}
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              viewport={{ once: true }}
-              className="card space-y-6 min-h-[600px]"
-            >
-              <div className="flex items-center space-x-3 mb-6">
-                <Settings className="w-6 h-6 text-blue-500" />
-                <h3 className="text-2xl font-bold text-gray-800">Customization</h3>
-              </div>
+        <div>
+          <span className="px-2.5 py-1 bg-slate-100 dark:bg-slate-800 text-emerald-600 dark:text-emerald-400 border border-slate-200 dark:border-slate-700 rounded text-xs font-medium">
+            Real Data Loaded
+          </span>
+        </div>
+      </motion.div>
 
-
-
-              {/* Non-contribution bubble color */}
-              <div className="space-y-3">
-                <label className="block text-gray-700 font-medium">No-contribution Bubble Color</label>
-                <div className="flex items-center gap-3">
-                  <input
-                    type="color"
-                    value={noContributionColor}
-                    onChange={(e) => setNoContributionColor(e.target.value)}
-                    className="w-10 h-10 p-0 border rounded"
-                    aria-label="Pick color for non-contribution bubbles"
-                  />
-                  <input
-                    type="text"
-                    value={noContributionColor}
-                    onChange={(e) => setNoContributionColor(e.target.value)}
-                    className="input-field flex-1"
-                    placeholder="#ebedf0"
-                  />
-                </div>
-                <div className="flex flex-wrap gap-2 mt-2">
-                  {[
-                    { label: 'GitHub Gray', value: '#ebedf0' },
-                    { label: 'Warm Gray', value: '#e5e7eb' },
-                    { label: 'Cool Gray', value: '#e2e8f0' },
-                    { label: 'Light', value: '#f3f4f6' },
-                    { label: 'Dark', value: '#cbd5e1' }
-                  ].map(p => (
-                    <button
-                      key={p.value}
-                      type="button"
-                      onClick={() => setNoContributionColor(p.value)}
-                      className="px-2 py-1 text-xs rounded border bg-white hover:bg-gray-50"
-                    >
-                      <span className="inline-block w-3 h-3 rounded-sm mr-2 align-middle" style={{ backgroundColor: p.value }} />
-                      {p.label}
-                    </button>
-                  ))}
-                </div>
-                <div className="mt-3 flex items-center gap-2">
-                  <input
-                    id="hideZero"
-                    type="checkbox"
-                    checked={hideZeroDays}
-                    onChange={(e) => setHideZeroDays(e.target.checked)}
-                    className="rounded border-gray-300"
-                  />
-                  <label htmlFor="hideZero" className="text-sm text-gray-700">Hide days with 0 contributions</label>
-                </div>
-                <p className="text-xs text-gray-500">This color is used for days with 0 contributions.</p>
-              </div>
-
-              {/* Animation Speed */}
-              <div className="space-y-3">
-                <label className="block text-gray-700 font-medium">Animation Speed</label>
-                <select
-                  value={animationSpeed}
-                  onChange={(e) => setAnimationSpeed(e.target.value)}
-                  className="input-field w-full"
-                >
-                  <option value="slow">Slow</option>
-                  <option value="normal">Normal</option>
-                  <option value="fast">Fast</option>
-                </select>
-              </div>
-
-              {/* Background option removed: animated export is always background-free */}
-
-              {/* Filenames & Download Buttons */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div className="space-y-2">
-                  <label className="block text-gray-700 text-sm">Animated filename</label>
-                  <input
-                    type="text"
-                    value={animatedFileName}
-                    onChange={(e) => setAnimatedFileName(e.target.value)}
-                    className="input-field w-full"
-                    placeholder={`${username}-contribution-animation.svg`}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <label className="block text-gray-700 text-sm">Static graph filename</label>
-                  <input
-                    type="text"
-                    value={staticFileName}
-                    onChange={(e) => setStaticFileName(e.target.value)}
-                    className="input-field w-full"
-                    placeholder={`${username}-contributions.svg`}
-                  />
-                </div>
-              </div>
-
-              {/* Download Buttons */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={downloadAnimated}
-                  className="w-full btn-secondary flex items-center justify-center space-x-2"
-                >
-                  <Download className="w-5 h-5" />
-                  <span>Download Animated</span>
-                </motion.button>
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={downloadStaticGraph}
-                  className="w-full btn-secondary flex items-center justify-center space-x-2"
-                >
-                  <Download className="w-5 h-5" />
-                  <span>Download Static Graph</span>
-                </motion.button>
-              </div>
-            </motion.div>
-
-            {/* Code Output Panel */}
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              viewport={{ once: true }}
-              className="card space-y-6 min-h-[600px]"
-            >
-              <div className="flex items-center space-x-3 mb-6">
-                <Code className="w-6 h-6 text-green-500" />
-                <h3 className="text-2xl font-bold text-gray-800">README Code</h3>
-              </div>
-
-              {/* Code display */}
-              <div className="space-y-4">
-                <div className="bg-gray-900 rounded-lg p-4 relative">
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="text-gray-400 text-sm font-mono">Markdown</span>
-                    <motion.button
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      onClick={handleCopy}
-                      className="flex items-center space-x-2 px-3 py-1 bg-gray-800 hover:bg-gray-700 rounded text-sm transition-colors"
-                    >
-                      {copied ? (
-                        <>
-                          <Check className="w-4 h-4 text-green-400" />
-                          <span className="text-green-400">Copied!</span>
-                        </>
-                      ) : (
-                        <>
-                          <Copy className="w-4 h-4" />
-                          <span>Copy</span>
-                        </>
-                      )}
-                    </motion.button>
-                  </div>
-                  <code className="text-green-400 font-mono text-sm break-all">
-                    {generateMarkdownCode()}
-                  </code>
-                </div>
-
-                {/* Instructions */}
-                <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-                  <h4 className="text-green-700 font-semibold mb-2">📝 How to embed in your README:</h4>
-                  <ol className="text-gray-700 text-sm space-y-2 list-decimal list-inside">
-                    <li>Click <strong>"Download SVG"</strong> above to get your animated file</li>
-                    <li>Save it as <code className="bg-gray-100 px-1 rounded text-xs">{username}-contribution-animation.svg</code> in your repository root</li>
-                    <li>Copy the markdown code above and paste it in your README.md</li>
-                    <li>Commit and push both files to your repository</li>
-                    <li>🎉 Your animated contribution graph will appear in your README!</li>
-                  </ol>
-                  
-                  <div className="mt-3 p-2 bg-yellow-50 border border-yellow-200 rounded text-xs">
-                    <strong>💡 Tip:</strong> The SVG contains real animation with your actual contribution data, just like the snake animation!
-                  </div>
-                </div>
-
-
-              </div>
-            </motion.div>
+      {/* Live Preview Container (Full Width Hero) */}
+      <motion.div
+        initial={{ opacity: 0, y: 15 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.1 }}
+        className="glass-card border border-slate-200 dark:border-slate-800 p-4 sm:p-5 space-y-3"
+      >
+        <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-200 dark:border-slate-800">
+          <div className="flex items-center space-x-2">
+            <Eye className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+            <h4 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white">Live Animation Preview</h4>
           </div>
 
-          {/* Full-width Live Preview below both containers */}
-          <div className="mt-10">
-            <h4 className="text-gray-800 font-semibold mb-3">Live Preview</h4>
-            <div className="border border-gray-200 rounded-lg bg-white p-3 w-full">
-              <div dangerouslySetInnerHTML={{ __html: generateSvgCode() }} />
+          {/* Theme switcher for live preview */}
+          <div className="flex items-center gap-2">
+            <div className="flex items-center bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-md p-0.5">
+              <button
+                type="button"
+                onClick={() => setPreviewThemeMode('dark')}
+                className={`flex items-center gap-1 px-2.5 py-1 rounded text-xs font-medium transition-all ${
+                  previewThemeMode === 'dark' ? 'bg-slate-800 text-white' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
+                }`}
+              >
+                <Moon className="w-3 h-3" />
+                <span>Dark</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setPreviewThemeMode('light')}
+                className={`flex items-center gap-1 px-2.5 py-1 rounded text-xs font-medium transition-all ${
+                  previewThemeMode === 'light' ? 'bg-white text-slate-900 font-semibold' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
+                }`}
+              >
+                <Sun className="w-3 h-3" />
+                <span>Light</span>
+              </button>
             </div>
-            <p className="text-xs text-gray-500 mt-2">Preview uses the same SVG you’ll download.</p>
+          </div>
+        </div>
+
+        {/* SVG Display Stage */}
+        <div 
+          className={`rounded-md p-4 sm:p-6 flex items-center justify-center overflow-x-auto transition-colors duration-300 border ${
+            previewThemeMode === 'dark' 
+              ? 'bg-[#0d1117] border-slate-800' 
+              : 'bg-white border-slate-200'
+          }`}
+        >
+          <div 
+            className="w-full max-w-5xl"
+            dangerouslySetInnerHTML={{ 
+              __html: buildBubbleShooterSVG({ 
+                data: contributionData, 
+                speedScale: speedMul, 
+                isDark: previewThemeMode === 'dark',
+                transparent: true 
+              }) 
+            }} 
+          />
+        </div>
+      </motion.div>
+
+      {/* Main Grid: Customization Panel + Export / Workflow Code */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
+        {/* Customization Settings (5 Cols) */}
+        <motion.div
+          initial={{ opacity: 0, x: -10 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.15 }}
+          className="lg:col-span-5 glass-card border border-slate-200 dark:border-slate-800 space-y-4"
+        >
+          <div className="flex items-center space-x-2 pb-2.5 border-b border-slate-200 dark:border-slate-800">
+            <Settings className="w-4 h-4 text-teal-600 dark:text-teal-400" />
+            <h4 className="text-sm font-bold text-slate-900 dark:text-white">Customization</h4>
           </div>
 
-          {/* Automate with GitHub Actions (for users of the website) */}
-          <div className="mt-10">
-            <h4 className="text-gray-800 font-semibold mb-3">🚀 Automate in your own repo (Daily Auto-Updates)</h4>
-            <div className="border border-gray-200 rounded-lg bg-white p-4 w-full space-y-4">
-              <ol className="text-gray-700 text-sm space-y-3 list-decimal list-inside">
-                <li>
-                  In your repository, create <code className="bg-gray-100 px-1.5 py-0.5 rounded text-xs font-mono text-purple-700">.github/workflows/generate-contribution-animation.yml</code> and paste the workflow below:
-                </li>
-              </ol>
+          {/* Preset Theme Picker */}
+          <div className="space-y-2">
+            <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
+              <Palette className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+              <span>Color Themes</span>
+            </label>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5">
+              {THEME_PRESETS.map((t) => (
+                <button
+                  key={t.id}
+                  type="button"
+                  onClick={() => setSelectedTheme(t)}
+                  className={`p-2 rounded-md border text-left transition-all flex items-center space-x-2 active:scale-95 ${
+                    selectedTheme.id === t.id
+                      ? 'bg-emerald-50 dark:bg-emerald-500/10 border-emerald-500 text-emerald-900 dark:text-white font-medium'
+                      : 'bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:border-slate-300 dark:hover:border-slate-700'
+                  }`}
+                >
+                  <span
+                    className="w-3 h-3 rounded-full flex-shrink-0"
+                    style={{ backgroundColor: t.previewDot }}
+                  />
+                  <span className="text-xs truncate">{t.name}</span>
+                </button>
+              ))}
+            </div>
+          </div>
 
-              <div className="bg-gray-900 rounded-lg p-3">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-gray-400 text-xs font-mono">.github/workflows/generate-contribution-animation.yml</span>
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
+          {/* Animation Speed Selector */}
+          <div className="space-y-2">
+            <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
+              <Gauge className="w-3.5 h-3.5 text-cyan-600 dark:text-cyan-400" />
+              <span>Speed</span>
+            </label>
+            <div className="grid grid-cols-3 gap-1.5">
+              {[
+                { id: 'fast', label: 'Fast (12s)', speed: 'fast' },
+                { id: 'normal', label: 'Normal (20s)', speed: 'normal' },
+                { id: 'slow', label: 'Relaxed (30s)', speed: 'slow' },
+              ].map(s => (
+                <button
+                  key={s.id}
+                  type="button"
+                  onClick={() => setAnimationSpeed(s.speed)}
+                  className={`py-1.5 px-2 rounded-md border text-xs font-medium transition-all text-center active:scale-95 ${
+                    animationSpeed === s.speed
+                      ? 'bg-cyan-50 dark:bg-cyan-500/15 border-cyan-500 text-cyan-900 dark:text-cyan-200 font-semibold'
+                      : 'bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
+                  }`}
+                >
+                  {s.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Zero days checkbox */}
+          <div className="pt-1 flex items-center space-x-2">
+            <input
+              id="hideZero"
+              type="checkbox"
+              checked={hideZeroDays}
+              onChange={(e) => setHideZeroDays(e.target.checked)}
+              className="w-3.5 h-3.5 rounded border-slate-300 dark:border-slate-700 text-emerald-600 focus:ring-emerald-500"
+            />
+            <label htmlFor="hideZero" className="text-xs text-slate-700 dark:text-slate-300 cursor-pointer">
+              Hide zero-contribution bubbles
+            </label>
+          </div>
+
+          {/* Direct Downloads */}
+          <div className="pt-3 border-t border-slate-200 dark:border-slate-800 space-y-2">
+            <p className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+              Download SVG Files
+            </p>
+            <div className="grid grid-cols-2 gap-2">
+              <button
+                type="button"
+                onClick={() => downloadSVGFile(
+                  buildBubbleShooterSVG({ data: contributionData, speedScale: speedMul, isDark: false, transparent: true }),
+                  `${username}-contribution-animation.svg`
+                )}
+                className="btn-secondary py-1.5 text-xs flex items-center justify-center space-x-1.5"
+              >
+                <Download className="w-3.5 h-3.5 text-amber-500" />
+                <span>Light SVG</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => downloadSVGFile(
+                  buildBubbleShooterSVG({ data: contributionData, speedScale: speedMul, isDark: true, transparent: true }),
+                  `${username}-contribution-animation-dark.svg`
+                )}
+                className="btn-secondary py-1.5 text-xs flex items-center justify-center space-x-1.5"
+              >
+                <Download className="w-3.5 h-3.5 text-indigo-500" />
+                <span>Dark SVG</span>
+              </button>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Integration & README Snippets (7 Cols) */}
+        <motion.div
+          initial={{ opacity: 0, x: 10 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.15 }}
+          className="lg:col-span-7 glass-card border border-slate-200 dark:border-slate-800 space-y-3 flex flex-col justify-between"
+        >
+          <div>
+            {/* Tabs Header */}
+            <div className="flex items-center justify-between pb-2.5 border-b border-slate-200 dark:border-slate-800">
+              <div className="flex items-center space-x-1.5">
+                <button
+                  type="button"
+                  onClick={() => setActiveTab('workflow')}
+                  className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-md text-xs font-semibold transition-all ${
+                    activeTab === 'workflow'
+                      ? 'bg-emerald-100 dark:bg-emerald-500/20 text-emerald-800 dark:text-emerald-400 border border-emerald-300 dark:border-emerald-500/30'
+                      : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
+                  }`}
+                >
+                  <Terminal className="w-3.5 h-3.5" />
+                  <span>1. GitHub Actions (Automated)</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setActiveTab('readme')}
+                  className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-md text-xs font-semibold transition-all ${
+                    activeTab === 'readme'
+                      ? 'bg-emerald-100 dark:bg-emerald-500/20 text-emerald-800 dark:text-emerald-400 border border-emerald-300 dark:border-emerald-500/30'
+                      : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
+                  }`}
+                >
+                  <Code className="w-3.5 h-3.5" />
+                  <span>2. README Markdown</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Tab 1: Workflow Code */}
+            {activeTab === 'workflow' && (
+              <div className="mt-3 space-y-2.5">
+                <div className="flex items-center justify-between text-xs">
+                  <span className="font-mono text-slate-500 dark:text-slate-400 text-[11px]">
+                    .github/workflows/generate-contribution-animation.yml
+                  </span>
+                  <button
+                    type="button"
                     onClick={handleCopyWorkflow}
-                    className="px-2.5 py-1 bg-blue-600 hover:bg-blue-500 rounded text-xs text-white font-medium"
+                    className="flex items-center space-x-1 px-2.5 py-1 bg-emerald-600 hover:bg-emerald-500 text-white rounded-md text-xs font-medium transition-all active:scale-95"
                   >
-                    {copiedWorkflow ? 'Copied YAML!' : 'Copy Workflow YAML'}
-                  </motion.button>
+                    {copiedWorkflow ? (
+                      <>
+                        <Check className="w-3.5 h-3.5" />
+                        <span>Copied!</span>
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="w-3.5 h-3.5" />
+                        <span>Copy Workflow</span>
+                      </>
+                    )}
+                  </button>
                 </div>
-                <pre className="text-gray-100 text-[11px] leading-4 overflow-auto"><code>{generateWorkflowYAML()}</code></pre>
+
+                <div className="bg-slate-900 dark:bg-slate-950 rounded-md p-3 border border-slate-800 overflow-hidden">
+                  <pre className="text-[11px] font-mono text-emerald-400 leading-relaxed overflow-x-auto max-h-64">
+                    <code>{generateWorkflowYAML()}</code>
+                  </pre>
+                </div>
+
+                <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                  Runs daily at midnight UTC to keep your README animation updated automatically.
+                </p>
               </div>
+            )}
 
-              <ol start={2} className="text-gray-700 text-sm space-y-3 list-decimal list-inside">
-                <li>
-                  Add this snippet to your <code className="bg-gray-100 px-1 rounded text-xs">README.md</code>:
-                </li>
-              </ol>
-
-              <div className="bg-gray-900 rounded-lg p-3">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-gray-400 text-xs font-mono">README snippet</span>
-                  <div className="flex items-center gap-2">
-                    <div className="inline-flex rounded overflow-hidden border border-gray-700">
-                      <button
-                        type="button"
-                        onClick={() => setReadmeMode('auto')}
-                        className={`px-2 py-1 text-xs ${readmeMode === 'auto' ? 'bg-gray-700 text-gray-100' : 'bg-gray-800 text-gray-300 hover:bg-gray-700'}`}
-                        title="Auto (light + dark)"
-                      >Auto (Dark+Light)</button>
-                      <button
-                        type="button"
-                        onClick={() => setReadmeMode('light')}
-                        className={`px-2 py-1 text-xs border-l border-gray-700 ${readmeMode === 'light' ? 'bg-gray-700 text-gray-100' : 'bg-gray-800 text-gray-300 hover:bg-gray-700'}`}
-                        title="Light only"
-                      >Light</button>
-                      <button
-                        type="button"
-                        onClick={() => setReadmeMode('dark')}
-                        className={`px-2 py-1 text-xs border-l border-gray-700 ${readmeMode === 'dark' ? 'bg-gray-700 text-gray-100' : 'bg-gray-800 text-gray-300 hover:bg-gray-700'}`}
-                        title="Dark only"
-                      >Dark</button>
-                    </div>
-                    <motion.button
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      onClick={handleCopyReadme}
-                      className="px-2.5 py-1 bg-green-600 hover:bg-green-500 rounded text-xs text-white font-medium"
+            {/* Tab 2: README Code */}
+            {activeTab === 'readme' && (
+              <div className="mt-3 space-y-2.5">
+                <div className="flex items-center justify-between text-xs">
+                  <div className="flex items-center bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-md p-0.5">
+                    <button
+                      type="button"
+                      onClick={() => setReadmeMode('auto')}
+                      className={`px-2 py-0.5 rounded text-[10px] font-medium ${
+                        readmeMode === 'auto' ? 'bg-white dark:bg-slate-800 text-emerald-700 dark:text-emerald-300 font-semibold' : 'text-slate-600 dark:text-slate-400'
+                      }`}
                     >
-                      {copiedReadme ? 'Copied!' : 'Copy Snippet'}
-                    </motion.button>
+                      Auto Light/Dark
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setReadmeMode('dark')}
+                      className={`px-2 py-0.5 rounded text-[10px] font-medium ${
+                        readmeMode === 'dark' ? 'bg-white dark:bg-slate-800 text-indigo-700 dark:text-indigo-300 font-semibold' : 'text-slate-600 dark:text-slate-400'
+                      }`}
+                    >
+                      Dark Only
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setReadmeMode('light')}
+                      className={`px-2 py-0.5 rounded text-[10px] font-medium ${
+                        readmeMode === 'light' ? 'bg-white dark:bg-slate-800 text-amber-700 dark:text-amber-300 font-semibold' : 'text-slate-600 dark:text-slate-400'
+                      }`}
+                    >
+                      Light Only
+                    </button>
                   </div>
+
+                  <button
+                    type="button"
+                    onClick={handleCopyReadme}
+                    className="flex items-center space-x-1 px-2.5 py-1 bg-emerald-600 hover:bg-emerald-500 text-white rounded-md text-xs font-medium transition-all active:scale-95"
+                  >
+                    {copiedReadme ? (
+                      <>
+                        <Check className="w-3.5 h-3.5" />
+                        <span>Copied!</span>
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="w-3.5 h-3.5" />
+                        <span>Copy Markdown</span>
+                      </>
+                    )}
+                  </button>
                 </div>
-                <pre className="text-green-200 text-[11px] leading-4 overflow-auto"><code>{buildReadmeSnippet()}</code></pre>
+
+                <div className="bg-slate-900 dark:bg-slate-950 rounded-md p-3 border border-slate-800 overflow-hidden">
+                  <pre className="text-[12px] font-mono text-cyan-300 leading-relaxed overflow-x-auto max-h-64">
+                    <code>{buildReadmeSnippet()}</code>
+                  </pre>
+                </div>
+
+                <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                  Paste this into your profile <code className="font-mono text-slate-700 dark:text-slate-300">README.md</code>.
+                </p>
               </div>
-
-              <ol start={3} className="text-gray-700 text-sm space-y-3 list-decimal list-inside">
-                <li>
-                  Check repository permissions: Go to <strong>Settings &gt; Actions &gt; General &gt; Workflow permissions</strong> and select <strong>Read and write permissions</strong>.
-                </li>
-                <li>
-                  Commit and push. The GitHub Action will automatically run every day at midnight (UTC) and on push! 🎉
-                </li>
-              </ol>
-
-              <div className="text-xs text-gray-500 pt-2 border-t border-gray-100">
-                <p className="font-semibold text-gray-600 mb-1">💡 Tips:</p>
-                <ul className="list-disc list-inside space-y-1">
-                  <li>No Personal Access Token (PAT) needed — uses GitHub&apos;s built-in token.</li>
-                  <li>Generates and updates both light and dark mode SVGs automatically.</li>
-                </ul>
-              </div>
-
-            </div>
+            )}
           </div>
 
-          
-
+          {/* Quick Setup Card */}
+          <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded-md p-3 text-xs text-slate-600 dark:text-slate-300 space-y-1">
+            <p className="font-semibold text-slate-900 dark:text-white">
+              Quick Setup:
+            </p>
+            <ol className="list-decimal list-inside space-y-0.5 text-slate-600 dark:text-slate-400 text-[11px]">
+              <li>Commit workflow file into <code className="font-mono text-slate-700 dark:text-slate-300">.github/workflows/</code></li>
+              <li>Paste markdown snippet into <code className="font-mono text-slate-700 dark:text-slate-300">README.md</code></li>
+            </ol>
+          </div>
         </motion.div>
       </div>
     </section>

@@ -1,157 +1,123 @@
 import React from 'react'
 import { motion } from 'framer-motion'
-import { Github, Heart, Star, Coffee } from 'lucide-react'
+import { Github, Star, Coffee, Heart, Shield, Code, Sparkles, Zap, Palette } from 'lucide-react'
 
 const Footer = () => {
   return (
-    <footer className="py-8 border-t border-gray-200 bg-white">
-      <div className="container mx-auto px-4">
+    <footer className="mt-16 border-t border-slate-200 dark:border-slate-800 bg-white/90 dark:bg-slate-950/90 backdrop-blur-xl transition-colors duration-300">
+      <div className="container mx-auto px-4 py-12">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="text-center space-y-6"
+          className="space-y-10"
         >
-          {/* Main footer content */}
-          <div className="space-y-4">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              viewport={{ once: true }}
-            >
-              <h3 className="text-3xl font-bold text-gradient mb-2">
-                Contribution Animation
-              </h3>
-              <p className="text-gray-600 max-w-2xl mx-auto">
-                Turn your GitHub contribution graph into a playful bubble-shooter style animation.
-                Open source, free forever, and built with love for the developer community.
+          {/* Features Highlights Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 max-w-5xl mx-auto">
+            <div className="glass-card border border-slate-200 dark:border-slate-800 p-4 space-y-2 hover:border-emerald-500/30 transition-all">
+              <div className="w-8 h-8 rounded-md bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-bold">
+                <Zap className="w-4 h-4" />
+              </div>
+              <h4 className="font-bold text-slate-900 dark:text-white text-sm">Pure Animated SVG</h4>
+              <p className="text-slate-600 dark:text-slate-400 text-xs leading-relaxed">
+                Native declarative animations that run inside GitHub profile READMEs with zero JavaScript runtime.
               </p>
-            </motion.div>
+            </div>
 
-            {/* Action buttons */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              viewport={{ once: true }}
-              className="flex flex-wrap justify-center gap-4"
-            >
-              <motion.a
+            <div className="glass-card border border-slate-200 dark:border-slate-800 p-4 space-y-2 hover:border-teal-500/30 transition-all">
+              <div className="w-8 h-8 rounded-md bg-teal-500/15 text-teal-600 dark:text-teal-400 flex items-center justify-center font-bold">
+                <Sparkles className="w-4 h-4" />
+              </div>
+              <h4 className="font-bold text-slate-900 dark:text-white text-sm">Lightweight (~180 KB)</h4>
+              <p className="text-slate-600 dark:text-slate-400 text-xs leading-relaxed">
+                Aggressively optimized keyframe animations and coordinate compression for instant loading on any device.
+              </p>
+            </div>
+
+            <div className="glass-card border border-slate-200 dark:border-slate-800 p-4 space-y-2 hover:border-cyan-500/30 transition-all">
+              <div className="w-8 h-8 rounded-md bg-cyan-500/15 text-cyan-600 dark:text-cyan-400 flex items-center justify-center font-bold">
+                <Palette className="w-4 h-4" />
+              </div>
+              <h4 className="font-bold text-slate-900 dark:text-white text-sm">Dark & Light Auto Sync</h4>
+              <p className="text-slate-600 dark:text-slate-400 text-xs leading-relaxed">
+                Generates dual-theme SVGs with <code className="text-cyan-600 dark:text-cyan-300 font-mono text-[10px]">&lt;picture&gt;</code> tags that automatically adapt to viewer system settings.
+              </p>
+            </div>
+          </div>
+
+          {/* Call to action & Socials */}
+          <div className="text-center space-y-4 max-w-xl mx-auto">
+            <div className="flex flex-wrap justify-center gap-3">
+              <a
                 href="https://github.com/Man0dya/Readme-Contribution-Graph-Generator"
                 target="_blank"
                 rel="noopener noreferrer"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="btn-secondary flex items-center space-x-2"
+                className="btn-secondary py-2 px-4 text-xs flex items-center space-x-2"
               >
-                <Github className="w-5 h-5" />
-                <span>View on GitHub</span>
-              </motion.a>
+                <Github className="w-4 h-4 text-slate-300" />
+                <span>GitHub Repository</span>
+              </a>
 
-              <motion.a
+              <a
                 href="https://github.com/Man0dya/Readme-Contribution-Graph-Generator"
                 target="_blank"
                 rel="noopener noreferrer"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="btn-secondary flex items-center space-x-2"
+                className="btn-secondary py-2 px-4 text-xs flex items-center space-x-2"
               >
-                <Star className="w-5 h-5" />
-                <span>Star this Project</span>
-              </motion.a>
+                <Star className="w-4 h-4 text-amber-400 fill-amber-400" />
+                <span>Star on GitHub</span>
+              </a>
 
-              <motion.a
+              <a
                 href="https://buymeacoffee.com/Man0dya"
                 target="_blank"
                 rel="noopener noreferrer"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="btn-primary flex items-center space-x-2"
+                className="btn-primary py-2 px-4 text-xs flex items-center space-x-2"
               >
-                <Coffee className="w-5 h-5" />
+                <Coffee className="w-4 h-4" />
                 <span>Buy me a coffee</span>
-              </motion.a>
-            </motion.div>
-
-            {/* Features grid */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.6 }}
-              viewport={{ once: true }}
-              className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto"
-            >
-              <div className="bg-white border border-gray-200 shadow-sm p-6 rounded-xl">
-                <div className="text-2xl mb-3">⚡</div>
-                <h4 className="font-semibold text-gray-800 mb-2">Precise Animations</h4>
-                <p className="text-gray-600 text-sm">
-                  Every shot targets your actual contribution data with pixel-perfect accuracy
-                </p>
-              </div>
-
-              <div className="bg-white border border-gray-200 shadow-sm p-6 rounded-xl">
-                <div className="text-2xl mb-3">⚡</div>
-                <h4 className="font-semibold text-gray-800 mb-2">Lightning Fast</h4>
-                <p className="text-gray-600 text-sm">
-                  Optimized SVG animations that load instantly and run smoothly on any device
-                </p>
-              </div>
-
-              <div className="bg-white border border-gray-200 shadow-sm p-6 rounded-xl">
-                <div className="text-2xl mb-3">🎨</div>
-                <h4 className="font-semibold text-gray-800 mb-2">Fully Customizable</h4>
-                <p className="text-gray-600 text-sm">
-                  Multiple themes, sizes, and animation speeds to match your style perfectly
-                </p>
-              </div>
-            </motion.div>
+              </a>
+            </div>
           </div>
 
-          {/* Bottom section */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.8 }}
-            viewport={{ once: true }}
-            className="pt-8 border-t border-gray-200 space-y-4"
-          >
+          {/* Bottom Copyright & Links */}
+          <div className="pt-8 border-t border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between text-slate-500 dark:text-slate-400 text-xs gap-4">
+            <div className="flex items-center space-x-1.5">
+              <span>Crafted with</span>
+              <Heart className="w-3.5 h-3.5 text-rose-500 fill-rose-500 inline" />
+              <span>for the open-source community</span>
+            </div>
 
-
-            <div className="flex flex-wrap justify-center items-center gap-6 text-gray-500 text-sm">
-              <span>© 2026 Contribution Animation</span>
-              <span>•</span>
+            <div className="flex flex-wrap items-center gap-4 text-slate-600 dark:text-slate-400">
               <a 
                 href="https://github.com/Man0dya/Readme-Contribution-Graph-Generator/blob/main/LICENSE" 
-                className="hover:text-gray-800 transition-colors"
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
               >
                 MIT License
               </a>
               <span>•</span>
               <a 
                 href="https://github.com/Man0dya/Readme-Contribution-Graph-Generator/issues" 
-                className="hover:text-gray-800 transition-colors"
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
               >
                 Report Issues
               </a>
               <span>•</span>
               <a 
                 href="https://github.com/Man0dya/Readme-Contribution-Graph-Generator/discussions" 
-                className="hover:text-gray-800 transition-colors"
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
               >
                 Discussions
               </a>
             </div>
-
-            {/* Tech stack */}
-            <div className="text-gray-400 text-xs">
-              <p>Built with React, Vite, Tailwind CSS, and Framer Motion</p>
-            </div>
-            
-          </motion.div>
-
-
+          </div>
         </motion.div>
       </div>
     </footer>
