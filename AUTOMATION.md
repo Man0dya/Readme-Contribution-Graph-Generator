@@ -17,72 +17,69 @@ The automation creates multiple SVG files:
 - `contribution-animation.svg` - Generic filename  
 - `github-contribution-animation.svg` - Snake-style naming
 
-## 🧩 Use this in your own repository (copy-paste setup)
+## 🧩 How to Automate in Your Own Profile Repository
 
-You can automate this animation in any repository. Here’s the simplest setup:
+You can automate this in any repository (like your special `username/username` profile repo).
 
-1) Create the workflow file in your repo
+### Option 1: Using the GitHub Action (Recommended — No script files needed!)
 
-Create the path `.github/workflows/generate-contribution-animation.yml` and paste:
+Create `.github/workflows/generate-contribution-animation.yml` in your repository:
 
 ```yaml
 name: Generate Contribution Animation
 
 on:
-   schedule:
-      - cron: '0 0 * * *' # Daily at 00:00 UTC
-   workflow_dispatch:
-   push:
-      branches: [ main ]
+  schedule:
+    - cron: '0 0 * * *' # Daily at 00:00 UTC
+  workflow_dispatch:
+  push:
+    branches: [ main ]
 
 permissions:
-   contents: write
-
-concurrency:
-   group: generate-contribution-animation
-   cancel-in-progress: false
+  contents: write
 
 jobs:
-   build:
-      runs-on: ubuntu-latest
-      steps:
-         - name: Checkout repository
-            uses: actions/checkout@v4
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-         - name: Setup Node.js
-            uses: actions/setup-node@v4
-            with:
-               node-version: '20'
+      - name: Generate Contribution Animation
+        uses: Man0dya/Readme-Contribution-Graph-Generator@main
+        with:
+          github_user_name: ${{ github.repository_owner }}
 
-         - name: Generate animated SVGs
-            run: node scripts/generate-svg.cjs
-            env:
-               GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-         - name: Commit and push updated SVGs
-            uses: stefanzweifel/git-auto-commit-action@v5
-            with:
-               commit_message: "chore: update contribution animation [skip ci]"
-               file_pattern: "*-contribution-animation.svg contribution-animation.svg github-contribution-animation.svg"
+      - name: Commit and push updated SVGs
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: update contribution animation [skip ci]"
+          file_pattern: "*-contribution-animation*.svg contribution-animation*.svg github-contribution-animation*.svg"
 ```
 
-2) Add the script folder
+### Option 2: Using the Standalone Script
 
-Copy the `scripts/generate-svg.cjs` file from this repo into your repo at `scripts/generate-svg.cjs`.
+1. Copy `scripts/generate-svg.cjs` from this repo into your repository at `scripts/generate-svg.cjs`.
+2. Create `.github/workflows/generate-contribution-animation.yml` and run `node scripts/generate-svg.cjs` with `env: GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}`.
 
-3) Reference the SVG in your README
+---
 
+## 🖼️ Embed in your README
+
+Add either the auto dark/light picture tag or the direct markdown image:
+
+**Auto Light/Dark Mode:**
 ```markdown
-![Contribution Animation](github-contribution-animation.svg)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="github-contribution-animation-dark.svg" />
+  <img alt="Contribution Animation" src="github-contribution-animation.svg" />
+</picture>
 ```
 
-4) Commit and push. Then check the Actions tab for the job run. The SVGs will be created/updated automatically.
-
-Notes
-- No extra PAT is needed; the built-in `${{ secrets.GITHUB_TOKEN }}` is sufficient for committing the generated files.
-- The script infers the username from the repo owner automatically.
-- The animation updates daily via schedule and on each push to main.
-- You can change the filename in README to `${yourname}-contribution-animation.svg` if you prefer the personalized output.
+**Single Theme:**
+```markdown
+![My Contribution Animation](github-contribution-animation.svg)
+```
 
 ## 🔧 Setup Instructions
 
@@ -114,12 +111,12 @@ Notes
 Simply reference the animation from this repo in your README:
 
 ```markdown
-![Contribution Animation](https://raw.githubusercontent.com/Man0dya/contribution-canon/main/Man0dya-contribution-animation.svg)
+![Contribution Animation](https://raw.githubusercontent.com/Man0dya/Readme-Contribution-Graph-Generator/main/Man0dya-contribution-animation.svg)
 ```
 
 ## ⚙️ Customization
 
-Edit `scripts/generate-svg.js` to customize:
+Edit `scripts/generate-svg.cjs` to customize:
 - 🎨 **Colors**: Modify the `getContributionColor()` function
 - ⏱️ **Animation speed**: Adjust `animationDuration` calculation  
 - 📏 **Size**: Change `svgWidth` and `svgHeight`

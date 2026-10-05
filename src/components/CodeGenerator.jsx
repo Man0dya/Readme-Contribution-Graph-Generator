@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Copy, Check, Download, Code, Settings } from 'lucide-react'
-import generatorScript from '../../scripts/generate-svg.cjs?raw'
 
 const CodeGenerator = ({ username, contributionData }) => {
   const [copied, setCopied] = useState(false)
   const [copiedWorkflow, setCopiedWorkflow] = useState(false)
-  const [copiedScript, setCopiedScript] = useState(false)
   const [copiedReadme, setCopiedReadme] = useState(false)
   const [animationSpeed, setAnimationSpeed] = useState('normal')
   const [noContributionColor, setNoContributionColor] = useState('#ebedf0')
@@ -62,13 +60,10 @@ const CodeGenerator = ({ username, contributionData }) => {
     return colors[level] || colors[0]
   }
 
-  // Build Bubble Shooter style SVG string using SMIL animations
-  const buildBubbleShooterSVG = ({ username, data, width, height, theme, speedMul, transparent = false }) => {
-    // Tight layout to match static graph: no outer margins; viewBox fits grid + shooter only
-    const margin = { left: 0, top: 0, right: 0, bottom: 0 }
+  // Build Bubble Shooter style SVG string using SMIL animations (optimized)
+  const buildBubbleShooterSVG = ({ username, data, width, height, theme, speedMul, transparent = false, maxTargets = 75 }) => {
     const weeks = data.length
     const days = 7
-    // Match static graph sizing logic
     const cell = Math.max(10, Math.min(14, Math.floor(width / Math.max(30, weeks))))
     const radius = Math.floor(cell * 0.45)
     const gridW = weeks * cell
@@ -76,7 +71,7 @@ const CodeGenerator = ({ username, contributionData }) => {
     const originX = 0
     const originY = 0
 
-    const shooterX = originX + gridW / 2
+    const shooterX = Number((originX + gridW / 2).toFixed(1))
     const shooterYOffset = 26
     const shooterY = originY + gridH + shooterYOffset
 
@@ -84,77 +79,74 @@ const CodeGenerator = ({ username, contributionData }) => {
     const bubbles = []
     data.forEach((week, wi) => {
       week.forEach((day, di) => {
-        const cx = originX + wi * cell + cell / 2
-        const cy = originY + di * cell + cell / 2
+        const cx = Number((originX + wi * cell + cell / 2).toFixed(1))
+        const cy = Number((originY + di * cell + cell / 2).toFixed(1))
         const isGreen = day.count > 0
         bubbles.push({ cx, cy, level: day.level, isGreen })
       })
     })
 
-    // Targets are only green bubbles (contribution days)
-    const targets = bubbles.filter(b => b.isGreen)
-    // Safety cap to avoid huge files
-    const MAX_TARGETS = 220
-    const prunedTargets = targets.slice(0, MAX_TARGETS)
+    // Sample targets evenly across active days
+    const allActive = bubbles.filter(b => b.isGreen)
+    let prunedTargets = []
+    if (allActive.length <= maxTargets) {
+      prunedTargets = allActive
+    } else {
+      const step = allActive.length / maxTargets
+      for (let i = 0; i < maxTargets; i++) {
+        prunedTargets.push(allActive[Math.floor(i * step)])
+      }
+    }
 
-    // Timings (apply speed scale directly so fast -> shorter, slow -> longer)
-    const tShot = 0.6 * speedMul
-    const tGap = 0.25 * speedMul
-    const total = prunedTargets.length > 0 ? prunedTargets.length * (tShot + tGap) + 0.5 : 2
+    const tShot = Number((0.55 * speedMul).toFixed(2))
+    const tGap = Number((0.22 * speedMul).toFixed(2))
+    const total = prunedTargets.length > 0 ? Number((prunedTargets.length * (tShot + tGap) + 0.5).toFixed(2)) : 2
 
-    // Map targets to their shot index to drive per-bubble animations
     const shotIndexByPos = new Map()
     prunedTargets.forEach((t, i) => {
       shotIndexByPos.set(`${t.cx},${t.cy}`, i)
     })
 
-    // Grid bubbles: include all days unless hidden; embed pop + color-change animations per bubble
+    // Grid bubbles: static non-targets and animated target bubbles
     let gridStr = ''
-    bubbles.forEach((b, idx) => {
+    bubbles.forEach((b) => {
       if (hideZeroDays && !b.isGreen) return
       const fill = getContributionColorForLevel(b.level)
-      const gid = `bubble-${idx}`
-      const cid = `bubble-${idx}-c`
       const key = `${b.cx},${b.cy}`
       const shotIndex = shotIndexByPos.get(key)
 
-      let anims = `\n          <set attributeName=\"opacity\" to=\"1\" begin=\"cycle.begin\"/>\n          <set attributeName=\"r\" to=\"${radius}\" begin=\"cycle.begin\"/>\n          <set attributeName=\"fill\" to=\"${fill}\" begin=\"cycle.begin\"/>`
-      if (shotIndex !== undefined) {
-        const popUp = (radius * 1.35).toFixed(2)
-        // Pop bounce
-        anims += `\n          <animate attributeName=\"r\" from=\"${radius}\" to=\"${popUp}\" begin=\"shot-${shotIndex}.end\" dur=\"0.12s\" fill=\"freeze\"/>\n          <animate attributeName=\"r\" from=\"${popUp}\" to=\"${radius}\" begin=\"shot-${shotIndex}.end+0.12s\" dur=\"0.12s\" fill=\"freeze\"/>\n          <animate attributeName=\"opacity\" from=\"1\" to=\"0\" begin=\"shot-${shotIndex}.end+0.12s\" dur=\"0.06s\" fill=\"freeze\"/>\n          <set attributeName=\"fill\" to=\"${noContributionColor}\" begin=\"shot-${shotIndex}.end+0.19s\"/>\n          <animate attributeName=\"opacity\" from=\"0\" to=\"1\" begin=\"shot-${shotIndex}.end+0.22s\" dur=\"0.08s\" fill=\"freeze\"/>`
+      if (shotIndex === undefined) {
+        gridStr += `\n    <circle cx="${b.cx}" cy="${b.cy}" r="${radius}" fill="${fill}"/>`
+      } else {
+        const shotId = `s${shotIndex}`
+        const popUp = Number((radius * 1.35).toFixed(1))
+        gridStr += `\n    <circle cx="${b.cx}" cy="${b.cy}" r="${radius}" fill="${fill}">\n      <set attributeName="fill" to="${fill}" begin="cycle.begin"/>\n      <animate attributeName="r" values="${radius};${popUp};${radius}" keyTimes="0;0.5;1" begin="${shotId}.end" dur="0.2s" fill="freeze"/>\n      <set attributeName="fill" to="${noContributionColor}" begin="${shotId}.end+0.12s"/>\n    </circle>`
       }
-
-      gridStr += `\n      <g id=\"${gid}\">\n        <circle id=\"${cid}\" cx=\"${b.cx}\" cy=\"${b.cy}\" r=\"${radius}\" fill=\"${fill}\" opacity=\"1\">${anims}\n        </circle>\n      </g>`
     })
 
     // Bullets and pops
     let bulletsStr = ''
     let popsStr = ''
     prunedTargets.forEach((t, i) => {
-      const begin = (i * (tShot + tGap)).toFixed(3)
-      const shotId = `shot-${i}`
-        bulletsStr += `\n      <circle cx="${shooterX}" cy="${shooterY}" r="3.5" fill="${theme.shooter}" opacity="0">\n        <set attributeName="opacity" to="1" begin="cycle.begin+${begin}s"/>\n        <animate id="${shotId}" attributeName="cy" from="${shooterY}" to="${t.cy}" begin="cycle.begin+${begin}s" dur="${tShot}s" fill="freeze"/>\n        <animate attributeName="cx" from="${shooterX}" to="${t.cx}" begin="cycle.begin+${begin}s" dur="${tShot}s" fill="freeze"/>\n        <set attributeName="opacity" to="0" begin="${shotId}.end"/>\n      </circle>`
+      const begin = Number((i * (tShot + tGap)).toFixed(2))
+      const shotId = `s${i}`
+      bulletsStr += `\n    <circle cx="${shooterX}" cy="${shooterY}" r="3" fill="${theme.shooter}" opacity="0">\n      <set attributeName="opacity" to="1" begin="cycle.begin+${begin}s"/>\n      <animate id="${shotId}" attributeName="cy" from="${shooterY}" to="${t.cy}" begin="cycle.begin+${begin}s" dur="${tShot}s" fill="freeze"/>\n      <animate attributeName="cx" from="${shooterX}" to="${t.cx}" begin="cycle.begin+${begin}s" dur="${tShot}s" fill="freeze"/>\n      <set attributeName="opacity" to="0" begin="${shotId}.end"/>\n    </circle>`
 
-  // Identify target (kept for reference; color change handled inside bubble via shot index mapping)
+      const popRadius = Number((radius * 1.7).toFixed(1))
+      popsStr += `\n    <circle cx="${t.cx}" cy="${t.cy}" r="${radius}" fill="none" stroke="${theme.explosion}" stroke-width="1.5" opacity="0">\n      <set attributeName="opacity" to="1" begin="${shotId}.end"/>\n      <animate attributeName="r" from="${radius}" to="${popRadius}" begin="${shotId}.end" dur="0.25s" fill="freeze"/>\n      <animate attributeName="opacity" values="1;1;0" keyTimes="0;0.6;1" begin="${shotId}.end" dur="0.25s" fill="freeze"/>\n    </circle>`
 
-      // Explosion ring
-      popsStr += `\n      <circle cx="${t.cx}" cy="${t.cy}" r="${radius}" fill="none" stroke="${theme.explosion}" stroke-width="2" opacity="0">\n        <set attributeName="opacity" to="1" begin="${shotId}.end"/>\n        <animate attributeName="r" from="${radius}" to="${(radius * 1.8).toFixed(2)}" begin="${shotId}.end" dur="0.35s" fill="freeze"/>\n        <animate attributeName="opacity" from="1" to="0" begin="${shotId}.end" dur="0.35s" fill="freeze"/>\n      </circle>`
-
-      // Particles
-      for (let pi = 0; pi < 6; pi++) {
-        const ang = (pi * Math.PI) / 3
-        const px = (t.cx + Math.cos(ang) * (radius * 1.6)).toFixed(2)
-        const py = (t.cy + Math.sin(ang) * (radius * 1.6)).toFixed(2)
-        popsStr += `\n      <circle cx="${t.cx}" cy="${t.cy}" r="1.6" fill="#ffd700" opacity="1">\n        <animate attributeName="cx" from="${t.cx}" to="${px}" begin="${shotId}.end" dur="0.35s" fill="freeze"/>\n        <animate attributeName="cy" from="${t.cy}" to="${py}" begin="${shotId}.end" dur="0.35s" fill="freeze"/>\n        <animate attributeName="opacity" from="1" to="0" begin="${shotId}.end" dur="0.35s" fill="freeze"/>\n      </circle>`
+      for (let pi = 0; pi < 3; pi++) {
+        const ang = (pi * 2 * Math.PI) / 3
+        const px = Number((t.cx + Math.cos(ang) * (radius * 1.5)).toFixed(1))
+        const py = Number((t.cy + Math.sin(ang) * (radius * 1.5)).toFixed(1))
+        popsStr += `\n    <circle cx="${t.cx}" cy="${t.cy}" r="1.3" fill="#ffd700" opacity="0">\n      <set attributeName="opacity" to="1" begin="${shotId}.end"/>\n      <animate attributeName="cx" from="${t.cx}" to="${px}" begin="${shotId}.end" dur="0.25s" fill="freeze"/>\n      <animate attributeName="cy" from="${t.cy}" to="${py}" begin="${shotId}.end" dur="0.25s" fill="freeze"/>\n      <animate attributeName="opacity" values="1;1;0" keyTimes="0;0.5;1" begin="${shotId}.end" dur="0.25s" fill="freeze"/>\n    </circle>`
       }
     })
 
-    // Build final SVG (legend removed) with tight viewBox
-    const bgRect = transparent ? '' : `\n  <rect width=\"100%\" height=\"100%\" fill=\"${theme.background}\" rx=\"8\"/>`
+    const bgRect = transparent ? '' : `\n  <rect width="100%" height="100%" fill="${theme.background}" rx="8"/>`
     const vbW = gridW
     const vbH = gridH + shooterYOffset
-    return `<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"100%\" viewBox=\"0 0 ${vbW} ${vbH}\" preserveAspectRatio=\"xMidYMid meet\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">\n  <defs>\n    <style>\n      .title { font: 600 16px/1.2 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Ubuntu,Cantarell,'Noto Sans',sans-serif; fill: #111; }\n      .meta { font: 12px sans-serif; fill: #666; }\n    </style>\n  </defs>\n${bgRect}\n  <!-- cycle timer to orchestrate begin/end and restart -->\n  <rect id=\"cycleTimer\" x=\"-10\" y=\"-10\" width=\"1\" height=\"1\" fill=\"none\">\n    <animate id=\"cycle\" attributeName=\"x\" from=\"-10\" to=\"-9\" begin=\"0s;cycle.end+1s\" dur=\"${total}s\" fill=\"freeze\"/>\n  </rect>\n\n  <!-- shooter base -->\n  <rect x=\"${shooterX - 16}\" y=\"${shooterY - 10}\" width=\"32\" height=\"10\" rx=\"5\" fill=\"${theme.shooter}\" opacity=\"0.9\"/>\n  <polygon points=\"${shooterX - 5},${shooterY - 10} ${shooterX + 5},${shooterY - 10} ${shooterX},${shooterY - 22}\" fill=\"${theme.shooter}\"/>\n\n  <!-- grid of bubbles (top wall) -->\n  ${gridStr}\n\n  <!-- bullets -->\n  ${bulletsStr}\n\n  <!-- pops and particles -->\n  ${popsStr}\n</svg>`
+    return `<?xml version="1.0" encoding="UTF-8"?>\n<svg width="100%" viewBox="0 0 ${vbW} ${vbH}" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">\n${bgRect}\n  <!-- cycle timer -->\n  <rect id="cycleTimer" x="-10" y="-10" width="1" height="1" fill="none">\n    <animate id="cycle" attributeName="x" from="-10" to="-9" begin="0s;cycle.end+1s" dur="${total}s" fill="freeze"/>\n  </rect>\n\n  <!-- shooter base -->\n  <rect x="${shooterX - 16}" y="${shooterY - 10}" width="32" height="10" rx="5" fill="${theme.shooter}" opacity="0.9"/>\n  <polygon points="${shooterX - 5},${shooterY - 10} ${shooterX + 5},${shooterY - 10} ${shooterX},${shooterY - 22}" fill="${theme.shooter}"/>\n\n  <!-- grid of bubbles -->\n  ${gridStr}\n\n  <!-- bullets -->\n  ${bulletsStr}\n\n  <!-- pops and particles -->\n  ${popsStr}\n</svg>`
   }
 
   // Build a static contribution graph (no animation), transparent by default
@@ -200,7 +192,7 @@ const CodeGenerator = ({ username, contributionData }) => {
     return `<picture>\n  <source media="(prefers-color-scheme: dark)" srcset="${dark}" />\n  <img alt="${username}'s Contribution Animation" src="${base}" />\n</picture>`
   }
 
-  // Provide a ready-to-copy GitHub Actions workflow to auto-generate the SVG daily
+  // Provide a ready-to-copy GitHub Actions workflow using the reusable action
   const generateWorkflowYAML = () => [
     'name: Generate Contribution Animation',
     '',
@@ -216,26 +208,18 @@ const CodeGenerator = ({ username, contributionData }) => {
     '  contents: write  # required to commit the generated SVG back to the repo',
     '',
     'jobs:',
-    '  build:',
+    '  generate:',
     '    runs-on: ubuntu-latest',
     '    steps:',
-    '      - name: Checkout',
+    '      - name: Checkout repository',
     '        uses: actions/checkout@v4',
+    '',
+    '      - name: Generate Contribution Animation',
+    '        uses: Man0dya/Readme-Contribution-Graph-Generator@main',
     '        with:',
-    '          fetch-depth: 0',
+    '          github_user_name: ${{ github.repository_owner }}',
     '',
-  '      - name: Setup Node',
-    '        uses: actions/setup-node@v4',
-    '        with:',
-  "          node-version: '20'",
-    '',
-  '      - name: Generate animated SVG',
-  '        run: node scripts/generate-svg.cjs',
-  '        env:',
-  '          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}',
-  '          CONTRIBUTION_USERNAME: ${{ github.repository_owner }}',
-    '',
-  '      - name: Commit and push SVG',
+    '      - name: Commit and push SVG',
     '        uses: stefanzweifel/git-auto-commit-action@v5',
     '        with:',
     "          commit_message: 'chore: update contribution animation [skip ci]'",
@@ -259,16 +243,6 @@ const CodeGenerator = ({ username, contributionData }) => {
       setTimeout(() => setCopiedWorkflow(false), 2000)
     } catch (err) {
       console.error('Failed to copy workflow:', err)
-    }
-  }
-
-  const handleCopyScript = async () => {
-    try {
-      await navigator.clipboard.writeText(generatorScript)
-      setCopiedScript(true)
-      setTimeout(() => setCopiedScript(false), 2000)
-    } catch (err) {
-      console.error('Failed to copy script:', err)
     }
   }
 
@@ -546,33 +520,11 @@ const CodeGenerator = ({ username, contributionData }) => {
 
           {/* Automate with GitHub Actions (for users of the website) */}
           <div className="mt-10">
-            <h4 className="text-gray-800 font-semibold mb-3">Automate in your own repo</h4>
+            <h4 className="text-gray-800 font-semibold mb-3">🚀 Automate in your own repo (Daily Auto-Updates)</h4>
             <div className="border border-gray-200 rounded-lg bg-white p-4 w-full space-y-4">
               <ol className="text-gray-700 text-sm space-y-3 list-decimal list-inside">
                 <li>
-                  Create the generator script at <code className="bg-gray-100 px-1 rounded text-xs">scripts/generate-svg.cjs</code>.
-                </li>
-              </ol>
-
-              {/* Generator script content with copy button */}
-              <div className="bg-gray-900 rounded-lg p-3">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-gray-400 text-xs font-mono">scripts/generate-svg.cjs</span>
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    onClick={handleCopyScript}
-                    className="px-2 py-1 bg-gray-800 hover:bg-gray-700 rounded text-xs text-gray-100"
-                  >
-                    {copiedScript ? 'Copied!' : 'Copy script'}
-                  </motion.button>
-                </div>
-                <pre className="text-gray-100 text-[11px] leading-4 overflow-auto max-h-96"><code>{generatorScript}</code></pre>
-              </div>
-
-              <ol start={2} className="text-gray-700 text-sm space-y-3 list-decimal list-inside">
-                <li>
-                  Create the workflow file at <code className="bg-gray-100 px-1 rounded text-xs">.github/workflows/generate-contribution-animation.yml</code> and paste the content below.
+                  In your repository, create <code className="bg-gray-100 px-1.5 py-0.5 rounded text-xs font-mono text-purple-700">.github/workflows/generate-contribution-animation.yml</code> and paste the workflow below:
                 </li>
               </ol>
 
@@ -583,20 +535,17 @@ const CodeGenerator = ({ username, contributionData }) => {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={handleCopyWorkflow}
-                    className="px-2 py-1 bg-gray-800 hover:bg-gray-700 rounded text-xs text-gray-100"
+                    className="px-2.5 py-1 bg-blue-600 hover:bg-blue-500 rounded text-xs text-white font-medium"
                   >
-                    {copiedWorkflow ? 'Copied!' : 'Copy YAML'}
+                    {copiedWorkflow ? 'Copied YAML!' : 'Copy Workflow YAML'}
                   </motion.button>
                 </div>
                 <pre className="text-gray-100 text-[11px] leading-4 overflow-auto"><code>{generateWorkflowYAML()}</code></pre>
               </div>
 
-              <ol start={3} className="text-gray-700 text-sm space-y-3 list-decimal list-inside">
+              <ol start={2} className="text-gray-700 text-sm space-y-3 list-decimal list-inside">
                 <li>
-                  Commit and push both files to your repository. This will also trigger the workflow on push.
-                </li>
-                <li>
-                  Add this Markdown to your README where you want the animation to appear:
+                  Add this snippet to your <code className="bg-gray-100 px-1 rounded text-xs">README.md</code>:
                 </li>
               </ol>
 
@@ -610,7 +559,7 @@ const CodeGenerator = ({ username, contributionData }) => {
                         onClick={() => setReadmeMode('auto')}
                         className={`px-2 py-1 text-xs ${readmeMode === 'auto' ? 'bg-gray-700 text-gray-100' : 'bg-gray-800 text-gray-300 hover:bg-gray-700'}`}
                         title="Auto (light + dark)"
-                      >Auto</button>
+                      >Auto (Dark+Light)</button>
                       <button
                         type="button"
                         onClick={() => setReadmeMode('light')}
@@ -628,32 +577,29 @@ const CodeGenerator = ({ username, contributionData }) => {
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                       onClick={handleCopyReadme}
-                      className="px-2 py-1 bg-gray-800 hover:bg-gray-700 rounded text-xs text-gray-100"
+                      className="px-2.5 py-1 bg-green-600 hover:bg-green-500 rounded text-xs text-white font-medium"
                     >
-                      {copiedReadme ? 'Copied!' : 'Copy'}
+                      {copiedReadme ? 'Copied!' : 'Copy Snippet'}
                     </motion.button>
                   </div>
                 </div>
                 <pre className="text-green-200 text-[11px] leading-4 overflow-auto"><code>{buildReadmeSnippet()}</code></pre>
               </div>
 
-              <ol start={5} className="text-gray-700 text-sm space-y-3 list-decimal list-inside">
+              <ol start={3} className="text-gray-700 text-sm space-y-3 list-decimal list-inside">
                 <li>
-                  Trigger the workflow: go to the Actions tab in your repo, select
-                  <span className="mx-1 italic">Generate Contribution Animation</span>, and click <span className="italic">Run workflow</span>. Or simply push again.
+                  Check repository permissions: Go to <strong>Settings &gt; Actions &gt; General &gt; Workflow permissions</strong> and select <strong>Read and write permissions</strong>.
                 </li>
                 <li>
-                  Verify the generated SVG files appear at the repo root (e.g.,
-                  <code className="bg-gray-100 px-1 rounded text-xs ml-1">github-contribution-animation.svg</code> and <code className="bg-gray-100 px-1 rounded text-xs ml-1">github-contribution-animation-dark.svg</code>), and that your README image renders.
+                  Commit and push. The GitHub Action will automatically run every day at midnight (UTC) and on push! 🎉
                 </li>
               </ol>
 
-              <div className="text-xs text-gray-500">
-                <p>Notes:</p>
-                <ul className="list-disc list-inside mt-1 space-y-1">
-                  <li>No extra token required: the workflow uses the built‑in <code className="bg-gray-100 px-1 rounded">GITHUB_TOKEN</code>.</li>
-                  <li>If your default branch isn’t <code className="bg-gray-100 px-1 rounded">main</code>, update the workflow’s <code className="bg-gray-100 px-1 rounded">push.branches</code> accordingly.</li>
-                  <li>If branch protection blocks workflow commits, allow workflow commits or commit to another branch and reference that file in your README.</li>
+              <div className="text-xs text-gray-500 pt-2 border-t border-gray-100">
+                <p className="font-semibold text-gray-600 mb-1">💡 Tips:</p>
+                <ul className="list-disc list-inside space-y-1">
+                  <li>No Personal Access Token (PAT) needed — uses GitHub&apos;s built-in token.</li>
+                  <li>Generates and updates both light and dark mode SVGs automatically.</li>
                 </ul>
               </div>
 

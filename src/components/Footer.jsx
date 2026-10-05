@@ -39,7 +39,7 @@ const Footer = () => {
               className="flex flex-wrap justify-center gap-4"
             >
               <motion.a
-                href="https://github.com/Man0dya/contribution-canon"
+                href="https://github.com/Man0dya/Readme-Contribution-Graph-Generator"
                 target="_blank"
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.05 }}
@@ -51,7 +51,7 @@ const Footer = () => {
               </motion.a>
 
               <motion.a
-                href="https://github.com/Man0dya/contribution-canon"
+                href="https://github.com/Man0dya/Readme-Contribution-Graph-Generator"
                 target="_blank"
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.05 }}
@@ -123,21 +123,21 @@ const Footer = () => {
               <span>© 2026 Contribution Animation</span>
               <span>•</span>
               <a 
-                href="https://github.com/Man0dya/contribution-canon/blob/main/LICENSE" 
+                href="https://github.com/Man0dya/Readme-Contribution-Graph-Generator/blob/main/LICENSE" 
                 className="hover:text-gray-800 transition-colors"
               >
                 MIT License
               </a>
               <span>•</span>
               <a 
-                href="https://github.com/Man0dya/contribution-canon/issues" 
+                href="https://github.com/Man0dya/Readme-Contribution-Graph-Generator/issues" 
                 className="hover:text-gray-800 transition-colors"
               >
                 Report Issues
               </a>
               <span>•</span>
               <a 
-                href="https://github.com/Man0dya/contribution-canon/discussions/1" 
+                href="https://github.com/Man0dya/Readme-Contribution-Graph-Generator/discussions" 
                 className="hover:text-gray-800 transition-colors"
               >
                 Discussions

@@ -1,0 +1,46 @@
+name: 'Readme Contribution Graph Generator'
+description: 'Turn your GitHub contribution graph into a playful bubble-shooter animated SVG for your profile README.'
+author: 'Man0dya'
+branding:
+  icon: 'crosshair'
+  color: 'green'
+
+inputs:
+  github_user_name:
+    description: 'GitHub username to generate the contribution graph for'
+    required: true
+    default: ${{ github.repository_owner }}
+  github_token:
+    description: 'GitHub Token with read access'
+    required: false
+    default: ${{ github.token }}
+  output_dir:
+    description: 'Directory where generated SVG files will be saved'
+    required: false
+    default: '.'
+  speed:
+    description: 'Animation speed: slow, normal, or fast'
+    required: false
+    default: 'normal'
+  max_targets:
+    description: 'Max animated targets per cycle'
+    required: false
+    default: '75'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    - name: Generate Contribution Animation SVG
+      shell: bash
+      run: node "${{ github.action_path }}/scripts/generate-svg.cjs"
+      env:
+        CONTRIBUTION_USERNAME: ${{ inputs.github_user_name }}
+        GITHUB_TOKEN: ${{ inputs.github_token }}
+        OUTPUT_DIR: ${{ inputs.output_dir }}
+        ANIMATION_SPEED: ${{ inputs.speed }}
+        MAX_TARGETS: ${{ inputs.max_targets }}

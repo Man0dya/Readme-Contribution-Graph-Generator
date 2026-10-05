@@ -58,69 +58,62 @@ Commit and push. Your animated graph will appear in your README!
 
 ### 2. Recommended: Automate daily updates with GitHub Actions
 
-This keeps your graph up to date every day, with no manual steps.
+This keeps your graph up to date every day automatically.
 
 **Step-by-step instructions:**
 
-1. **Copy the generator script:**
-   
-    - Download or copy `scripts/generate-svg.cjs` from this repo or the app (see "Automate in your own repo" section).
-      
-      ![scripts](media/scripts.png)
-      
-    - Go to your repo and create a new file.
-  
-      ![scripts](media/newfile.png)
-  
-    - Paste the name 'scripts/generate-svg.cjs' at the name of the file.
-  
-    - paste the content copied from the app.
-      
-    - Commit changes
+1. **Add the GitHub Actions workflow:**
+   - In your repository (e.g. `username/username`), create `.github/workflows/generate-contribution-animation.yml`:
 
-      ![scripts](media/addcontent.png)
-  
-2. **Add the GitHub Actions workflow:**
-   
-    - Download or copy `.github/workflows/generate-contribution-animation.yml`from this repo or the app (see "Automate in your own repo" section).
-  
-       ![scripts](media/yaml.png)
-      
-    - Go to your repo and create a new file. (refer above image)
-  
-    - Paste the name `.github/workflows/generate-contribution-animation.yml` at the name of the file. 
-      
-    - paste the content copied from the app.
-  
-    - Commit changes (refer above images for these steps)
+```yaml
+name: Generate Contribution Animation
 
-3. **Add the README snippet to display your graph.**
+on:
+  schedule:
+    - cron: '0 0 * * *' # Daily at 00:00 UTC
+  workflow_dispatch:
+  push:
+    branches: [ main ]
 
-    - Download or copy README snippet from the app.
-  
-       ![scripts](media/readmesnippet.png)
-      
-    - Go to your readme and add it to your readme.
-   
-    - Commit changes.
-      
-4. **Check repo permissions**
-    
-    - Go to your repository settings.
-  
-    - Go to Actions > General > Workflow permissions
-  
-    - Select Read and write permissions
-  
-    - Save changes
+permissions:
+  contents: write
 
-5. **Enjoy your new readme animation**
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - Go to your readme and you can see your bubble shooter readme animation
-  
-    - This will automatically update every day
-  
-    - Also this will leave you a free commit everyday 😉. 
+      - name: Generate Contribution Animation
+        uses: Man0dya/Readme-Contribution-Graph-Generator@main
+        with:
+          github_user_name: ${{ github.repository_owner }}
+
+      - name: Commit and push updated SVGs
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: update contribution animation [skip ci]"
+          file_pattern: "*-contribution-animation*.svg contribution-animation*.svg github-contribution-animation*.svg"
+```
+
+2. **Add the README snippet to display your graph:**
+   - In your `README.md`, add:
+
+```markdown
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="github-contribution-animation-dark.svg" />
+  <img alt="Contribution Animation" src="github-contribution-animation.svg" />
+</picture>
+```
+
+3. **Check repo permissions:**
+   - Go to **Settings > Actions > General > Workflow permissions**
+   - Select **Read and write permissions**
+   - Save changes.
+
+4. **Trigger or wait for midnight:**
+   - Trigger the workflow from the Actions tab (*Run workflow*), or simply push a commit. The SVG will be generated and committed automatically to your repository root!
 
 ---
 
@@ -130,120 +123,7 @@ This keeps your graph up to date every day, with no manual steps.
   
 - **Not updating daily:** Check the Actions tab for workflow runs. Branch protection may block workflow commits.
   
-- **Private activity:** Only public contributions are shown.
-
----
-
-## For developers
-
-### Requirements
-- Node.js 18+ (20 LTS recommended)
-- npm
-
-### Local development
-
-```powershell
-npm install
-npm run dev      # Start Vite dev server at http://localhost:3000
-npm run build    # Build production bundle
-npm run preview  # Preview production build locally
-```
-
-### Deploying to GitHub Pages
-
-This repo contains a workflow at `.github/workflows/deploy.yml` that builds and publishes `dist/` to the `gh-pages` branch on push to `main`.
-
-- Project site URL: `https://Man0dya.github.io/Readme-Contribution-Graph-Generator/`
-- Vite base is set to `/Readme-Contribution-Graph-Generator/` in `vite.config.js`.
-- If you fork/rename, update `base` accordingly.
-
-Manual publish:
-
-```powershell
-npm run build
-npm run deploy   # uses gh-pages to publish ./dist to gh-pages
-```
-
-### Project structure
-
-```
-Readme-Contribution-Graph-Generator/
-├─ .github/workflows/
-│  ├─ deploy.yml
-├─ public/
-│  └─ favicon.svg
-├─ scripts/
-│  └─ generate-svg.cjs
-├─ src/
-│  ├─ App.jsx
-│  ├─ index.css
-│  ├─ main.jsx
-│  ├─ components/
-│  │  ├─ CodeGenerator.jsx
-│  │  ├─ Footer.jsx
-│  │  ├─ Header.jsx
-│  │  ├─ Hero.jsx
-│  │  └─ UsernameForm.jsx
-│  └─ utils/
-│     ├─ debug.js
-│     └─ github.js
-├─ index.html
-├─ package.json
-├─ tailwind.config.js
-├─ postcss.config.js
-└─ vite.config.js
-```
-
-### How data fetching works
-
-The client tries multiple approaches to derive your contribution calendar:
-- Parse GitHub’s public contribution graph HTML via safe CORS proxies
-- Use public activity feeds and repo activity to estimate contributions when needed
-The resulting 53‑week grid drives both the animated and static SVG outputs.
-
-### Scripts
-
-```powershell
-npm run dev        # Start development server
-npm run build      # Build for production (dist/)
-npm run preview    # Preview dist locally
-npm run deploy     # Publish dist to gh-pages
-npm run lint       # Lint
-```
-
-### Notes for forks
-
-- Update `vite.config.js` base to your repository name (e.g., `/my-fork-name/`) so GitHub Pages serves assets correctly.
-- The deployment workflow assumes the default branch is `main`; adjust if yours differs.
-
-### Automate it in your own repo (daily refresh)
-
-This project provides:
-- scripts/generate-svg.cjs — a Node script that fetches your real contribution data and writes SVGs
-- A ready‑to‑use GitHub Actions workflow YAML
-
-Steps:
-1) Create scripts/generate-svg.cjs in your repo and copy the script content from this repo or from the app’s “Automate in your own repo” section.
-2) Create .github/workflows/generate-contribution-animation.yml and paste the workflow from the app (or adapt to your needs).
-3) Commit and push. The workflow will:
-   - Run on push, manual dispatch, and nightly (00:00 UTC)
-   - Use the built‑in GITHUB_TOKEN—no PAT required
-   - Commit updated SVGs to your repository root
-4) Add the README snippet, for example:
-
-```markdown
-![My Contribution Animation](github-contribution-animation.svg)
-```
-
-Tip: The app can also generate a <picture> snippet for automatic light/dark mode.
-
-### Troubleshooting
-
-- Image doesn’t appear: ensure the SVG file was committed to the same branch your README is on and the relative path matches.
-- Not updating daily: check the Actions tab for the “Generate Contribution Animation” workflow run; branch protection might block commits from workflows.
-- Private activity: the generator uses public signals; fully private activity is not included.
-
----
+- **Private activity:** Only public contributions are shown.---
 
 ## For developers
 
@@ -272,16 +152,9 @@ npm run preview
 
 This repo contains a GitHub Actions workflow at `.github/workflows/deploy.yml` that builds and publishes `dist/` to the `gh-pages` branch on push to `main`.
 
-- Project site URL: `https://<user>.github.io/Readme-Contribution-Graph-Generator/`
+- Project site URL: `https://Man0dya.github.io/Readme-Contribution-Graph-Generator/`
 - Vite base is set to `/Readme-Contribution-Graph-Generator/` in `vite.config.js` so assets resolve under the repo path.
 - If you fork and rename the repository, update `base` accordingly.
-
-Optional manual publish if you prefer pushing from your machine:
-
-```powershell
-npm run build
-npm run deploy   # uses gh-pages to publish ./dist to gh-pages
-```
 
 ### Project structure
 
@@ -289,6 +162,7 @@ npm run deploy   # uses gh-pages to publish ./dist to gh-pages
 Readme-Contribution-Graph-Generator/
 ├─ .github/workflows/
 │  ├─ deploy.yml                         # Pages deployment (builds and publishes dist)
+│  └─ generate-contribution-animation.yml # Daily SVG generator workflow
 ├─ public/
 │  └─ favicon.svg
 ├─ scripts/
@@ -298,14 +172,13 @@ Readme-Contribution-Graph-Generator/
 │  ├─ index.css
 │  ├─ main.jsx
 │  ├─ components/
-│  │  ├─ CodeGenerator.jsx               # Customization, downloads, README snippets, workflow/script copy
+│  │  ├─ CodeGenerator.jsx               # Customization, downloads, README snippets
 │  │  ├─ Footer.jsx
 │  │  ├─ Header.jsx
-│  │  ├─ Hero.jsx
 │  │  └─ UsernameForm.jsx                # Username input + validation
 │  └─ utils/
 │     ├─ debug.js
-│     └─ github.js                       # Fetch/parse contribution data (multiple strategies)
+│     └─ github.js                       # Fetch/parse contribution data
 ├─ index.html
 ├─ package.json
 ├─ tailwind.config.js
@@ -313,7 +186,7 @@ Readme-Contribution-Graph-Generator/
 └─ vite.config.js
 ```
 
-### How data fetching works (overview)
+### How data fetching works
 
 The client tries multiple approaches to derive your contribution calendar:
 - Parse GitHub’s public contribution graph HTML via safe CORS proxies
@@ -326,7 +199,7 @@ The resulting 53‑week grid drives both the animated and static SVG outputs.
 npm run dev        # Start development server
 npm run build      # Build for production (dist/)
 npm run preview    # Preview dist locally
-npm run deploy     # Publish dist to gh-pages (optional local path)
+npm run deploy     # Publish dist to gh-pages
 npm run lint       # Lint
 ```
 
