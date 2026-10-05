@@ -64,13 +64,13 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex flex-col justify-between transition-colors duration-300">
+    <div className="min-h-screen bg-slate-50 dark:bg-black text-slate-900 dark:text-white flex flex-col justify-between transition-colors duration-300">
       <div className="w-full">
         <Header isDark={isDark} onToggleTheme={toggleTheme} />
         
         {/* Main Content Area */}
         <div className="relative">
-          <main className="container mx-auto px-4 py-6 space-y-8">
+          <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
             <UsernameForm 
               onSubmit={handleUsernameSubmit}
               isLoading={isLoading}
@@ -79,19 +79,19 @@ function App() {
             {/* Error Notification */}
             {error && (
               <div className="max-w-3xl mx-auto mb-8">
-                <div className="bg-amber-500/10 border border-amber-500/30 rounded-lg p-4 backdrop-blur-md">
+                <div className="bg-amber-500/10 border border-amber-500/30 dark:bg-[#161b22] dark:border-amber-500/40 rounded-lg p-4">
                   <div className="flex items-start space-x-3">
                     <div className="text-2xl">⚠️</div>
                     <div className="flex-1">
-                      <h3 className="text-amber-800 dark:text-amber-300 font-semibold text-base mb-1.5">
+                      <h3 className="text-amber-800 dark:text-amber-400 font-semibold text-base mb-1.5">
                         {error.message}
                       </h3>
-                      <ul className="text-amber-700 dark:text-amber-200/80 text-xs space-y-1 mb-2.5 list-disc list-inside">
+                      <ul className="text-amber-700 dark:text-[#8b949e] text-xs space-y-1 mb-2.5 list-disc list-inside">
                         {error.reasons.map((reason, index) => (
                           <li key={index}>{reason}</li>
                         ))}
                       </ul>
-                      <p className="text-amber-800/80 dark:text-amber-300/70 text-xs italic">
+                      <p className="text-amber-800/80 dark:text-amber-400/80 text-xs italic">
                         {error.suggestion}
                       </p>
                     </div>

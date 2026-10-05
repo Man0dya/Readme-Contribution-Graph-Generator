@@ -4,8 +4,8 @@ import { Github, Star, Moon, Sun } from 'lucide-react'
 
 const Header = ({ isDark, onToggleTheme }) => {
   return (
-    <header className="sticky top-0 z-50 backdrop-blur-md bg-white/90 dark:bg-slate-950/90 border-b border-slate-200 dark:border-slate-800 transition-colors duration-300">
-      <div className="container mx-auto px-4 py-3 flex items-center justify-between">
+    <header className="sticky top-0 z-50 w-full backdrop-blur-md bg-white/90 dark:bg-black/95 border-b border-slate-200 dark:border-[#21262d] transition-colors duration-300">
+      <div className="w-full px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
         {/* Title without icon */}
         <motion.div 
           initial={{ opacity: 0, x: -10 }}
@@ -29,7 +29,7 @@ const Header = ({ isDark, onToggleTheme }) => {
             type="button"
             onClick={onToggleTheme}
             aria-label="Toggle theme"
-            className="p-2 rounded-md border border-slate-300 dark:border-slate-700 bg-slate-100 dark:bg-slate-900 hover:bg-slate-200 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 transition-all active:scale-95"
+            className="p-2 rounded-md border border-slate-300 dark:border-[#30363d] bg-slate-100 dark:bg-[#161b22] hover:bg-slate-200 dark:hover:bg-[#21262d] text-slate-700 dark:text-white transition-all active:scale-95"
           >
             {isDark ? (
               <Sun className="w-4 h-4 text-amber-400" />
@@ -43,11 +43,11 @@ const Header = ({ isDark, onToggleTheme }) => {
             href="https://github.com/Man0dya/Readme-Contribution-Graph-Generator"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center space-x-2 px-3 py-1.5 rounded-md text-xs sm:text-sm font-medium border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-800 dark:text-slate-100 hover:text-emerald-600 dark:hover:text-emerald-400 transition-all active:scale-95"
+            className="flex items-center space-x-2 px-3 py-1.5 rounded-md text-xs sm:text-sm font-medium border border-slate-300 dark:border-[#30363d] bg-white dark:bg-[#161b22] hover:bg-slate-50 dark:hover:bg-[#21262d] text-slate-800 dark:text-white hover:text-emerald-600 dark:hover:text-[#3fb950] transition-all active:scale-95"
           >
             <Github className="w-4 h-4" />
             <span className="hidden sm:inline">Star on GitHub</span>
-            <span className="flex items-center text-amber-500 font-semibold pl-1.5 border-l border-slate-200 dark:border-slate-700">
+            <span className="flex items-center text-amber-500 font-semibold pl-1.5 border-l border-slate-200 dark:border-[#30363d]">
               <Star className="w-3 h-3 fill-amber-400 mr-1" />
               Star
             </span>
