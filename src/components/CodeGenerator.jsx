@@ -8,6 +8,7 @@ const THEME_PRESETS = [
     id: 'github',
     name: 'GitHub Classic',
     shooter: '#216e39',
+    projectile: '#f59e0b', // Glowing Amber / Gold laser
     explosion: '#ff6b35',
     noContributionLight: '#ebedf0',
     noContributionDark: '#161b22',
@@ -18,6 +19,7 @@ const THEME_PRESETS = [
     id: 'cyberpunk',
     name: 'Cyberpunk Neon',
     shooter: '#ff007f',
+    projectile: '#00f0ff', // Electric Neon Cyan
     explosion: '#00f0ff',
     noContributionLight: '#e2e8f0',
     noContributionDark: '#0a0a14',
@@ -28,6 +30,7 @@ const THEME_PRESETS = [
     id: 'dracula',
     name: 'Dracula',
     shooter: '#bd93f9',
+    projectile: '#ff79c6', // Hot Neon Pink
     explosion: '#ff79c6',
     noContributionLight: '#f1f5f9',
     noContributionDark: '#1e1f29',
@@ -38,6 +41,7 @@ const THEME_PRESETS = [
     id: 'sunset',
     name: 'Sunset Fire',
     shooter: '#f97316',
+    projectile: '#fde047', // Blazing Solar Yellow
     explosion: '#ef4444',
     noContributionLight: '#fff7ed',
     noContributionDark: '#18110b',
@@ -48,6 +52,7 @@ const THEME_PRESETS = [
     id: 'ocean',
     name: 'Ocean Breeze',
     shooter: '#0284c7',
+    projectile: '#38bdf8', // Radiant Aqua Cyan
     explosion: '#14b8a6',
     noContributionLight: '#f0f9ff',
     noContributionDark: '#081426',
@@ -58,6 +63,7 @@ const THEME_PRESETS = [
     id: 'monokai',
     name: 'Monokai Pro',
     shooter: '#a6e22e',
+    projectile: '#ffd866', // Bright Yellow Flare
     explosion: '#fd971f',
     noContributionLight: '#f8fafc',
     noContributionDark: '#1e1e1e',
@@ -104,11 +110,14 @@ const CodeGenerator = ({ username, contributionData }) => {
     const originX = 0
     const originY = 0
 
+    // Generous breathing room above cannon
     const shooterX = Number((originX + gridW / 2).toFixed(1))
-    const shooterYOffset = 26
+    const shooterYOffset = 52
     const shooterY = originY + gridH + shooterYOffset
+    const muzzleY = shooterY - 26
 
     const noContribColor = isDark ? selectedTheme.noContributionDark : selectedTheme.noContributionLight
+    const projColor = selectedTheme.projectile || '#f59e0b'
 
     // Build list of bubbles with centers
     const bubbles = []
@@ -133,13 +142,27 @@ const CodeGenerator = ({ username, contributionData }) => {
       }
     }
 
-    const tShot = Number((0.55 * speedScale).toFixed(2))
-    const tGap = Number((0.22 * speedScale).toFixed(2))
-    const total = prunedTargets.length > 0 ? Number((prunedTargets.length * (tShot + tGap) + 0.5).toFixed(2)) : 2
+    // Dynamic travel time based on distance from cannon
+    const maxDist = Math.hypot(gridW / 2, gridH + shooterYOffset)
+    const tGap = Number((0.15 * speedScale).toFixed(2))
+
+    let currentTime = 0
+    const scheduledTargets = prunedTargets.map((t, i) => {
+      const dx = t.cx - shooterX
+      const dy = t.cy - muzzleY
+      const dist = Math.hypot(dx, dy)
+      const ratio = Math.max(0, Math.min(1, dist / maxDist))
+      const duration = Number(((0.18 + 0.36 * ratio) * speedScale).toFixed(2))
+      const begin = Number(currentTime.toFixed(2))
+      currentTime += duration + tGap
+      return { ...t, index: i, duration, begin }
+    })
+
+    const total = scheduledTargets.length > 0 ? Number((currentTime + 0.4).toFixed(2)) : 2
 
     const shotIndexByPos = new Map()
-    prunedTargets.forEach((t, i) => {
-      shotIndexByPos.set(`${t.cx},${t.cy}`, i)
+    scheduledTargets.forEach((t) => {
+      shotIndexByPos.set(`${t.cx},${t.cy}`, t.index)
     })
 
     // Grid bubbles
@@ -159,30 +182,95 @@ const CodeGenerator = ({ username, contributionData }) => {
       }
     })
 
-    // Bullets and shockwaves/particles
+    // Bullets with trails and shockwaves/particles
     let bulletsStr = ''
     let popsStr = ''
-    prunedTargets.forEach((t, i) => {
-      const begin = Number((i * (tShot + tGap)).toFixed(2))
-      const shotId = `s${i}`
-      bulletsStr += `\n    <circle cx="${shooterX}" cy="${shooterY}" r="3" fill="${selectedTheme.shooter}" opacity="0">\n      <set attributeName="opacity" to="1" begin="cycle.begin+${begin}s"/>\n      <animate id="${shotId}" attributeName="cy" from="${shooterY}" to="${t.cy}" begin="cycle.begin+${begin}s" dur="${tShot}s" fill="freeze"/>\n      <animate attributeName="cx" from="${shooterX}" to="${t.cx}" begin="cycle.begin+${begin}s" dur="${tShot}s" fill="freeze"/>\n      <set attributeName="opacity" to="0" begin="${shotId}.end"/>\n    </circle>`
+    scheduledTargets.forEach((t) => {
+      const shotId = `s${t.index}`
+      const t1Begin = Number((t.begin + 0.02).toFixed(2))
+      const t2Begin = Number((t.begin + 0.04).toFixed(2))
 
-      const popRadius = Number((radius * 1.7).toFixed(1))
-      popsStr += `\n    <circle cx="${t.cx}" cy="${t.cy}" r="${radius}" fill="none" stroke="${selectedTheme.explosion}" stroke-width="1.5" opacity="0">\n      <set attributeName="opacity" to="1" begin="${shotId}.end"/>\n      <animate attributeName="r" from="${radius}" to="${popRadius}" begin="${shotId}.end" dur="0.25s" fill="freeze"/>\n      <animate attributeName="opacity" values="1;1;0" keyTimes="0;0.6;1" begin="${shotId}.end" dur="0.25s" fill="freeze"/>\n    </circle>`
+      // High-visibility energy projectile with trailing comet tail
+      bulletsStr += `\n    <!-- Bullet ${t.index} -->`
+      // Tail spark 2 (faint trailing spark)
+      bulletsStr += `\n    <circle cx="${shooterX}" cy="${muzzleY}" r="1.5" fill="${projColor}" opacity="0">\n      <set attributeName="opacity" to="0.3" begin="cycle.begin+${t2Begin}s"/>\n      <animate attributeName="cx" from="${shooterX}" to="${t.cx}" begin="cycle.begin+${t2Begin}s" dur="${t.duration}s" fill="freeze"/>\n      <animate attributeName="cy" from="${muzzleY}" to="${t.cy}" begin="cycle.begin+${t2Begin}s" dur="${t.duration}s" fill="freeze"/>\n      <set attributeName="opacity" to="0" begin="${shotId}.end"/>\n    </circle>`
+      // Tail spark 1 (close trailing plasma)
+      bulletsStr += `\n    <circle cx="${shooterX}" cy="${muzzleY}" r="2.6" fill="${projColor}" opacity="0">\n      <set attributeName="opacity" to="0.55" begin="cycle.begin+${t1Begin}s"/>\n      <animate attributeName="cx" from="${shooterX}" to="${t.cx}" begin="cycle.begin+${t1Begin}s" dur="${t.duration}s" fill="freeze"/>\n      <animate attributeName="cy" from="${muzzleY}" to="${t.cy}" begin="cycle.begin+${t1Begin}s" dur="${t.duration}s" fill="freeze"/>\n      <set attributeName="opacity" to="0" begin="${shotId}.end"/>\n    </circle>`
+      // Outer luminous halo
+      bulletsStr += `\n    <circle cx="${shooterX}" cy="${muzzleY}" r="5.5" fill="${projColor}" opacity="0">\n      <set attributeName="opacity" to="0.35" begin="cycle.begin+${t.begin}s"/>\n      <animate attributeName="cx" from="${shooterX}" to="${t.cx}" begin="cycle.begin+${t.begin}s" dur="${t.duration}s" fill="freeze"/>\n      <animate attributeName="cy" from="${muzzleY}" to="${t.cy}" begin="cycle.begin+${t.begin}s" dur="${t.duration}s" fill="freeze"/>\n      <set attributeName="opacity" to="0" begin="${shotId}.end"/>\n    </circle>`
+      // Main energetic plasma projectile
+      bulletsStr += `\n    <circle cx="${shooterX}" cy="${muzzleY}" r="3.6" fill="${projColor}" opacity="0">\n      <set attributeName="opacity" to="1" begin="cycle.begin+${t.begin}s"/>\n      <animate id="${shotId}" attributeName="cx" from="${shooterX}" to="${t.cx}" begin="cycle.begin+${t.begin}s" dur="${t.duration}s" fill="freeze"/>\n      <animate attributeName="cy" from="${muzzleY}" to="${t.cy}" begin="cycle.begin+${t.begin}s" dur="${t.duration}s" fill="freeze"/>\n      <set attributeName="opacity" to="0" begin="${shotId}.end"/>\n    </circle>`
+      // Ultra-bright white hot core
+      bulletsStr += `\n    <circle cx="${shooterX}" cy="${muzzleY}" r="1.8" fill="#ffffff" opacity="0">\n      <set attributeName="opacity" to="0.95" begin="cycle.begin+${t.begin}s"/>\n      <animate attributeName="cx" from="${shooterX}" to="${t.cx}" begin="cycle.begin+${t.begin}s" dur="${t.duration}s" fill="freeze"/>\n      <animate attributeName="cy" from="${muzzleY}" to="${t.cy}" begin="cycle.begin+${t.begin}s" dur="${t.duration}s" fill="freeze"/>\n      <set attributeName="opacity" to="0" begin="${shotId}.end"/>\n    </circle>`
 
-      for (let pi = 0; pi < 3; pi++) {
-        const ang = (pi * 2 * Math.PI) / 3
-        const px = Number((t.cx + Math.cos(ang) * (radius * 1.5)).toFixed(1))
-        const py = Number((t.cy + Math.sin(ang) * (radius * 1.5)).toFixed(1))
-        popsStr += `\n    <circle cx="${t.cx}" cy="${t.cy}" r="1.3" fill="#ffd700" opacity="0">\n      <set attributeName="opacity" to="1" begin="${shotId}.end"/>\n      <animate attributeName="cx" from="${t.cx}" to="${px}" begin="${shotId}.end" dur="0.25s" fill="freeze"/>\n      <animate attributeName="cy" from="${t.cy}" to="${py}" begin="${shotId}.end" dur="0.25s" fill="freeze"/>\n      <animate attributeName="opacity" values="1;1;0" keyTimes="0;0.5;1" begin="${shotId}.end" dur="0.25s" fill="freeze"/>\n    </circle>`
+      const popRadius = Number((radius * 1.8).toFixed(1))
+      // Shockwave impact ring
+      popsStr += `\n    <circle cx="${t.cx}" cy="${t.cy}" r="${radius}" fill="none" stroke="${selectedTheme.explosion}" stroke-width="2" opacity="0">\n      <set attributeName="opacity" to="1" begin="${shotId}.end"/>\n      <animate attributeName="r" from="${radius}" to="${popRadius}" begin="${shotId}.end" dur="0.25s" fill="freeze"/>\n      <animate attributeName="opacity" values="1;0.8;0" keyTimes="0;0.5;1" begin="${shotId}.end" dur="0.25s" fill="freeze"/>\n    </circle>`
+
+      // Center impact flash
+      popsStr += `\n    <circle cx="${t.cx}" cy="${t.cy}" r="2.5" fill="#ffffff" opacity="0">\n      <set attributeName="opacity" to="1" begin="${shotId}.end"/>\n      <animate attributeName="r" values="2.5;4.5;0" keyTimes="0;0.4;1" begin="${shotId}.end" dur="0.2s" fill="freeze"/>\n      <animate attributeName="opacity" values="1;0.5;0" keyTimes="0;0.4;1" begin="${shotId}.end" dur="0.2s" fill="freeze"/>\n    </circle>`
+
+      // 4 Directional sparks
+      for (let pi = 0; pi < 4; pi++) {
+        const ang = (pi * Math.PI) / 2 + Math.PI / 4
+        const px = Number((t.cx + Math.cos(ang) * (radius * 1.6)).toFixed(1))
+        const py = Number((t.cy + Math.sin(ang) * (radius * 1.6)).toFixed(1))
+        popsStr += `\n    <circle cx="${t.cx}" cy="${t.cy}" r="1.4" fill="${selectedTheme.explosion}" opacity="0">\n      <set attributeName="opacity" to="1" begin="${shotId}.end"/>\n      <animate attributeName="cx" from="${t.cx}" to="${px}" begin="${shotId}.end" dur="0.22s" fill="freeze"/>\n      <animate attributeName="cy" from="${t.cy}" to="${py}" begin="${shotId}.end" dur="0.22s" fill="freeze"/>\n      <animate attributeName="opacity" values="1;0.7;0" keyTimes="0;0.5;1" begin="${shotId}.end" dur="0.22s" fill="freeze"/>\n    </circle>`
       }
     })
 
     const bgRect = transparent ? '' : `<rect width="100%" height="100%" fill="${isDark ? '#0d1117' : '#ffffff'}" rx="4"/>`
     const vbW = gridW
-    const vbH = gridH + shooterYOffset
+    const vbH = gridH + shooterYOffset + 8
 
-    return `<?xml version="1.0" encoding="UTF-8"?>\n<svg width="100%" viewBox="0 0 ${vbW} ${vbH}" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">\n${bgRect}\n  <!-- cycle timer -->\n  <rect id="cycleTimer" x="-10" y="-10" width="1" height="1" fill="none">\n    <animate id="cycle" attributeName="x" from="-10" to="-9" begin="0s;cycle.end+1s" dur="${total}s" fill="freeze"/>\n  </rect>\n\n  <!-- shooter base -->\n  <rect x="${shooterX - 16}" y="${shooterY - 10}" width="32" height="10" rx="3" fill="${selectedTheme.shooter}" opacity="0.9"/>\n  <polygon points="${shooterX - 5},${shooterY - 10} ${shooterX + 5},${shooterY - 10} ${shooterX},${shooterY - 22}" fill="${selectedTheme.shooter}"/>\n\n  <!-- grid of bubbles -->\n  ${gridStr}\n\n  <!-- bullets -->\n  ${bulletsStr}\n\n  <!-- pops and particles -->\n  ${popsStr}\n</svg>`
+    const turretBaseBorder = isDark ? '#30363d' : '#afb8c1'
+    const turretBaseFill = isDark ? '#21262d' : '#d0d7de'
+    const turretDeckFill = isDark ? '#161b22' : '#f6f8fa'
+    const barrelRailFill = isDark ? '#484f58' : '#8c959f'
+    const muzzleCrownFill = isDark ? '#21262d' : '#30363d'
+
+    return `<?xml version="1.0" encoding="UTF-8"?>
+<svg width="100%" viewBox="0 0 ${vbW} ${vbH}" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+${bgRect}
+  <!-- cycle timer -->
+  <rect id="cycleTimer" x="-10" y="-10" width="1" height="1" fill="none">
+    <animate id="cycle" attributeName="x" from="-10" to="-9" begin="0s;cycle.end+1s" dur="${total}s" fill="freeze"/>
+  </rect>
+
+  <!-- Turret Cannon Platform & Housing -->
+  <g id="cannon-turret">
+    <!-- Base Chassis Track -->
+    <rect x="${shooterX - 22}" y="${shooterY - 4}" width="44" height="8" rx="4" fill="${turretBaseFill}" stroke="${turretBaseBorder}" stroke-width="1.2"/>
+    <rect x="${shooterX - 16}" y="${shooterY - 8}" width="32" height="5" rx="2.5" fill="${turretDeckFill}"/>
+    <rect x="${shooterX - 12}" y="${shooterY - 7}" width="24" height="2" rx="1" fill="${selectedTheme.shooter}" opacity="0.9"/>
+
+    <!-- Left & Right Reinforced Barrels -->
+    <rect x="${shooterX - 5.5}" y="${shooterY - 24}" width="3.2" height="14" rx="1.6" fill="${barrelRailFill}"/>
+    <rect x="${shooterX + 2.3}" y="${shooterY - 24}" width="3.2" height="14" rx="1.6" fill="${barrelRailFill}"/>
+    <!-- Central Plasma Accelerator Chamber -->
+    <rect x="${shooterX - 2}" y="${shooterY - 22}" width="4" height="11" rx="1" fill="${selectedTheme.shooter}" opacity="0.85"/>
+
+    <!-- Heavy Muzzle Crown & Core Emitter -->
+    <rect x="${shooterX - 6.5}" y="${shooterY - 26}" width="13" height="4" rx="1.5" fill="${muzzleCrownFill}" stroke="${selectedTheme.shooter}" stroke-width="1"/>
+    <circle cx="${shooterX}" cy="${shooterY - 26}" r="2.2" fill="${selectedTheme.shooter}"/>
+    <circle cx="${shooterX}" cy="${shooterY - 26}" r="1.1" fill="#ffffff"/>
+
+    <!-- Swivel Dome & Reactor Core -->
+    <circle cx="${shooterX}" cy="${shooterY - 12}" r="11" fill="${turretDeckFill}" stroke="${turretBaseBorder}" stroke-width="1.5"/>
+    <circle cx="${shooterX}" cy="${shooterY - 12}" r="7.5" fill="${isDark ? '#0d1117' : '#ffffff'}" stroke="${selectedTheme.shooter}" stroke-width="1.5"/>
+    <circle cx="${shooterX}" cy="${shooterY - 12}" r="4" fill="${selectedTheme.shooter}"/>
+    <circle cx="${shooterX}" cy="${shooterY - 12}" r="1.8" fill="#ffffff"/>
+  </g>
+
+  <!-- grid of bubbles -->
+  ${gridStr}
+
+  <!-- bullets -->
+  ${bulletsStr}
+
+  <!-- pops and particles -->
+  ${popsStr}
+</svg>`
   }
 
   // Build README snippet

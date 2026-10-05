@@ -26,82 +26,115 @@ console.log(`⏱️ Animation speed: ${speedConfig} (scale: ${speedMul})`);
 console.log(`🎯 Max targets: ${maxTargets}`);
 console.log(`🔑 Token available: ${githubToken ? 'Yes' : 'No'}`);
 
-if (!githubToken) {
-  console.error('❌ GITHUB_TOKEN is required but not provided');
-  process.exit(1);
-}
-
 if (!username) {
   console.error('❌ Username not resolved. Set CONTRIBUTION_USERNAME or ensure GITHUB_REPOSITORY is available in the environment.');
   console.error('   Example (GitHub Actions): env.CONTRIBUTION_USERNAME: ${{ github.repository_owner }}');
   process.exit(1);
 }
 
-// Fetch contribution data from GitHub GraphQL
+// Fetch contribution data from GitHub GraphQL or Public Fallback
 async function fetchContributionData(login) {
-  return new Promise((resolve, reject) => {
-    const query = `
-      query($username: String!) {
-        user(login: $username) {
-          contributionsCollection {
-            contributionCalendar {
-              weeks {
-                contributionDays {
-                  contributionCount
-                  contributionLevel
-                  date
-                  weekday
+  if (githubToken) {
+    return new Promise((resolve, reject) => {
+      const query = `
+        query($username: String!) {
+          user(login: $username) {
+            contributionsCollection {
+              contributionCalendar {
+                weeks {
+                  contributionDays {
+                    contributionCount
+                    contributionLevel
+                    date
+                    weekday
+                  }
                 }
               }
             }
           }
         }
-      }
-    `;
+      `;
 
-    const postData = JSON.stringify({ query, variables: { username: login } });
+      const postData = JSON.stringify({ query, variables: { username: login } });
 
-    const req = https.request(
-      {
-        hostname: 'api.github.com',
-        port: 443,
-        path: '/graphql',
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${githubToken}`,
-          'Content-Type': 'application/json',
-          'Content-Length': Buffer.byteLength(postData),
-          'User-Agent': 'contribution-animation-generator',
-          Accept: 'application/vnd.github.v4+json',
+      const req = https.request(
+        {
+          hostname: 'api.github.com',
+          port: 443,
+          path: '/graphql',
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${githubToken}`,
+            'Content-Type': 'application/json',
+            'Content-Length': Buffer.byteLength(postData),
+            'User-Agent': 'contribution-animation-generator',
+            Accept: 'application/vnd.github.v4+json',
+          },
         },
+        (res) => {
+          let data = '';
+          res.on('data', (chunk) => (data += chunk));
+          res.on('end', () => {
+            try {
+              if (res.statusCode !== 200) {
+                throw new Error(`GitHub API status ${res.statusCode}`);
+              }
+              const response = JSON.parse(data);
+              if (response.errors) {
+                throw new Error(`GraphQL Error: ${JSON.stringify(response.errors)}`);
+              }
+              const weeks = response?.data?.user?.contributionsCollection?.contributionCalendar?.weeks;
+              if (!weeks) throw new Error('Invalid response structure from GitHub API');
+              resolve(weeks);
+            } catch (e) {
+              console.error('❌ Error parsing GraphQL response:', e.message);
+              reject(e);
+            }
+          });
+        }
+      );
+
+      req.on('error', (err) => reject(err));
+      req.write(postData);
+      req.end();
+    });
+  }
+
+  // Fallback: Public API for token-less local runs
+  return new Promise((resolve, reject) => {
+    https.get(
+      `https://github-contributions-api.jogruber.de/v4/${login}?y=last`,
+      {
+        headers: { 'User-Agent': 'contribution-animation-generator' },
       },
       (res) => {
         let data = '';
         res.on('data', (chunk) => (data += chunk));
         res.on('end', () => {
           try {
-            if (res.statusCode !== 200) {
-              throw new Error(`GitHub API status ${res.statusCode}`);
+            const parsed = JSON.parse(data);
+            if (!parsed.contributions || !Array.isArray(parsed.contributions)) {
+              throw new Error('No contribution data returned from public API');
             }
-            const response = JSON.parse(data);
-            if (response.errors) {
-              throw new Error(`GraphQL Error: ${JSON.stringify(response.errors)}`);
+            // Group contributions into 7-day weeks
+            const days = parsed.contributions;
+            const weeks = [];
+            for (let i = 0; i < days.length; i += 7) {
+              weeks.push({
+                contributionDays: days.slice(i, i + 7).map((d) => ({
+                  contributionCount: d.count,
+                  contributionLevel: d.level === 0 ? 'NONE' : d.level === 1 ? 'FIRST_QUARTILE' : d.level === 2 ? 'SECOND_QUARTILE' : d.level === 3 ? 'THIRD_QUARTILE' : 'FOURTH_QUARTILE',
+                  date: d.date,
+                })),
+              });
             }
-            const weeks = response?.data?.user?.contributionsCollection?.contributionCalendar?.weeks;
-            if (!weeks) throw new Error('Invalid response structure from GitHub API');
             resolve(weeks);
-          } catch (e) {
-            console.error('❌ Error parsing response:', e.message);
-            console.error('📄 Raw response:', data);
-            reject(e);
+          } catch (err) {
+            reject(err);
           }
         });
       }
-    );
-
-    req.on('error', (err) => reject(err));
-    req.write(postData);
-    req.end();
+    ).on('error', (err) => reject(err));
   });
 }
 
@@ -140,8 +173,12 @@ function buildBubbleShooterSVG({ data, width = 1200, height = 340, theme, speedM
   const originY = 0;
 
   const shooterX = Number((originX + gridW / 2).toFixed(1));
-  const shooterYOffset = 26;
+  const shooterYOffset = 52;
   const shooterY = originY + gridH + shooterYOffset;
+  const muzzleY = shooterY - 26;
+
+  const isDark = noContributionColor === '#161b22' || noContributionColor.toLowerCase().startsWith('#1') || noContributionColor.toLowerCase().startsWith('#0');
+  const projColor = theme.projectile || '#f59e0b';
 
   // Build bubbles with centers
   const bubbles = [];
@@ -167,12 +204,26 @@ function buildBubbleShooterSVG({ data, width = 1200, height = 340, theme, speedM
     }
   }
 
-  const tShot = Number((0.55 * speedMul).toFixed(2));
-  const tGap = Number((0.22 * speedMul).toFixed(2));
-  const total = prunedTargets.length > 0 ? Number((prunedTargets.length * (tShot + tGap) + 0.5).toFixed(2)) : 2;
+  // Dynamic travel time based on distance from cannon
+  const maxDist = Math.hypot(gridW / 2, gridH + shooterYOffset);
+  const tGap = Number((0.15 * speedMul).toFixed(2));
+
+  let currentTime = 0;
+  const scheduledTargets = prunedTargets.map((t, i) => {
+    const dx = t.cx - shooterX;
+    const dy = t.cy - muzzleY;
+    const dist = Math.hypot(dx, dy);
+    const ratio = Math.max(0, Math.min(1, dist / maxDist));
+    const duration = Number(((0.18 + 0.36 * ratio) * speedMul).toFixed(2));
+    const begin = Number(currentTime.toFixed(2));
+    currentTime += duration + tGap;
+    return { ...t, index: i, duration, begin };
+  });
+
+  const total = scheduledTargets.length > 0 ? Number((currentTime + 0.4).toFixed(2)) : 2;
 
   const shotIndexByPos = new Map();
-  prunedTargets.forEach((t, i) => shotIndexByPos.set(`${t.cx},${t.cy}`, i));
+  scheduledTargets.forEach((t) => shotIndexByPos.set(`${t.cx},${t.cy}`, t.index));
 
   // Grid with static non-targets and animated target bubbles
   let gridStr = '';
@@ -190,39 +241,85 @@ function buildBubbleShooterSVG({ data, width = 1200, height = 340, theme, speedM
     }
   });
 
-  // Bullets and shockwaves/particles
+  // Bullets with trails and shockwaves/particles
   let bulletsStr = '';
   let popsStr = '';
-  prunedTargets.forEach((t, i) => {
-    const begin = Number((i * (tShot + tGap)).toFixed(2));
-    const shotId = `s${i}`;
+  scheduledTargets.forEach((t) => {
+    const shotId = `s${t.index}`;
+    const t1Begin = Number((t.begin + 0.02).toFixed(2));
+    const t2Begin = Number((t.begin + 0.04).toFixed(2));
 
-    bulletsStr += `\n    <circle cx="${shooterX}" cy="${shooterY}" r="3" fill="${theme.shooter}" opacity="0">\n      <set attributeName="opacity" to="1" begin="cycle.begin+${begin}s"/>\n      <animate id="${shotId}" attributeName="cy" from="${shooterY}" to="${t.cy}" begin="cycle.begin+${begin}s" dur="${tShot}s" fill="freeze"/>\n      <animate attributeName="cx" from="${shooterX}" to="${t.cx}" begin="cycle.begin+${begin}s" dur="${tShot}s" fill="freeze"/>\n      <set attributeName="opacity" to="0" begin="${shotId}.end"/>\n    </circle>`;
+    // High-visibility energy projectile with trailing comet tail
+    bulletsStr += `\n    <!-- Bullet ${t.index} -->`;
+    // Tail spark 2 (faint trailing spark)
+    bulletsStr += `\n    <circle cx="${shooterX}" cy="${muzzleY}" r="1.5" fill="${projColor}" opacity="0">\n      <set attributeName="opacity" to="0.3" begin="cycle.begin+${t2Begin}s"/>\n      <animate attributeName="cx" from="${shooterX}" to="${t.cx}" begin="cycle.begin+${t2Begin}s" dur="${t.duration}s" fill="freeze"/>\n      <animate attributeName="cy" from="${muzzleY}" to="${t.cy}" begin="cycle.begin+${t2Begin}s" dur="${t.duration}s" fill="freeze"/>\n      <set attributeName="opacity" to="0" begin="${shotId}.end"/>\n    </circle>`;
+    // Tail spark 1 (close trailing plasma)
+    bulletsStr += `\n    <circle cx="${shooterX}" cy="${muzzleY}" r="2.6" fill="${projColor}" opacity="0">\n      <set attributeName="opacity" to="0.55" begin="cycle.begin+${t1Begin}s"/>\n      <animate attributeName="cx" from="${shooterX}" to="${t.cx}" begin="cycle.begin+${t1Begin}s" dur="${t.duration}s" fill="freeze"/>\n      <animate attributeName="cy" from="${muzzleY}" to="${t.cy}" begin="cycle.begin+${t1Begin}s" dur="${t.duration}s" fill="freeze"/>\n      <set attributeName="opacity" to="0" begin="${shotId}.end"/>\n    </circle>`;
+    // Outer luminous halo
+    bulletsStr += `\n    <circle cx="${shooterX}" cy="${muzzleY}" r="5.5" fill="${projColor}" opacity="0">\n      <set attributeName="opacity" to="0.35" begin="cycle.begin+${t.begin}s"/>\n      <animate attributeName="cx" from="${shooterX}" to="${t.cx}" begin="cycle.begin+${t.begin}s" dur="${t.duration}s" fill="freeze"/>\n      <animate attributeName="cy" from="${muzzleY}" to="${t.cy}" begin="cycle.begin+${t.begin}s" dur="${t.duration}s" fill="freeze"/>\n      <set attributeName="opacity" to="0" begin="${shotId}.end"/>\n    </circle>`;
+    // Main energetic plasma projectile
+    bulletsStr += `\n    <circle cx="${shooterX}" cy="${muzzleY}" r="3.6" fill="${projColor}" opacity="0">\n      <set attributeName="opacity" to="1" begin="cycle.begin+${t.begin}s"/>\n      <animate id="${shotId}" attributeName="cx" from="${shooterX}" to="${t.cx}" begin="cycle.begin+${t.begin}s" dur="${t.duration}s" fill="freeze"/>\n      <animate attributeName="cy" from="${muzzleY}" to="${t.cy}" begin="cycle.begin+${t.begin}s" dur="${t.duration}s" fill="freeze"/>\n      <set attributeName="opacity" to="0" begin="${shotId}.end"/>\n    </circle>`;
+    // Ultra-bright white hot core
+    bulletsStr += `\n    <circle cx="${shooterX}" cy="${muzzleY}" r="1.8" fill="#ffffff" opacity="0">\n      <set attributeName="opacity" to="0.95" begin="cycle.begin+${t.begin}s"/>\n      <animate attributeName="cx" from="${shooterX}" to="${t.cx}" begin="cycle.begin+${t.begin}s" dur="${t.duration}s" fill="freeze"/>\n      <animate attributeName="cy" from="${muzzleY}" to="${t.cy}" begin="cycle.begin+${t.begin}s" dur="${t.duration}s" fill="freeze"/>\n      <set attributeName="opacity" to="0" begin="${shotId}.end"/>\n    </circle>`;
 
-    const popRadius = Number((radius * 1.7).toFixed(1));
-    popsStr += `\n    <circle cx="${t.cx}" cy="${t.cy}" r="${radius}" fill="none" stroke="${theme.explosion}" stroke-width="1.5" opacity="0">\n      <set attributeName="opacity" to="1" begin="${shotId}.end"/>\n      <animate attributeName="r" from="${radius}" to="${popRadius}" begin="${shotId}.end" dur="0.25s" fill="freeze"/>\n      <animate attributeName="opacity" values="1;1;0" keyTimes="0;0.6;1" begin="${shotId}.end" dur="0.25s" fill="freeze"/>\n    </circle>`;
+    const popRadius = Number((radius * 1.8).toFixed(1));
+    // Shockwave impact ring
+    popsStr += `\n    <circle cx="${t.cx}" cy="${t.cy}" r="${radius}" fill="none" stroke="${theme.explosion}" stroke-width="2" opacity="0">\n      <set attributeName="opacity" to="1" begin="${shotId}.end"/>\n      <animate attributeName="r" from="${radius}" to="${popRadius}" begin="${shotId}.end" dur="0.25s" fill="freeze"/>\n      <animate attributeName="opacity" values="1;0.8;0" keyTimes="0;0.5;1" begin="${shotId}.end" dur="0.25s" fill="freeze"/>\n    </circle>`;
 
-    for (let pi = 0; pi < 3; pi++) {
-      const ang = (pi * 2 * Math.PI) / 3;
-      const px = Number((t.cx + Math.cos(ang) * (radius * 1.5)).toFixed(1));
-      const py = Number((t.cy + Math.sin(ang) * (radius * 1.5)).toFixed(1));
-      popsStr += `\n    <circle cx="${t.cx}" cy="${t.cy}" r="1.3" fill="#ffd700" opacity="0">\n      <set attributeName="opacity" to="1" begin="${shotId}.end"/>\n      <animate attributeName="cx" from="${t.cx}" to="${px}" begin="${shotId}.end" dur="0.25s" fill="freeze"/>\n      <animate attributeName="cy" from="${t.cy}" to="${py}" begin="${shotId}.end" dur="0.25s" fill="freeze"/>\n      <animate attributeName="opacity" values="1;1;0" keyTimes="0;0.5;1" begin="${shotId}.end" dur="0.25s" fill="freeze"/>\n    </circle>`;
+    // Center impact flash
+    popsStr += `\n    <circle cx="${t.cx}" cy="${t.cy}" r="2.5" fill="#ffffff" opacity="0">\n      <set attributeName="opacity" to="1" begin="${shotId}.end"/>\n      <animate attributeName="r" values="2.5;4.5;0" keyTimes="0;0.4;1" begin="${shotId}.end" dur="0.2s" fill="freeze"/>\n      <animate attributeName="opacity" values="1;0.5;0" keyTimes="0;0.4;1" begin="${shotId}.end" dur="0.2s" fill="freeze"/>\n    </circle>`;
+
+    // 4 Directional sparks
+    for (let pi = 0; pi < 4; pi++) {
+      const ang = (pi * Math.PI) / 2 + Math.PI / 4;
+      const px = Number((t.cx + Math.cos(ang) * (radius * 1.6)).toFixed(1));
+      const py = Number((t.cy + Math.sin(ang) * (radius * 1.6)).toFixed(1));
+      popsStr += `\n    <circle cx="${t.cx}" cy="${t.cy}" r="1.4" fill="${theme.explosion}" opacity="0">\n      <set attributeName="opacity" to="1" begin="${shotId}.end"/>\n      <animate attributeName="cx" from="${t.cx}" to="${px}" begin="${shotId}.end" dur="0.22s" fill="freeze"/>\n      <animate attributeName="cy" from="${t.cy}" to="${py}" begin="${shotId}.end" dur="0.22s" fill="freeze"/>\n      <animate attributeName="opacity" values="1;0.7;0" keyTimes="0;0.5;1" begin="${shotId}.end" dur="0.22s" fill="freeze"/>\n    </circle>`;
     }
   });
 
-  const bgRect = transparent ? '' : `\n  <rect width="100%" height="100%" fill="#ffffff" rx="8"/>`;
+  const bgRect = transparent ? '' : `\n  <rect width="100%" height="100%" fill="${isDark ? '#0d1117' : '#ffffff'}" rx="4"/>`;
   const vbW = gridW;
-  const vbH = gridH + shooterYOffset;
+  const vbH = gridH + shooterYOffset + 8;
 
-  return `<?xml version="1.0" encoding="UTF-8"?>\n<svg width="100%" viewBox="0 0 ${vbW} ${vbH}" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">\n${bgRect}
+  const turretBaseBorder = isDark ? '#30363d' : '#afb8c1';
+  const turretBaseFill = isDark ? '#21262d' : '#d0d7de';
+  const turretDeckFill = isDark ? '#161b22' : '#f6f8fa';
+  const barrelRailFill = isDark ? '#484f58' : '#8c959f';
+  const muzzleCrownFill = isDark ? '#21262d' : '#30363d';
+
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<svg width="100%" viewBox="0 0 ${vbW} ${vbH}" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+${bgRect}
   <!-- cycle timer -->
   <rect id="cycleTimer" x="-10" y="-10" width="1" height="1" fill="none">
     <animate id="cycle" attributeName="x" from="-10" to="-9" begin="0s;cycle.end+1s" dur="${total}s" fill="freeze"/>
   </rect>
 
-  <!-- shooter base -->
-  <rect x="${shooterX - 16}" y="${shooterY - 10}" width="32" height="10" rx="5" fill="${theme.shooter}" opacity="0.9"/>
-  <polygon points="${shooterX - 5},${shooterY - 10} ${shooterX + 5},${shooterY - 10} ${shooterX},${shooterY - 22}" fill="${theme.shooter}"/>
+  <!-- Turret Cannon Platform & Housing -->
+  <g id="cannon-turret">
+    <!-- Base Chassis Track -->
+    <rect x="${shooterX - 22}" y="${shooterY - 4}" width="44" height="8" rx="4" fill="${turretBaseFill}" stroke="${turretBaseBorder}" stroke-width="1.2"/>
+    <rect x="${shooterX - 16}" y="${shooterY - 8}" width="32" height="5" rx="2.5" fill="${turretDeckFill}"/>
+    <rect x="${shooterX - 12}" y="${shooterY - 7}" width="24" height="2" rx="1" fill="${theme.shooter}" opacity="0.9"/>
+
+    <!-- Left & Right Reinforced Barrels -->
+    <rect x="${shooterX - 5.5}" y="${shooterY - 24}" width="3.2" height="14" rx="1.6" fill="${barrelRailFill}"/>
+    <rect x="${shooterX + 2.3}" y="${shooterY - 24}" width="3.2" height="14" rx="1.6" fill="${barrelRailFill}"/>
+    <!-- Central Plasma Accelerator Chamber -->
+    <rect x="${shooterX - 2}" y="${shooterY - 22}" width="4" height="11" rx="1" fill="${theme.shooter}" opacity="0.85"/>
+
+    <!-- Heavy Muzzle Crown & Core Emitter -->
+    <rect x="${shooterX - 6.5}" y="${shooterY - 26}" width="13" height="4" rx="1.5" fill="${muzzleCrownFill}" stroke="${theme.shooter}" stroke-width="1"/>
+    <circle cx="${shooterX}" cy="${shooterY - 26}" r="2.2" fill="${theme.shooter}"/>
+    <circle cx="${shooterX}" cy="${shooterY - 26}" r="1.1" fill="#ffffff"/>
+
+    <!-- Swivel Dome & Reactor Core -->
+    <circle cx="${shooterX}" cy="${shooterY - 12}" r="11" fill="${turretDeckFill}" stroke="${turretBaseBorder}" stroke-width="1.5"/>
+    <circle cx="${shooterX}" cy="${shooterY - 12}" r="7.5" fill="${isDark ? '#0d1117' : '#ffffff'}" stroke="${theme.shooter}" stroke-width="1.5"/>
+    <circle cx="${shooterX}" cy="${shooterY - 12}" r="4" fill="${theme.shooter}"/>
+    <circle cx="${shooterX}" cy="${shooterY - 12}" r="1.8" fill="#ffffff"/>
+  </g>
 
   <!-- grid of bubbles -->
   ${gridStr}
@@ -252,11 +349,13 @@ async function main() {
     // Themes for light and dark
     const lightTheme = {
       shooter: '#216e39', // GitHub green (light)
+      projectile: '#f59e0b', // Glowing Amber / Gold Laser
       explosion: '#ff6b35',
       noContribution: '#ebedf0',
     };
     const darkTheme = {
       shooter: '#39d353', // GitHub green (dark)
+      projectile: '#fbbf24', // Radiant Amber / Gold Laser
       explosion: '#ff9e64',
       noContribution: '#161b22', // GitHub dark empty cell color
     };
@@ -266,7 +365,7 @@ async function main() {
       data: normalized,
       width: 1200,
       height: 340,
-      theme: { shooter: lightTheme.shooter, explosion: lightTheme.explosion },
+      theme: lightTheme,
       speedMul,
       noContributionColor: lightTheme.noContribution,
       transparent: true,
@@ -278,7 +377,7 @@ async function main() {
       data: normalized,
       width: 1200,
       height: 340,
-      theme: { shooter: darkTheme.shooter, explosion: darkTheme.explosion },
+      theme: darkTheme,
       speedMul,
       noContributionColor: darkTheme.noContribution,
       transparent: true,
@@ -290,11 +389,7 @@ async function main() {
     }
 
     const outputs = [
-      { filename: `${username}-contribution-animation.svg`, content: svgLight },
-      { filename: 'contribution-animation.svg', content: svgLight },
       { filename: 'github-contribution-animation.svg', content: svgLight },
-      { filename: `${username}-contribution-animation-dark.svg`, content: svgDark },
-      { filename: 'contribution-animation-dark.svg', content: svgDark },
       { filename: 'github-contribution-animation-dark.svg', content: svgDark },
     ];
     outputs.forEach(({ filename, content }) => {
@@ -305,8 +400,8 @@ async function main() {
 
     console.log('\n✅ Done. Embed in README (auto light/dark):');
     console.log('<picture>');
-    console.log(`  <source media="(prefers-color-scheme: dark)" srcset="${username}-contribution-animation-dark.svg" />`);
-    console.log(`  <img alt="Contribution Animation" src="${username}-contribution-animation.svg" />`);
+    console.log(`  <source media="(prefers-color-scheme: dark)" srcset="github-contribution-animation-dark.svg" />`);
+    console.log(`  <img alt="Contribution Animation" src="github-contribution-animation.svg" />`);
     console.log('</picture>');
   } catch (error) {
     console.error('❌ Error generating animation:', error.message);
