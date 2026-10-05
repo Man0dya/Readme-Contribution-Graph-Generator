@@ -12,672 +12,672 @@
 
   <!-- grid of bubbles -->
   
-    <circle cx="7" cy="7" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="7" cy="7" r="6" fill="#40c463">
+      <set attributeName="fill" to="#40c463" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s0.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s0.end+0.12s"/>
     </circle>
-    <circle cx="7" cy="21" r="6" fill="#ebedf0"/>
-    <circle cx="7" cy="35" r="6" fill="#ebedf0"/>
-    <circle cx="7" cy="49" r="6" fill="#ebedf0"/>
-    <circle cx="7" cy="63" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="7" cy="21" r="6" fill="#30a14e"/>
+    <circle cx="7" cy="35" r="6" fill="#30a14e"/>
+    <circle cx="7" cy="49" r="6" fill="#9be9a8"/>
+    <circle cx="7" cy="63" r="6" fill="#40c463">
+      <set attributeName="fill" to="#40c463" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s1.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s1.end+0.12s"/>
     </circle>
-    <circle cx="7" cy="77" r="6" fill="#ebedf0"/>
-    <circle cx="7" cy="91" r="6" fill="#ebedf0"/>
-    <circle cx="21" cy="7" r="6" fill="#ebedf0"/>
-    <circle cx="21" cy="21" r="6" fill="#ebedf0"/>
-    <circle cx="21" cy="35" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="7" cy="77" r="6" fill="#216e39"/>
+    <circle cx="7" cy="91" r="6" fill="#9be9a8"/>
+    <circle cx="21" cy="7" r="6" fill="#40c463"/>
+    <circle cx="21" cy="21" r="6" fill="#40c463"/>
+    <circle cx="21" cy="35" r="6" fill="#9be9a8">
+      <set attributeName="fill" to="#9be9a8" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s2.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s2.end+0.12s"/>
     </circle>
-    <circle cx="21" cy="49" r="6" fill="#ebedf0"/>
-    <circle cx="21" cy="63" r="6" fill="#ebedf0"/>
-    <circle cx="21" cy="77" r="6" fill="#ebedf0"/>
-    <circle cx="21" cy="91" r="6" fill="#ebedf0"/>
-    <circle cx="35" cy="7" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="21" cy="49" r="6" fill="#9be9a8"/>
+    <circle cx="21" cy="63" r="6" fill="#9be9a8"/>
+    <circle cx="21" cy="77" r="6" fill="#40c463"/>
+    <circle cx="21" cy="91" r="6" fill="#40c463"/>
+    <circle cx="35" cy="7" r="6" fill="#9be9a8">
+      <set attributeName="fill" to="#9be9a8" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s3.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s3.end+0.12s"/>
     </circle>
-    <circle cx="35" cy="21" r="6" fill="#ebedf0"/>
-    <circle cx="35" cy="35" r="6" fill="#ebedf0"/>
-    <circle cx="35" cy="49" r="6" fill="#ebedf0"/>
-    <circle cx="35" cy="63" r="6" fill="#ebedf0"/>
-    <circle cx="35" cy="77" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="35" cy="21" r="6" fill="#9be9a8"/>
+    <circle cx="35" cy="35" r="6" fill="#9be9a8"/>
+    <circle cx="35" cy="49" r="6" fill="#9be9a8"/>
+    <circle cx="35" cy="63" r="6" fill="#30a14e"/>
+    <circle cx="35" cy="77" r="6" fill="#9be9a8">
+      <set attributeName="fill" to="#9be9a8" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s4.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s4.end+0.12s"/>
     </circle>
-    <circle cx="35" cy="91" r="6" fill="#ebedf0"/>
-    <circle cx="49" cy="7" r="6" fill="#ebedf0"/>
-    <circle cx="49" cy="21" r="6" fill="#ebedf0"/>
-    <circle cx="49" cy="35" r="6" fill="#ebedf0"/>
-    <circle cx="49" cy="49" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="35" cy="91" r="6" fill="#9be9a8"/>
+    <circle cx="49" cy="7" r="6" fill="#9be9a8"/>
+    <circle cx="49" cy="21" r="6" fill="#9be9a8"/>
+    <circle cx="49" cy="35" r="6" fill="#40c463"/>
+    <circle cx="49" cy="49" r="6" fill="#40c463">
+      <set attributeName="fill" to="#40c463" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s5.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s5.end+0.12s"/>
     </circle>
-    <circle cx="49" cy="63" r="6" fill="#ebedf0"/>
-    <circle cx="49" cy="77" r="6" fill="#ebedf0"/>
-    <circle cx="49" cy="91" r="6" fill="#ebedf0"/>
-    <circle cx="63" cy="7" r="6" fill="#ebedf0"/>
-    <circle cx="63" cy="21" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="49" cy="63" r="6" fill="#9be9a8"/>
+    <circle cx="49" cy="77" r="6" fill="#9be9a8"/>
+    <circle cx="49" cy="91" r="6" fill="#9be9a8"/>
+    <circle cx="63" cy="7" r="6" fill="#9be9a8"/>
+    <circle cx="63" cy="21" r="6" fill="#9be9a8">
+      <set attributeName="fill" to="#9be9a8" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s6.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s6.end+0.12s"/>
     </circle>
-    <circle cx="63" cy="35" r="6" fill="#ebedf0"/>
-    <circle cx="63" cy="49" r="6" fill="#ebedf0"/>
-    <circle cx="63" cy="63" r="6" fill="#ebedf0"/>
-    <circle cx="63" cy="77" r="6" fill="#ebedf0"/>
-    <circle cx="63" cy="91" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="63" cy="35" r="6" fill="#9be9a8"/>
+    <circle cx="63" cy="49" r="6" fill="#9be9a8"/>
+    <circle cx="63" cy="63" r="6" fill="#9be9a8"/>
+    <circle cx="63" cy="77" r="6" fill="#9be9a8"/>
+    <circle cx="63" cy="91" r="6" fill="#9be9a8">
+      <set attributeName="fill" to="#9be9a8" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s7.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s7.end+0.12s"/>
     </circle>
-    <circle cx="77" cy="7" r="6" fill="#ebedf0"/>
-    <circle cx="77" cy="21" r="6" fill="#ebedf0"/>
-    <circle cx="77" cy="35" r="6" fill="#ebedf0"/>
-    <circle cx="77" cy="49" r="6" fill="#ebedf0"/>
-    <circle cx="77" cy="63" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="77" cy="7" r="6" fill="#9be9a8"/>
+    <circle cx="77" cy="21" r="6" fill="#9be9a8"/>
+    <circle cx="77" cy="35" r="6" fill="#9be9a8"/>
+    <circle cx="77" cy="49" r="6" fill="#9be9a8"/>
+    <circle cx="77" cy="63" r="6" fill="#9be9a8">
+      <set attributeName="fill" to="#9be9a8" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s8.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s8.end+0.12s"/>
     </circle>
-    <circle cx="77" cy="77" r="6" fill="#ebedf0"/>
-    <circle cx="77" cy="91" r="6" fill="#ebedf0"/>
-    <circle cx="91" cy="7" r="6" fill="#ebedf0"/>
-    <circle cx="91" cy="21" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="77" cy="77" r="6" fill="#9be9a8"/>
+    <circle cx="77" cy="91" r="6" fill="#9be9a8"/>
+    <circle cx="91" cy="7" r="6" fill="#9be9a8"/>
+    <circle cx="91" cy="21" r="6" fill="#9be9a8">
+      <set attributeName="fill" to="#9be9a8" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s9.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s9.end+0.12s"/>
     </circle>
-    <circle cx="91" cy="35" r="6" fill="#ebedf0"/>
-    <circle cx="91" cy="49" r="6" fill="#ebedf0"/>
-    <circle cx="91" cy="63" r="6" fill="#ebedf0"/>
-    <circle cx="91" cy="77" r="6" fill="#ebedf0"/>
-    <circle cx="91" cy="91" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="91" cy="35" r="6" fill="#9be9a8"/>
+    <circle cx="91" cy="49" r="6" fill="#9be9a8"/>
+    <circle cx="91" cy="63" r="6" fill="#9be9a8"/>
+    <circle cx="91" cy="77" r="6" fill="#9be9a8"/>
+    <circle cx="91" cy="91" r="6" fill="#9be9a8">
+      <set attributeName="fill" to="#9be9a8" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s10.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s10.end+0.12s"/>
     </circle>
-    <circle cx="105" cy="7" r="6" fill="#ebedf0"/>
-    <circle cx="105" cy="21" r="6" fill="#ebedf0"/>
-    <circle cx="105" cy="35" r="6" fill="#ebedf0"/>
-    <circle cx="105" cy="49" r="6" fill="#ebedf0"/>
-    <circle cx="105" cy="63" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="105" cy="7" r="6" fill="#9be9a8"/>
+    <circle cx="105" cy="21" r="6" fill="#9be9a8"/>
+    <circle cx="105" cy="35" r="6" fill="#9be9a8"/>
+    <circle cx="105" cy="49" r="6" fill="#40c463"/>
+    <circle cx="105" cy="63" r="6" fill="#40c463">
+      <set attributeName="fill" to="#40c463" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s11.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s11.end+0.12s"/>
     </circle>
-    <circle cx="105" cy="77" r="6" fill="#ebedf0"/>
-    <circle cx="105" cy="91" r="6" fill="#ebedf0"/>
-    <circle cx="119" cy="7" r="6" fill="#ebedf0"/>
-    <circle cx="119" cy="21" r="6" fill="#ebedf0"/>
-    <circle cx="119" cy="35" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="105" cy="77" r="6" fill="#9be9a8"/>
+    <circle cx="105" cy="91" r="6" fill="#9be9a8"/>
+    <circle cx="119" cy="7" r="6" fill="#9be9a8"/>
+    <circle cx="119" cy="21" r="6" fill="#9be9a8"/>
+    <circle cx="119" cy="35" r="6" fill="#9be9a8">
+      <set attributeName="fill" to="#9be9a8" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s12.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s12.end+0.12s"/>
     </circle>
-    <circle cx="119" cy="49" r="6" fill="#ebedf0"/>
-    <circle cx="119" cy="63" r="6" fill="#ebedf0"/>
-    <circle cx="119" cy="77" r="6" fill="#ebedf0"/>
-    <circle cx="119" cy="91" r="6" fill="#ebedf0"/>
-    <circle cx="133" cy="7" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="119" cy="49" r="6" fill="#9be9a8"/>
+    <circle cx="119" cy="63" r="6" fill="#9be9a8"/>
+    <circle cx="119" cy="77" r="6" fill="#9be9a8"/>
+    <circle cx="119" cy="91" r="6" fill="#9be9a8"/>
+    <circle cx="133" cy="7" r="6" fill="#9be9a8">
+      <set attributeName="fill" to="#9be9a8" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s13.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s13.end+0.12s"/>
     </circle>
-    <circle cx="133" cy="21" r="6" fill="#ebedf0"/>
-    <circle cx="133" cy="35" r="6" fill="#ebedf0"/>
-    <circle cx="133" cy="49" r="6" fill="#ebedf0"/>
-    <circle cx="133" cy="63" r="6" fill="#ebedf0"/>
-    <circle cx="133" cy="77" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="133" cy="21" r="6" fill="#9be9a8"/>
+    <circle cx="133" cy="35" r="6" fill="#9be9a8"/>
+    <circle cx="133" cy="49" r="6" fill="#9be9a8"/>
+    <circle cx="133" cy="63" r="6" fill="#9be9a8"/>
+    <circle cx="133" cy="77" r="6" fill="#9be9a8">
+      <set attributeName="fill" to="#9be9a8" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s14.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s14.end+0.12s"/>
     </circle>
-    <circle cx="133" cy="91" r="6" fill="#ebedf0"/>
-    <circle cx="147" cy="7" r="6" fill="#ebedf0"/>
-    <circle cx="147" cy="21" r="6" fill="#ebedf0"/>
-    <circle cx="147" cy="35" r="6" fill="#ebedf0"/>
-    <circle cx="147" cy="49" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="133" cy="91" r="6" fill="#9be9a8"/>
+    <circle cx="147" cy="7" r="6" fill="#9be9a8"/>
+    <circle cx="147" cy="21" r="6" fill="#9be9a8"/>
+    <circle cx="147" cy="35" r="6" fill="#9be9a8"/>
+    <circle cx="147" cy="49" r="6" fill="#9be9a8">
+      <set attributeName="fill" to="#9be9a8" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s15.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s15.end+0.12s"/>
     </circle>
-    <circle cx="147" cy="63" r="6" fill="#ebedf0"/>
-    <circle cx="147" cy="77" r="6" fill="#ebedf0"/>
-    <circle cx="147" cy="91" r="6" fill="#ebedf0"/>
-    <circle cx="161" cy="7" r="6" fill="#ebedf0"/>
-    <circle cx="161" cy="21" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="147" cy="63" r="6" fill="#9be9a8"/>
+    <circle cx="147" cy="77" r="6" fill="#9be9a8"/>
+    <circle cx="147" cy="91" r="6" fill="#9be9a8"/>
+    <circle cx="161" cy="7" r="6" fill="#9be9a8"/>
+    <circle cx="161" cy="21" r="6" fill="#9be9a8">
+      <set attributeName="fill" to="#9be9a8" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s16.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s16.end+0.12s"/>
     </circle>
-    <circle cx="161" cy="35" r="6" fill="#ebedf0"/>
-    <circle cx="161" cy="49" r="6" fill="#ebedf0"/>
-    <circle cx="161" cy="63" r="6" fill="#ebedf0"/>
-    <circle cx="161" cy="77" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="161" cy="35" r="6" fill="#9be9a8"/>
+    <circle cx="161" cy="49" r="6" fill="#9be9a8"/>
+    <circle cx="161" cy="63" r="6" fill="#9be9a8"/>
+    <circle cx="161" cy="77" r="6" fill="#9be9a8">
+      <set attributeName="fill" to="#9be9a8" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s17.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s17.end+0.12s"/>
     </circle>
-    <circle cx="161" cy="91" r="6" fill="#ebedf0"/>
-    <circle cx="175" cy="7" r="6" fill="#ebedf0"/>
-    <circle cx="175" cy="21" r="6" fill="#ebedf0"/>
-    <circle cx="175" cy="35" r="6" fill="#ebedf0"/>
-    <circle cx="175" cy="49" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="161" cy="91" r="6" fill="#9be9a8"/>
+    <circle cx="175" cy="7" r="6" fill="#9be9a8"/>
+    <circle cx="175" cy="21" r="6" fill="#9be9a8"/>
+    <circle cx="175" cy="35" r="6" fill="#9be9a8"/>
+    <circle cx="175" cy="49" r="6" fill="#9be9a8">
+      <set attributeName="fill" to="#9be9a8" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s18.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s18.end+0.12s"/>
     </circle>
-    <circle cx="175" cy="63" r="6" fill="#ebedf0"/>
-    <circle cx="175" cy="77" r="6" fill="#ebedf0"/>
-    <circle cx="175" cy="91" r="6" fill="#ebedf0"/>
-    <circle cx="189" cy="7" r="6" fill="#ebedf0"/>
-    <circle cx="189" cy="21" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="175" cy="63" r="6" fill="#9be9a8"/>
+    <circle cx="175" cy="77" r="6" fill="#9be9a8"/>
+    <circle cx="175" cy="91" r="6" fill="#9be9a8"/>
+    <circle cx="189" cy="7" r="6" fill="#9be9a8"/>
+    <circle cx="189" cy="21" r="6" fill="#9be9a8">
+      <set attributeName="fill" to="#9be9a8" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s19.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s19.end+0.12s"/>
     </circle>
-    <circle cx="189" cy="35" r="6" fill="#ebedf0"/>
-    <circle cx="189" cy="49" r="6" fill="#ebedf0"/>
-    <circle cx="189" cy="63" r="6" fill="#ebedf0"/>
-    <circle cx="189" cy="77" r="6" fill="#ebedf0"/>
-    <circle cx="189" cy="91" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="189" cy="35" r="6" fill="#9be9a8"/>
+    <circle cx="189" cy="49" r="6" fill="#9be9a8"/>
+    <circle cx="189" cy="63" r="6" fill="#9be9a8"/>
+    <circle cx="189" cy="77" r="6" fill="#9be9a8"/>
+    <circle cx="189" cy="91" r="6" fill="#9be9a8">
+      <set attributeName="fill" to="#9be9a8" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s20.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s20.end+0.12s"/>
     </circle>
-    <circle cx="203" cy="7" r="6" fill="#ebedf0"/>
-    <circle cx="203" cy="21" r="6" fill="#ebedf0"/>
-    <circle cx="203" cy="35" r="6" fill="#ebedf0"/>
-    <circle cx="203" cy="49" r="6" fill="#ebedf0"/>
-    <circle cx="203" cy="63" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="203" cy="7" r="6" fill="#9be9a8"/>
+    <circle cx="203" cy="21" r="6" fill="#9be9a8"/>
+    <circle cx="203" cy="35" r="6" fill="#9be9a8"/>
+    <circle cx="203" cy="49" r="6" fill="#9be9a8"/>
+    <circle cx="203" cy="63" r="6" fill="#9be9a8">
+      <set attributeName="fill" to="#9be9a8" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s21.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s21.end+0.12s"/>
     </circle>
-    <circle cx="203" cy="77" r="6" fill="#ebedf0"/>
-    <circle cx="203" cy="91" r="6" fill="#ebedf0"/>
-    <circle cx="217" cy="7" r="6" fill="#ebedf0"/>
-    <circle cx="217" cy="21" r="6" fill="#ebedf0"/>
-    <circle cx="217" cy="35" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="203" cy="77" r="6" fill="#9be9a8"/>
+    <circle cx="203" cy="91" r="6" fill="#40c463"/>
+    <circle cx="217" cy="7" r="6" fill="#40c463"/>
+    <circle cx="217" cy="21" r="6" fill="#9be9a8"/>
+    <circle cx="217" cy="35" r="6" fill="#30a14e">
+      <set attributeName="fill" to="#30a14e" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s22.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s22.end+0.12s"/>
     </circle>
-    <circle cx="217" cy="49" r="6" fill="#ebedf0"/>
-    <circle cx="217" cy="63" r="6" fill="#ebedf0"/>
-    <circle cx="217" cy="77" r="6" fill="#ebedf0"/>
-    <circle cx="217" cy="91" r="6" fill="#ebedf0"/>
-    <circle cx="231" cy="7" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="217" cy="49" r="6" fill="#9be9a8"/>
+    <circle cx="217" cy="63" r="6" fill="#40c463"/>
+    <circle cx="217" cy="77" r="6" fill="#9be9a8"/>
+    <circle cx="217" cy="91" r="6" fill="#40c463"/>
+    <circle cx="231" cy="7" r="6" fill="#40c463">
+      <set attributeName="fill" to="#40c463" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s23.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s23.end+0.12s"/>
     </circle>
-    <circle cx="231" cy="21" r="6" fill="#ebedf0"/>
-    <circle cx="231" cy="35" r="6" fill="#ebedf0"/>
-    <circle cx="231" cy="49" r="6" fill="#ebedf0"/>
-    <circle cx="231" cy="63" r="6" fill="#ebedf0"/>
-    <circle cx="231" cy="77" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="231" cy="21" r="6" fill="#9be9a8"/>
+    <circle cx="231" cy="35" r="6" fill="#9be9a8"/>
+    <circle cx="231" cy="49" r="6" fill="#30a14e"/>
+    <circle cx="231" cy="63" r="6" fill="#9be9a8"/>
+    <circle cx="231" cy="77" r="6" fill="#9be9a8">
+      <set attributeName="fill" to="#9be9a8" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s24.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s24.end+0.12s"/>
     </circle>
-    <circle cx="231" cy="91" r="6" fill="#ebedf0"/>
-    <circle cx="245" cy="7" r="6" fill="#ebedf0"/>
-    <circle cx="245" cy="21" r="6" fill="#ebedf0"/>
-    <circle cx="245" cy="35" r="6" fill="#ebedf0"/>
-    <circle cx="245" cy="49" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="231" cy="91" r="6" fill="#40c463"/>
+    <circle cx="245" cy="7" r="6" fill="#216e39"/>
+    <circle cx="245" cy="21" r="6" fill="#216e39"/>
+    <circle cx="245" cy="35" r="6" fill="#9be9a8"/>
+    <circle cx="245" cy="49" r="6" fill="#9be9a8">
+      <set attributeName="fill" to="#9be9a8" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s25.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s25.end+0.12s"/>
     </circle>
-    <circle cx="245" cy="63" r="6" fill="#ebedf0"/>
-    <circle cx="245" cy="77" r="6" fill="#ebedf0"/>
-    <circle cx="245" cy="91" r="6" fill="#ebedf0"/>
-    <circle cx="259" cy="7" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="245" cy="63" r="6" fill="#9be9a8"/>
+    <circle cx="245" cy="77" r="6" fill="#9be9a8"/>
+    <circle cx="245" cy="91" r="6" fill="#40c463"/>
+    <circle cx="259" cy="7" r="6" fill="#40c463">
+      <set attributeName="fill" to="#40c463" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s26.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s26.end+0.12s"/>
     </circle>
-    <circle cx="259" cy="21" r="6" fill="#ebedf0"/>
-    <circle cx="259" cy="35" r="6" fill="#ebedf0"/>
-    <circle cx="259" cy="49" r="6" fill="#ebedf0"/>
-    <circle cx="259" cy="63" r="6" fill="#ebedf0"/>
-    <circle cx="259" cy="77" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="259" cy="21" r="6" fill="#40c463"/>
+    <circle cx="259" cy="35" r="6" fill="#9be9a8"/>
+    <circle cx="259" cy="49" r="6" fill="#9be9a8"/>
+    <circle cx="259" cy="63" r="6" fill="#40c463"/>
+    <circle cx="259" cy="77" r="6" fill="#40c463">
+      <set attributeName="fill" to="#40c463" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s27.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s27.end+0.12s"/>
     </circle>
-    <circle cx="259" cy="91" r="6" fill="#ebedf0"/>
-    <circle cx="273" cy="7" r="6" fill="#ebedf0"/>
-    <circle cx="273" cy="21" r="6" fill="#ebedf0"/>
-    <circle cx="273" cy="35" r="6" fill="#ebedf0"/>
-    <circle cx="273" cy="49" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="259" cy="91" r="6" fill="#9be9a8"/>
+    <circle cx="273" cy="7" r="6" fill="#40c463"/>
+    <circle cx="273" cy="21" r="6" fill="#9be9a8"/>
+    <circle cx="273" cy="35" r="6" fill="#9be9a8"/>
+    <circle cx="273" cy="49" r="6" fill="#9be9a8">
+      <set attributeName="fill" to="#9be9a8" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s28.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s28.end+0.12s"/>
     </circle>
-    <circle cx="273" cy="63" r="6" fill="#ebedf0"/>
-    <circle cx="273" cy="77" r="6" fill="#ebedf0"/>
-    <circle cx="273" cy="91" r="6" fill="#ebedf0"/>
-    <circle cx="287" cy="7" r="6" fill="#ebedf0"/>
-    <circle cx="287" cy="21" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="273" cy="63" r="6" fill="#9be9a8"/>
+    <circle cx="273" cy="77" r="6" fill="#40c463"/>
+    <circle cx="273" cy="91" r="6" fill="#30a14e"/>
+    <circle cx="287" cy="7" r="6" fill="#216e39"/>
+    <circle cx="287" cy="21" r="6" fill="#30a14e">
+      <set attributeName="fill" to="#30a14e" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s29.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s29.end+0.12s"/>
     </circle>
-    <circle cx="287" cy="35" r="6" fill="#ebedf0"/>
-    <circle cx="287" cy="49" r="6" fill="#ebedf0"/>
-    <circle cx="287" cy="63" r="6" fill="#ebedf0"/>
-    <circle cx="287" cy="77" r="6" fill="#ebedf0"/>
-    <circle cx="287" cy="91" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="287" cy="35" r="6" fill="#40c463"/>
+    <circle cx="287" cy="49" r="6" fill="#9be9a8"/>
+    <circle cx="287" cy="63" r="6" fill="#9be9a8"/>
+    <circle cx="287" cy="77" r="6" fill="#9be9a8"/>
+    <circle cx="287" cy="91" r="6" fill="#9be9a8">
+      <set attributeName="fill" to="#9be9a8" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s30.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s30.end+0.12s"/>
     </circle>
-    <circle cx="301" cy="7" r="6" fill="#ebedf0"/>
-    <circle cx="301" cy="21" r="6" fill="#ebedf0"/>
-    <circle cx="301" cy="35" r="6" fill="#ebedf0"/>
-    <circle cx="301" cy="49" r="6" fill="#ebedf0"/>
-    <circle cx="301" cy="63" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="301" cy="7" r="6" fill="#9be9a8"/>
+    <circle cx="301" cy="21" r="6" fill="#216e39"/>
+    <circle cx="301" cy="35" r="6" fill="#40c463"/>
+    <circle cx="301" cy="49" r="6" fill="#216e39"/>
+    <circle cx="301" cy="63" r="6" fill="#9be9a8">
+      <set attributeName="fill" to="#9be9a8" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s31.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s31.end+0.12s"/>
     </circle>
-    <circle cx="301" cy="77" r="6" fill="#ebedf0"/>
-    <circle cx="301" cy="91" r="6" fill="#ebedf0"/>
-    <circle cx="315" cy="7" r="6" fill="#ebedf0"/>
-    <circle cx="315" cy="21" r="6" fill="#ebedf0"/>
-    <circle cx="315" cy="35" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="301" cy="77" r="6" fill="#40c463"/>
+    <circle cx="301" cy="91" r="6" fill="#9be9a8"/>
+    <circle cx="315" cy="7" r="6" fill="#9be9a8"/>
+    <circle cx="315" cy="21" r="6" fill="#9be9a8"/>
+    <circle cx="315" cy="35" r="6" fill="#30a14e">
+      <set attributeName="fill" to="#30a14e" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s32.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s32.end+0.12s"/>
     </circle>
-    <circle cx="315" cy="49" r="6" fill="#ebedf0"/>
-    <circle cx="315" cy="63" r="6" fill="#ebedf0"/>
-    <circle cx="315" cy="77" r="6" fill="#ebedf0"/>
-    <circle cx="315" cy="91" r="6" fill="#ebedf0"/>
-    <circle cx="329" cy="7" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="315" cy="49" r="6" fill="#40c463"/>
+    <circle cx="315" cy="63" r="6" fill="#40c463"/>
+    <circle cx="315" cy="77" r="6" fill="#9be9a8"/>
+    <circle cx="315" cy="91" r="6" fill="#40c463"/>
+    <circle cx="329" cy="7" r="6" fill="#30a14e">
+      <set attributeName="fill" to="#30a14e" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s33.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s33.end+0.12s"/>
     </circle>
-    <circle cx="329" cy="21" r="6" fill="#ebedf0"/>
-    <circle cx="329" cy="35" r="6" fill="#ebedf0"/>
-    <circle cx="329" cy="49" r="6" fill="#ebedf0"/>
-    <circle cx="329" cy="63" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="329" cy="21" r="6" fill="#9be9a8"/>
+    <circle cx="329" cy="35" r="6" fill="#9be9a8"/>
+    <circle cx="329" cy="49" r="6" fill="#9be9a8"/>
+    <circle cx="329" cy="63" r="6" fill="#9be9a8">
+      <set attributeName="fill" to="#9be9a8" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s34.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s34.end+0.12s"/>
     </circle>
-    <circle cx="329" cy="77" r="6" fill="#ebedf0"/>
-    <circle cx="329" cy="91" r="6" fill="#ebedf0"/>
-    <circle cx="343" cy="7" r="6" fill="#ebedf0"/>
-    <circle cx="343" cy="21" r="6" fill="#ebedf0"/>
-    <circle cx="343" cy="35" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="329" cy="77" r="6" fill="#9be9a8"/>
+    <circle cx="329" cy="91" r="6" fill="#9be9a8"/>
+    <circle cx="343" cy="7" r="6" fill="#9be9a8"/>
+    <circle cx="343" cy="21" r="6" fill="#9be9a8"/>
+    <circle cx="343" cy="35" r="6" fill="#9be9a8">
+      <set attributeName="fill" to="#9be9a8" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s35.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s35.end+0.12s"/>
     </circle>
-    <circle cx="343" cy="49" r="6" fill="#ebedf0"/>
-    <circle cx="343" cy="63" r="6" fill="#ebedf0"/>
-    <circle cx="343" cy="77" r="6" fill="#ebedf0"/>
-    <circle cx="343" cy="91" r="6" fill="#ebedf0"/>
-    <circle cx="357" cy="7" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="343" cy="49" r="6" fill="#216e39"/>
+    <circle cx="343" cy="63" r="6" fill="#40c463"/>
+    <circle cx="343" cy="77" r="6" fill="#216e39"/>
+    <circle cx="343" cy="91" r="6" fill="#9be9a8"/>
+    <circle cx="357" cy="7" r="6" fill="#9be9a8">
+      <set attributeName="fill" to="#9be9a8" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s36.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s36.end+0.12s"/>
     </circle>
-    <circle cx="357" cy="21" r="6" fill="#ebedf0"/>
-    <circle cx="357" cy="35" r="6" fill="#ebedf0"/>
-    <circle cx="357" cy="49" r="6" fill="#ebedf0"/>
-    <circle cx="357" cy="63" r="6" fill="#ebedf0"/>
-    <circle cx="357" cy="77" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="357" cy="21" r="6" fill="#9be9a8"/>
+    <circle cx="357" cy="35" r="6" fill="#9be9a8"/>
+    <circle cx="357" cy="49" r="6" fill="#9be9a8"/>
+    <circle cx="357" cy="63" r="6" fill="#40c463"/>
+    <circle cx="357" cy="77" r="6" fill="#9be9a8">
+      <set attributeName="fill" to="#9be9a8" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s37.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s37.end+0.12s"/>
     </circle>
-    <circle cx="357" cy="91" r="6" fill="#ebedf0"/>
-    <circle cx="371" cy="7" r="6" fill="#ebedf0"/>
-    <circle cx="371" cy="21" r="6" fill="#ebedf0"/>
-    <circle cx="371" cy="35" r="6" fill="#ebedf0"/>
-    <circle cx="371" cy="49" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="357" cy="91" r="6" fill="#40c463"/>
+    <circle cx="371" cy="7" r="6" fill="#40c463"/>
+    <circle cx="371" cy="21" r="6" fill="#9be9a8"/>
+    <circle cx="371" cy="35" r="6" fill="#40c463"/>
+    <circle cx="371" cy="49" r="6" fill="#216e39">
+      <set attributeName="fill" to="#216e39" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s38.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s38.end+0.12s"/>
     </circle>
-    <circle cx="371" cy="63" r="6" fill="#ebedf0"/>
-    <circle cx="371" cy="77" r="6" fill="#ebedf0"/>
-    <circle cx="371" cy="91" r="6" fill="#ebedf0"/>
-    <circle cx="385" cy="7" r="6" fill="#ebedf0"/>
-    <circle cx="385" cy="21" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="371" cy="63" r="6" fill="#40c463"/>
+    <circle cx="371" cy="77" r="6" fill="#9be9a8"/>
+    <circle cx="371" cy="91" r="6" fill="#9be9a8"/>
+    <circle cx="385" cy="7" r="6" fill="#9be9a8"/>
+    <circle cx="385" cy="21" r="6" fill="#9be9a8">
+      <set attributeName="fill" to="#9be9a8" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s39.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s39.end+0.12s"/>
     </circle>
-    <circle cx="385" cy="35" r="6" fill="#ebedf0"/>
-    <circle cx="385" cy="49" r="6" fill="#ebedf0"/>
-    <circle cx="385" cy="63" r="6" fill="#ebedf0"/>
-    <circle cx="385" cy="77" r="6" fill="#ebedf0"/>
-    <circle cx="385" cy="91" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="385" cy="35" r="6" fill="#9be9a8"/>
+    <circle cx="385" cy="49" r="6" fill="#40c463"/>
+    <circle cx="385" cy="63" r="6" fill="#9be9a8"/>
+    <circle cx="385" cy="77" r="6" fill="#40c463"/>
+    <circle cx="385" cy="91" r="6" fill="#30a14e">
+      <set attributeName="fill" to="#30a14e" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s40.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s40.end+0.12s"/>
     </circle>
-    <circle cx="399" cy="7" r="6" fill="#ebedf0"/>
-    <circle cx="399" cy="21" r="6" fill="#ebedf0"/>
-    <circle cx="399" cy="35" r="6" fill="#ebedf0"/>
-    <circle cx="399" cy="49" r="6" fill="#ebedf0"/>
-    <circle cx="399" cy="63" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="399" cy="7" r="6" fill="#216e39"/>
+    <circle cx="399" cy="21" r="6" fill="#9be9a8"/>
+    <circle cx="399" cy="35" r="6" fill="#40c463"/>
+    <circle cx="399" cy="49" r="6" fill="#30a14e"/>
+    <circle cx="399" cy="63" r="6" fill="#40c463">
+      <set attributeName="fill" to="#40c463" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s41.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s41.end+0.12s"/>
     </circle>
-    <circle cx="399" cy="77" r="6" fill="#ebedf0"/>
-    <circle cx="399" cy="91" r="6" fill="#ebedf0"/>
-    <circle cx="413" cy="7" r="6" fill="#ebedf0"/>
-    <circle cx="413" cy="21" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="399" cy="77" r="6" fill="#9be9a8"/>
+    <circle cx="399" cy="91" r="6" fill="#9be9a8"/>
+    <circle cx="413" cy="7" r="6" fill="#216e39"/>
+    <circle cx="413" cy="21" r="6" fill="#30a14e">
+      <set attributeName="fill" to="#30a14e" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s42.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s42.end+0.12s"/>
     </circle>
-    <circle cx="413" cy="35" r="6" fill="#ebedf0"/>
-    <circle cx="413" cy="49" r="6" fill="#ebedf0"/>
-    <circle cx="413" cy="63" r="6" fill="#ebedf0"/>
-    <circle cx="413" cy="77" r="6" fill="#ebedf0"/>
-    <circle cx="413" cy="91" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="413" cy="35" r="6" fill="#9be9a8"/>
+    <circle cx="413" cy="49" r="6" fill="#9be9a8"/>
+    <circle cx="413" cy="63" r="6" fill="#9be9a8"/>
+    <circle cx="413" cy="77" r="6" fill="#9be9a8"/>
+    <circle cx="413" cy="91" r="6" fill="#9be9a8">
+      <set attributeName="fill" to="#9be9a8" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s43.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s43.end+0.12s"/>
     </circle>
-    <circle cx="427" cy="7" r="6" fill="#ebedf0"/>
-    <circle cx="427" cy="21" r="6" fill="#ebedf0"/>
-    <circle cx="427" cy="35" r="6" fill="#ebedf0"/>
-    <circle cx="427" cy="49" r="6" fill="#ebedf0"/>
-    <circle cx="427" cy="63" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="427" cy="7" r="6" fill="#9be9a8"/>
+    <circle cx="427" cy="21" r="6" fill="#9be9a8"/>
+    <circle cx="427" cy="35" r="6" fill="#9be9a8"/>
+    <circle cx="427" cy="49" r="6" fill="#9be9a8"/>
+    <circle cx="427" cy="63" r="6" fill="#9be9a8">
+      <set attributeName="fill" to="#9be9a8" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s44.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s44.end+0.12s"/>
     </circle>
-    <circle cx="427" cy="77" r="6" fill="#ebedf0"/>
-    <circle cx="427" cy="91" r="6" fill="#ebedf0"/>
-    <circle cx="441" cy="7" r="6" fill="#ebedf0"/>
-    <circle cx="441" cy="21" r="6" fill="#ebedf0"/>
-    <circle cx="441" cy="35" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="427" cy="77" r="6" fill="#9be9a8"/>
+    <circle cx="427" cy="91" r="6" fill="#9be9a8"/>
+    <circle cx="441" cy="7" r="6" fill="#9be9a8"/>
+    <circle cx="441" cy="21" r="6" fill="#9be9a8"/>
+    <circle cx="441" cy="35" r="6" fill="#30a14e">
+      <set attributeName="fill" to="#30a14e" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s45.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s45.end+0.12s"/>
     </circle>
-    <circle cx="441" cy="49" r="6" fill="#ebedf0"/>
-    <circle cx="441" cy="63" r="6" fill="#ebedf0"/>
-    <circle cx="441" cy="77" r="6" fill="#ebedf0"/>
-    <circle cx="441" cy="91" r="6" fill="#ebedf0"/>
-    <circle cx="455" cy="7" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="441" cy="49" r="6" fill="#40c463"/>
+    <circle cx="441" cy="63" r="6" fill="#9be9a8"/>
+    <circle cx="441" cy="77" r="6" fill="#9be9a8"/>
+    <circle cx="441" cy="91" r="6" fill="#9be9a8"/>
+    <circle cx="455" cy="7" r="6" fill="#9be9a8">
+      <set attributeName="fill" to="#9be9a8" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s46.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s46.end+0.12s"/>
     </circle>
-    <circle cx="455" cy="21" r="6" fill="#ebedf0"/>
-    <circle cx="455" cy="35" r="6" fill="#ebedf0"/>
-    <circle cx="455" cy="49" r="6" fill="#ebedf0"/>
-    <circle cx="455" cy="63" r="6" fill="#ebedf0"/>
-    <circle cx="455" cy="77" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="455" cy="21" r="6" fill="#9be9a8"/>
+    <circle cx="455" cy="35" r="6" fill="#9be9a8"/>
+    <circle cx="455" cy="49" r="6" fill="#9be9a8"/>
+    <circle cx="455" cy="63" r="6" fill="#9be9a8"/>
+    <circle cx="455" cy="77" r="6" fill="#40c463">
+      <set attributeName="fill" to="#40c463" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s47.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s47.end+0.12s"/>
     </circle>
-    <circle cx="455" cy="91" r="6" fill="#ebedf0"/>
-    <circle cx="469" cy="7" r="6" fill="#ebedf0"/>
-    <circle cx="469" cy="21" r="6" fill="#ebedf0"/>
-    <circle cx="469" cy="35" r="6" fill="#ebedf0"/>
-    <circle cx="469" cy="49" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="455" cy="91" r="6" fill="#40c463"/>
+    <circle cx="469" cy="7" r="6" fill="#9be9a8"/>
+    <circle cx="469" cy="21" r="6" fill="#9be9a8"/>
+    <circle cx="469" cy="35" r="6" fill="#9be9a8"/>
+    <circle cx="469" cy="49" r="6" fill="#9be9a8">
+      <set attributeName="fill" to="#9be9a8" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s48.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s48.end+0.12s"/>
     </circle>
-    <circle cx="469" cy="63" r="6" fill="#ebedf0"/>
-    <circle cx="469" cy="77" r="6" fill="#ebedf0"/>
-    <circle cx="469" cy="91" r="6" fill="#ebedf0"/>
-    <circle cx="483" cy="7" r="6" fill="#ebedf0"/>
-    <circle cx="483" cy="21" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="469" cy="63" r="6" fill="#9be9a8"/>
+    <circle cx="469" cy="77" r="6" fill="#30a14e"/>
+    <circle cx="469" cy="91" r="6" fill="#40c463"/>
+    <circle cx="483" cy="7" r="6" fill="#216e39"/>
+    <circle cx="483" cy="21" r="6" fill="#40c463">
+      <set attributeName="fill" to="#40c463" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s49.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s49.end+0.12s"/>
     </circle>
-    <circle cx="483" cy="35" r="6" fill="#ebedf0"/>
-    <circle cx="483" cy="49" r="6" fill="#ebedf0"/>
-    <circle cx="483" cy="63" r="6" fill="#ebedf0"/>
-    <circle cx="483" cy="77" r="6" fill="#ebedf0"/>
-    <circle cx="483" cy="91" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="483" cy="35" r="6" fill="#40c463"/>
+    <circle cx="483" cy="49" r="6" fill="#40c463"/>
+    <circle cx="483" cy="63" r="6" fill="#216e39"/>
+    <circle cx="483" cy="77" r="6" fill="#216e39"/>
+    <circle cx="483" cy="91" r="6" fill="#9be9a8">
+      <set attributeName="fill" to="#9be9a8" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s50.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s50.end+0.12s"/>
     </circle>
-    <circle cx="497" cy="7" r="6" fill="#ebedf0"/>
-    <circle cx="497" cy="21" r="6" fill="#ebedf0"/>
-    <circle cx="497" cy="35" r="6" fill="#ebedf0"/>
-    <circle cx="497" cy="49" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="497" cy="7" r="6" fill="#40c463"/>
+    <circle cx="497" cy="21" r="6" fill="#9be9a8"/>
+    <circle cx="497" cy="35" r="6" fill="#40c463"/>
+    <circle cx="497" cy="49" r="6" fill="#30a14e">
+      <set attributeName="fill" to="#30a14e" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s51.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s51.end+0.12s"/>
     </circle>
-    <circle cx="497" cy="63" r="6" fill="#ebedf0"/>
-    <circle cx="497" cy="77" r="6" fill="#ebedf0"/>
-    <circle cx="497" cy="91" r="6" fill="#ebedf0"/>
-    <circle cx="511" cy="7" r="6" fill="#ebedf0"/>
-    <circle cx="511" cy="21" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="497" cy="63" r="6" fill="#40c463"/>
+    <circle cx="497" cy="77" r="6" fill="#30a14e"/>
+    <circle cx="497" cy="91" r="6" fill="#9be9a8"/>
+    <circle cx="511" cy="7" r="6" fill="#40c463"/>
+    <circle cx="511" cy="21" r="6" fill="#9be9a8">
+      <set attributeName="fill" to="#9be9a8" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s52.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s52.end+0.12s"/>
     </circle>
-    <circle cx="511" cy="35" r="6" fill="#ebedf0"/>
-    <circle cx="511" cy="49" r="6" fill="#ebedf0"/>
-    <circle cx="511" cy="63" r="6" fill="#ebedf0"/>
-    <circle cx="511" cy="77" r="6" fill="#ebedf0"/>
-    <circle cx="511" cy="91" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="511" cy="35" r="6" fill="#9be9a8"/>
+    <circle cx="511" cy="49" r="6" fill="#30a14e"/>
+    <circle cx="511" cy="63" r="6" fill="#40c463"/>
+    <circle cx="511" cy="77" r="6" fill="#9be9a8"/>
+    <circle cx="511" cy="91" r="6" fill="#9be9a8">
+      <set attributeName="fill" to="#9be9a8" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s53.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s53.end+0.12s"/>
     </circle>
-    <circle cx="525" cy="7" r="6" fill="#ebedf0"/>
-    <circle cx="525" cy="21" r="6" fill="#ebedf0"/>
-    <circle cx="525" cy="35" r="6" fill="#ebedf0"/>
-    <circle cx="525" cy="49" r="6" fill="#ebedf0"/>
-    <circle cx="525" cy="63" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="525" cy="7" r="6" fill="#9be9a8"/>
+    <circle cx="525" cy="21" r="6" fill="#9be9a8"/>
+    <circle cx="525" cy="35" r="6" fill="#9be9a8"/>
+    <circle cx="525" cy="49" r="6" fill="#9be9a8"/>
+    <circle cx="525" cy="63" r="6" fill="#40c463">
+      <set attributeName="fill" to="#40c463" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s54.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s54.end+0.12s"/>
     </circle>
-    <circle cx="525" cy="77" r="6" fill="#ebedf0"/>
-    <circle cx="525" cy="91" r="6" fill="#ebedf0"/>
-    <circle cx="539" cy="7" r="6" fill="#ebedf0"/>
-    <circle cx="539" cy="21" r="6" fill="#ebedf0"/>
-    <circle cx="539" cy="35" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="525" cy="77" r="6" fill="#40c463"/>
+    <circle cx="525" cy="91" r="6" fill="#40c463"/>
+    <circle cx="539" cy="7" r="6" fill="#40c463"/>
+    <circle cx="539" cy="21" r="6" fill="#30a14e"/>
+    <circle cx="539" cy="35" r="6" fill="#9be9a8">
+      <set attributeName="fill" to="#9be9a8" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s55.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s55.end+0.12s"/>
     </circle>
-    <circle cx="539" cy="49" r="6" fill="#ebedf0"/>
-    <circle cx="539" cy="63" r="6" fill="#ebedf0"/>
-    <circle cx="539" cy="77" r="6" fill="#ebedf0"/>
-    <circle cx="539" cy="91" r="6" fill="#ebedf0"/>
-    <circle cx="553" cy="7" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="539" cy="49" r="6" fill="#9be9a8"/>
+    <circle cx="539" cy="63" r="6" fill="#40c463"/>
+    <circle cx="539" cy="77" r="6" fill="#9be9a8"/>
+    <circle cx="539" cy="91" r="6" fill="#9be9a8"/>
+    <circle cx="553" cy="7" r="6" fill="#9be9a8">
+      <set attributeName="fill" to="#9be9a8" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s56.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s56.end+0.12s"/>
     </circle>
-    <circle cx="553" cy="21" r="6" fill="#ebedf0"/>
-    <circle cx="553" cy="35" r="6" fill="#ebedf0"/>
-    <circle cx="553" cy="49" r="6" fill="#ebedf0"/>
-    <circle cx="553" cy="63" r="6" fill="#ebedf0"/>
-    <circle cx="553" cy="77" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="553" cy="21" r="6" fill="#30a14e"/>
+    <circle cx="553" cy="35" r="6" fill="#9be9a8"/>
+    <circle cx="553" cy="49" r="6" fill="#9be9a8"/>
+    <circle cx="553" cy="63" r="6" fill="#9be9a8"/>
+    <circle cx="553" cy="77" r="6" fill="#9be9a8">
+      <set attributeName="fill" to="#9be9a8" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s57.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s57.end+0.12s"/>
     </circle>
-    <circle cx="553" cy="91" r="6" fill="#ebedf0"/>
-    <circle cx="567" cy="7" r="6" fill="#ebedf0"/>
-    <circle cx="567" cy="21" r="6" fill="#ebedf0"/>
-    <circle cx="567" cy="35" r="6" fill="#ebedf0"/>
-    <circle cx="567" cy="49" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="553" cy="91" r="6" fill="#9be9a8"/>
+    <circle cx="567" cy="7" r="6" fill="#9be9a8"/>
+    <circle cx="567" cy="21" r="6" fill="#9be9a8"/>
+    <circle cx="567" cy="35" r="6" fill="#9be9a8"/>
+    <circle cx="567" cy="49" r="6" fill="#9be9a8">
+      <set attributeName="fill" to="#9be9a8" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s58.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s58.end+0.12s"/>
     </circle>
-    <circle cx="567" cy="63" r="6" fill="#ebedf0"/>
-    <circle cx="567" cy="77" r="6" fill="#ebedf0"/>
-    <circle cx="567" cy="91" r="6" fill="#ebedf0"/>
-    <circle cx="581" cy="7" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="567" cy="63" r="6" fill="#9be9a8"/>
+    <circle cx="567" cy="77" r="6" fill="#9be9a8"/>
+    <circle cx="567" cy="91" r="6" fill="#9be9a8"/>
+    <circle cx="581" cy="7" r="6" fill="#9be9a8">
+      <set attributeName="fill" to="#9be9a8" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s59.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s59.end+0.12s"/>
     </circle>
-    <circle cx="581" cy="21" r="6" fill="#ebedf0"/>
-    <circle cx="581" cy="35" r="6" fill="#ebedf0"/>
-    <circle cx="581" cy="49" r="6" fill="#ebedf0"/>
-    <circle cx="581" cy="63" r="6" fill="#ebedf0"/>
-    <circle cx="581" cy="77" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="581" cy="21" r="6" fill="#9be9a8"/>
+    <circle cx="581" cy="35" r="6" fill="#9be9a8"/>
+    <circle cx="581" cy="49" r="6" fill="#9be9a8"/>
+    <circle cx="581" cy="63" r="6" fill="#9be9a8"/>
+    <circle cx="581" cy="77" r="6" fill="#9be9a8">
+      <set attributeName="fill" to="#9be9a8" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s60.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s60.end+0.12s"/>
     </circle>
-    <circle cx="581" cy="91" r="6" fill="#ebedf0"/>
-    <circle cx="595" cy="7" r="6" fill="#ebedf0"/>
-    <circle cx="595" cy="21" r="6" fill="#ebedf0"/>
-    <circle cx="595" cy="35" r="6" fill="#ebedf0"/>
-    <circle cx="595" cy="49" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="581" cy="91" r="6" fill="#9be9a8"/>
+    <circle cx="595" cy="7" r="6" fill="#9be9a8"/>
+    <circle cx="595" cy="21" r="6" fill="#30a14e"/>
+    <circle cx="595" cy="35" r="6" fill="#9be9a8"/>
+    <circle cx="595" cy="49" r="6" fill="#9be9a8">
+      <set attributeName="fill" to="#9be9a8" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s61.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s61.end+0.12s"/>
     </circle>
-    <circle cx="595" cy="63" r="6" fill="#ebedf0"/>
-    <circle cx="595" cy="77" r="6" fill="#ebedf0"/>
-    <circle cx="595" cy="91" r="6" fill="#ebedf0"/>
-    <circle cx="609" cy="7" r="6" fill="#ebedf0"/>
-    <circle cx="609" cy="21" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="595" cy="63" r="6" fill="#9be9a8"/>
+    <circle cx="595" cy="77" r="6" fill="#9be9a8"/>
+    <circle cx="595" cy="91" r="6" fill="#9be9a8"/>
+    <circle cx="609" cy="7" r="6" fill="#9be9a8"/>
+    <circle cx="609" cy="21" r="6" fill="#9be9a8">
+      <set attributeName="fill" to="#9be9a8" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s62.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s62.end+0.12s"/>
     </circle>
-    <circle cx="609" cy="35" r="6" fill="#ebedf0"/>
-    <circle cx="609" cy="49" r="6" fill="#ebedf0"/>
-    <circle cx="609" cy="63" r="6" fill="#ebedf0"/>
-    <circle cx="609" cy="77" r="6" fill="#ebedf0"/>
-    <circle cx="609" cy="91" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="609" cy="35" r="6" fill="#30a14e"/>
+    <circle cx="609" cy="49" r="6" fill="#9be9a8"/>
+    <circle cx="609" cy="63" r="6" fill="#9be9a8"/>
+    <circle cx="609" cy="77" r="6" fill="#9be9a8"/>
+    <circle cx="609" cy="91" r="6" fill="#9be9a8">
+      <set attributeName="fill" to="#9be9a8" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s63.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s63.end+0.12s"/>
     </circle>
-    <circle cx="623" cy="7" r="6" fill="#ebedf0"/>
-    <circle cx="623" cy="21" r="6" fill="#ebedf0"/>
-    <circle cx="623" cy="35" r="6" fill="#ebedf0"/>
-    <circle cx="623" cy="49" r="6" fill="#ebedf0"/>
-    <circle cx="623" cy="63" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="623" cy="7" r="6" fill="#9be9a8"/>
+    <circle cx="623" cy="21" r="6" fill="#9be9a8"/>
+    <circle cx="623" cy="35" r="6" fill="#40c463"/>
+    <circle cx="623" cy="49" r="6" fill="#30a14e"/>
+    <circle cx="623" cy="63" r="6" fill="#9be9a8">
+      <set attributeName="fill" to="#9be9a8" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s64.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s64.end+0.12s"/>
     </circle>
-    <circle cx="623" cy="77" r="6" fill="#ebedf0"/>
-    <circle cx="623" cy="91" r="6" fill="#ebedf0"/>
-    <circle cx="637" cy="7" r="6" fill="#ebedf0"/>
-    <circle cx="637" cy="21" r="6" fill="#ebedf0"/>
-    <circle cx="637" cy="35" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="623" cy="77" r="6" fill="#9be9a8"/>
+    <circle cx="623" cy="91" r="6" fill="#9be9a8"/>
+    <circle cx="637" cy="7" r="6" fill="#9be9a8"/>
+    <circle cx="637" cy="21" r="6" fill="#40c463"/>
+    <circle cx="637" cy="35" r="6" fill="#40c463">
+      <set attributeName="fill" to="#40c463" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s65.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s65.end+0.12s"/>
     </circle>
-    <circle cx="637" cy="49" r="6" fill="#ebedf0"/>
-    <circle cx="637" cy="63" r="6" fill="#ebedf0"/>
-    <circle cx="637" cy="77" r="6" fill="#ebedf0"/>
-    <circle cx="637" cy="91" r="6" fill="#ebedf0"/>
-    <circle cx="651" cy="7" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="637" cy="49" r="6" fill="#40c463"/>
+    <circle cx="637" cy="63" r="6" fill="#9be9a8"/>
+    <circle cx="637" cy="77" r="6" fill="#30a14e"/>
+    <circle cx="637" cy="91" r="6" fill="#9be9a8"/>
+    <circle cx="651" cy="7" r="6" fill="#40c463">
+      <set attributeName="fill" to="#40c463" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s66.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s66.end+0.12s"/>
     </circle>
-    <circle cx="651" cy="21" r="6" fill="#ebedf0"/>
-    <circle cx="651" cy="35" r="6" fill="#ebedf0"/>
-    <circle cx="651" cy="49" r="6" fill="#ebedf0"/>
-    <circle cx="651" cy="63" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="651" cy="21" r="6" fill="#30a14e"/>
+    <circle cx="651" cy="35" r="6" fill="#30a14e"/>
+    <circle cx="651" cy="49" r="6" fill="#9be9a8"/>
+    <circle cx="651" cy="63" r="6" fill="#9be9a8">
+      <set attributeName="fill" to="#9be9a8" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s67.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s67.end+0.12s"/>
     </circle>
-    <circle cx="651" cy="77" r="6" fill="#ebedf0"/>
-    <circle cx="651" cy="91" r="6" fill="#ebedf0"/>
-    <circle cx="665" cy="7" r="6" fill="#ebedf0"/>
-    <circle cx="665" cy="21" r="6" fill="#ebedf0"/>
-    <circle cx="665" cy="35" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="651" cy="77" r="6" fill="#9be9a8"/>
+    <circle cx="651" cy="91" r="6" fill="#9be9a8"/>
+    <circle cx="665" cy="7" r="6" fill="#9be9a8"/>
+    <circle cx="665" cy="21" r="6" fill="#9be9a8"/>
+    <circle cx="665" cy="35" r="6" fill="#9be9a8">
+      <set attributeName="fill" to="#9be9a8" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s68.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s68.end+0.12s"/>
     </circle>
-    <circle cx="665" cy="49" r="6" fill="#ebedf0"/>
-    <circle cx="665" cy="63" r="6" fill="#ebedf0"/>
-    <circle cx="665" cy="77" r="6" fill="#ebedf0"/>
-    <circle cx="665" cy="91" r="6" fill="#ebedf0"/>
-    <circle cx="679" cy="7" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="665" cy="49" r="6" fill="#9be9a8"/>
+    <circle cx="665" cy="63" r="6" fill="#9be9a8"/>
+    <circle cx="665" cy="77" r="6" fill="#9be9a8"/>
+    <circle cx="665" cy="91" r="6" fill="#9be9a8"/>
+    <circle cx="679" cy="7" r="6" fill="#9be9a8">
+      <set attributeName="fill" to="#9be9a8" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s69.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s69.end+0.12s"/>
     </circle>
-    <circle cx="679" cy="21" r="6" fill="#ebedf0"/>
-    <circle cx="679" cy="35" r="6" fill="#ebedf0"/>
-    <circle cx="679" cy="49" r="6" fill="#ebedf0"/>
-    <circle cx="679" cy="63" r="6" fill="#ebedf0"/>
-    <circle cx="679" cy="77" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="679" cy="21" r="6" fill="#9be9a8"/>
+    <circle cx="679" cy="35" r="6" fill="#9be9a8"/>
+    <circle cx="679" cy="49" r="6" fill="#9be9a8"/>
+    <circle cx="679" cy="63" r="6" fill="#9be9a8"/>
+    <circle cx="679" cy="77" r="6" fill="#9be9a8">
+      <set attributeName="fill" to="#9be9a8" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s70.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s70.end+0.12s"/>
     </circle>
-    <circle cx="679" cy="91" r="6" fill="#ebedf0"/>
-    <circle cx="693" cy="7" r="6" fill="#ebedf0"/>
-    <circle cx="693" cy="21" r="6" fill="#ebedf0"/>
-    <circle cx="693" cy="35" r="6" fill="#ebedf0"/>
-    <circle cx="693" cy="49" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="679" cy="91" r="6" fill="#9be9a8"/>
+    <circle cx="693" cy="7" r="6" fill="#9be9a8"/>
+    <circle cx="693" cy="21" r="6" fill="#9be9a8"/>
+    <circle cx="693" cy="35" r="6" fill="#9be9a8"/>
+    <circle cx="693" cy="49" r="6" fill="#9be9a8">
+      <set attributeName="fill" to="#9be9a8" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s71.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s71.end+0.12s"/>
     </circle>
-    <circle cx="693" cy="63" r="6" fill="#ebedf0"/>
-    <circle cx="693" cy="77" r="6" fill="#ebedf0"/>
-    <circle cx="693" cy="91" r="6" fill="#ebedf0"/>
-    <circle cx="707" cy="7" r="6" fill="#ebedf0"/>
-    <circle cx="707" cy="21" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="693" cy="63" r="6" fill="#9be9a8"/>
+    <circle cx="693" cy="77" r="6" fill="#9be9a8"/>
+    <circle cx="693" cy="91" r="6" fill="#9be9a8"/>
+    <circle cx="707" cy="7" r="6" fill="#9be9a8"/>
+    <circle cx="707" cy="21" r="6" fill="#9be9a8">
+      <set attributeName="fill" to="#9be9a8" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s72.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s72.end+0.12s"/>
     </circle>
-    <circle cx="707" cy="35" r="6" fill="#ebedf0"/>
-    <circle cx="707" cy="49" r="6" fill="#ebedf0"/>
-    <circle cx="707" cy="63" r="6" fill="#ebedf0"/>
-    <circle cx="707" cy="77" r="6" fill="#ebedf0"/>
-    <circle cx="707" cy="91" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="707" cy="35" r="6" fill="#9be9a8"/>
+    <circle cx="707" cy="49" r="6" fill="#9be9a8"/>
+    <circle cx="707" cy="63" r="6" fill="#9be9a8"/>
+    <circle cx="707" cy="77" r="6" fill="#9be9a8"/>
+    <circle cx="707" cy="91" r="6" fill="#9be9a8">
+      <set attributeName="fill" to="#9be9a8" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s73.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s73.end+0.12s"/>
     </circle>
-    <circle cx="721" cy="7" r="6" fill="#ebedf0"/>
-    <circle cx="721" cy="21" r="6" fill="#ebedf0"/>
-    <circle cx="721" cy="35" r="6" fill="#ebedf0"/>
-    <circle cx="721" cy="49" r="6" fill="#ebedf0"/>
-    <circle cx="721" cy="63" r="6" fill="#ebedf0">
-      <set attributeName="fill" to="#ebedf0" begin="cycle.begin"/>
+    <circle cx="721" cy="7" r="6" fill="#9be9a8"/>
+    <circle cx="721" cy="21" r="6" fill="#9be9a8"/>
+    <circle cx="721" cy="35" r="6" fill="#9be9a8"/>
+    <circle cx="721" cy="49" r="6" fill="#40c463"/>
+    <circle cx="721" cy="63" r="6" fill="#9be9a8">
+      <set attributeName="fill" to="#9be9a8" begin="cycle.begin"/>
       <animate attributeName="r" values="6;8.1;6" keyTimes="0;0.5;1" begin="s74.end" dur="0.2s" fill="freeze"/>
       <set attributeName="fill" to="#ebedf0" begin="s74.end+0.12s"/>
     </circle>
-    <circle cx="721" cy="77" r="6" fill="#ebedf0"/>
-    <circle cx="721" cy="91" r="6" fill="#ebedf0"/>
-    <circle cx="735" cy="7" r="6" fill="#ebedf0"/>
-    <circle cx="735" cy="21" r="6" fill="#ebedf0"/>
+    <circle cx="721" cy="77" r="6" fill="#9be9a8"/>
+    <circle cx="721" cy="91" r="6" fill="#9be9a8"/>
+    <circle cx="735" cy="7" r="6" fill="#9be9a8"/>
+    <circle cx="735" cy="21" r="6" fill="#9be9a8"/>
 
   <!-- bullets -->
   
